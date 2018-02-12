@@ -4,7 +4,8 @@ An open source, web-based scheduling application created by students from Russia
 ## Usage
 ```bash
 # Clone the repository
-git clone "nathanbakhuijzen@vs-ssh.visualstudio.com:22/Scheduling Application/_ssh/scheduling-application" scheduling-application
+git clone
+"ssh://nathanbakhuijzen@vs-ssh.visualstudio.com:22/_ssh/scheduling-application" scheduling-application
 cd scheduling-application
 
 # Run the project
