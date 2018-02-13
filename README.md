@@ -9,6 +9,9 @@ git clone
 "ssh://nathanbakhuijzen@vs-ssh.visualstudio.com:22/_ssh/scheduling-application" scheduling-application
 cd scheduling-application
 
+# Restore all dependencies
+dotnet run
+
 # Run the project
 dotnet run
 ```
