@@ -1,10 +1,8 @@
 <template>
-    <div class="timetable">
-
-        <h1>Timetable</h1>
+    <div class="event-view">
 
         <div v-for="event in events">
-            <event v-bind="event"></event>
+            <event-item v-bind="event"></event-item>
         </div>
 
     </div>
@@ -13,18 +11,20 @@
 
 
 <script>
-import Event from './Event.vue'
+import EventItem from './EventItem.vue'
 
 export default {
-    name: 'timetable',
+    name: 'event-view',
     data () {
         return {
             events: [
                 {
+                    id: 1,
                     name: "Event #1",
                     description: "Description #1"
                 },
                 {
+                    id: 2,
                     name: "Event #2",
                     description: "Description #2"
                 },
@@ -32,7 +32,7 @@ export default {
         }
     },
     components: {
-        Event
+        EventItem
     }
 }
 </script>
@@ -40,9 +40,10 @@ export default {
 
 
 <style scoped lang="scss">
-.timetable {
+.event-view {
     border: 1px solid gray;
     padding: 8px;
+    display: inline-block;
 }
 
 h1 {

@@ -1,8 +1,12 @@
 <template>
     <div id="app">
+
+        <router-link :to="{ name: 'overview' }">Overview</router-link>
+        <router-link :to="{ name: 'schedule' }">Schedule</router-link>
+
+        <!-- Main page view, pages are rendered on here -->
         <router-view></router-view>
 
-        <router-link to="/">Go to Home</router-link>
     </div>
 </template>
 

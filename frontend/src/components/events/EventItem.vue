@@ -1,11 +1,12 @@
 <template>
-    <div class="event">
+    <div class="event-item">
 
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
 
-        <a href="#">Edit</a>
-        <a href="#">Delete</a>
+        <router-link :to="{ name: 'event', params: { id: id }}">View</router-link>
+        <router-link :to="{ name: 'event-edit', params: { id: id }}">Edit</router-link>
+        <router-link :to="{ name: 'event-delete', params: { id: id }}">Delete</router-link>
 
     </div>
 </template>
@@ -14,10 +15,11 @@
 
 <script>
 export default {
-    name: 'event',
+    name: 'event-item',
     props: [
+        "id",
         "name",
-        "description",
+        "description"
     ],
 }
 </script>
@@ -25,7 +27,7 @@ export default {
 
 
 <style scoped lang="scss">
-.event {
+.event-item {
     border: 1px solid gray;
     display: inline-block;
     padding: 8px;
