@@ -5,7 +5,9 @@
         <router-link :to="{ name: 'schedule' }">Schedule</router-link>
 
         <!-- Main page view, pages are rendered on here -->
-        <router-view></router-view>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
 
     </div>
 </template>
@@ -32,5 +34,19 @@ export default {
 
 h1, h2 {
     font-weight: normal;
+}
+
+// Fade transition styles
+.fade-enter-active, .fade-leave-active {
+    transition-property: opacity;
+    transition-duration: .25s;
+}
+
+.fade-enter-active {
+    transition-delay: .25s;
+}
+
+.fade-enter, .fade-leave-active {
+    opacity: 0
 }
 </style>
