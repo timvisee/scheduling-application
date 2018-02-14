@@ -12,9 +12,10 @@ using webapp.Types;
 namespace webapp.Migrations
 {
     [DbContext(typeof(DbEntity))]
-    partial class DbEntityModelSnapshot : ModelSnapshot
+    [Migration("20180214134530_rename_participant_to_people")]
+    partial class rename_participant_to_people
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

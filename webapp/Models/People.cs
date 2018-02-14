@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webapp.Models
 {
-    [Table("participants")]
-    public class Participant
+    [Table("people")]
+    public class People
     {
         [Key] 
-        public int ParticipantId { get; set; }
+        public int PeopleId { get; set; }
     }
 }

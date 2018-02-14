@@ -12,7 +12,7 @@ namespace webapp.Models
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Participant> Participants { get; set; }
+        public DbSet<People> Peoples { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }
