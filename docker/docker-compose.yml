@@ -6,6 +6,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+      - '5000:5000'
     depends_on:
       - "db"
     volumes:
@@ -19,7 +20,7 @@ services:
       - SA_PASSWORD=Secret1234
     volumes:
       - 'dbdata:/mnt/drive'
-    restart: on_failure
+    restart: on-failure
 
 volumes:
   dbdata:
