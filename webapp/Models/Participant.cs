@@ -6,6 +6,7 @@ namespace webapp.Models
     [Table("participants")]
     public class Participant
     {
-        [Key] private int Id { get; set; }
+        [Key] 
+        public int ParticipantId { get; set; }
     }
 }
