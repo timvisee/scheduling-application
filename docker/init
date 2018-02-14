@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Make sure an application directory is mounted
+if [[ ! -d /app ]]; then
+    echo "Missing /app directory, no application directory is mounted."
+    exit 1
+fi
+
+# Make sure the init script exists
+if [[ ! -f /app/init ]]; then
+    echo "Missing /app/init script, no application initiatlisation script fount"
+    exit 1
+fi
+
+# Change into the application directory, run the initialisation script
+echo "Running application initialisation script..."
+cd /app
+./init

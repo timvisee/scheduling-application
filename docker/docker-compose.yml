@@ -1,6 +1,15 @@
 version: "2"
 
 services:
+  app:
+    image: 'schedule-app:latest'
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - "db"
+    volumes:
+      - './app:/app'
   db:
     image: 'microsoft/mssql-server-linux'
     ports:
@@ -10,6 +19,7 @@ services:
       - SA_PASSWORD=Secret1234
     volumes:
       - 'dbdata:/mnt/drive'
+    restart: on_failure
 
 volumes:
   dbdata:
