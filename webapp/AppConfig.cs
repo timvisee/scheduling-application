@@ -52,7 +52,7 @@ namespace webapp
             String envVar = Environment.GetEnvironmentVariable(envKey);
             if (envVar != null)
                 return envVar;
-
+            
             // Get the key from the configuration
             String configVar = this.config[configKey];
             if (configVar != null)
