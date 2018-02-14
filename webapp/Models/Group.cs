@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Server.Kestrel.Internal.System.Collections.Sequences;
 namespace webapp.Models
 {
     [Table("groups")]
-    public class Group : Participant
+    public class Group
     {
+        [Key]
         public int GroupId { get; set; }
         public string Name { get; set; }
-        [ForeignKey("User")] public List<User> Users { get; set; }
+        
+        [ForeignKey("Participant")]
+        public int Participant { get; set; }
+        
+        [ForeignKey("User")] 
+        public List<User> Users { get; set; }
     }
 }

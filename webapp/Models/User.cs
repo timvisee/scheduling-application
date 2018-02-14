@@ -5,9 +5,14 @@ using webapp.Types;
 namespace webapp.Models
 {
     [Table("users")]
-    public class User : Participant
+    public class User
     {
+        [Key]
         public int UserId { get; set; }
+        
+        [ForeignKey("Participant")]
+        public int Participant { get; set; }
+        
         public string FirstName { get; set; }
         public string Infix { get; set; }
         public string LastName { get; set; }

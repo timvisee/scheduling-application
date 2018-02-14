@@ -26,6 +26,20 @@ namespace webapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "groups",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Participant = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_groups", x => x.GroupId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "locations",
                 columns: table => new
                 {
@@ -45,21 +59,9 @@ namespace webapp.Migrations
                 name: "participants",
                 columns: table => new
                 {
-                    GroupId = table.Column<int>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
                     ParticipantId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Discriminator = table.Column<string>(nullable: false),
-                    Participant = table.Column<int>(nullable: true),
-                    Deleted = table.Column<bool>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    Infix = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Locale = table.Column<string>(nullable: true),
-                    Role = table.Column<int>(nullable: true),
-                    Type = table.Column<int>(nullable: true),
-                    User = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
+                    Participant = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,11 +72,32 @@ namespace webapp.Migrations
                         principalTable: "events",
                         principalColumn: "EventId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Deleted = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    Infix = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Locale = table.Column<string>(nullable: true),
+                    Participant = table.Column<int>(nullable: false),
+                    Role = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    User = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_participants_participants_User",
+                        name: "FK_users_groups_User",
                         column: x => x.User,
-                        principalTable: "participants",
-                        principalColumn: "ParticipantId",
+                        principalTable: "groups",
+                        principalColumn: "GroupId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -84,8 +107,8 @@ namespace webapp.Migrations
                 column: "Participant");
 
             migrationBuilder.CreateIndex(
-                name: "IX_participants_User",
-                table: "participants",
+                name: "IX_users_User",
+                table: "users",
                 column: "User");
         }
 
@@ -98,7 +121,13 @@ namespace webapp.Migrations
                 name: "participants");
 
             migrationBuilder.DropTable(
+                name: "users");
+
+            migrationBuilder.DropTable(
                 name: "events");
+
+            migrationBuilder.DropTable(
+                name: "groups");
         }
     }
 }

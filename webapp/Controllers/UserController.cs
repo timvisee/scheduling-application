@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using webapp.Models;
 
-namespace webapp.Controllers
+namespace webapp
 {
     public class UserController : Controller
     {
@@ -33,7 +33,7 @@ namespace webapp.Controllers
             }
 
             var user = await _context.Users
-                .SingleOrDefaultAsync(m => m.ParticipantId == id);
+                .SingleOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace webapp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,Infix,LastName,Locale,Type,Role,Deleted,ParticipantId")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,Participant,FirstName,Infix,LastName,Locale,Type,Role,Deleted")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace webapp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.ParticipantId == id);
+            var user = await _context.Users.SingleOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -85,9 +85,9 @@ namespace webapp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,Infix,LastName,Locale,Type,Role,Deleted,ParticipantId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,Participant,FirstName,Infix,LastName,Locale,Type,Role,Deleted")] User user)
         {
-            if (id != user.ParticipantId)
+            if (id != user.UserId)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace webapp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.ParticipantId))
+                    if (!UserExists(user.UserId))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace webapp.Controllers
             }
 
             var user = await _context.Users
-                .SingleOrDefaultAsync(m => m.ParticipantId == id);
+                .SingleOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -138,7 +138,7 @@ namespace webapp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.ParticipantId == id);
+            var user = await _context.Users.SingleOrDefaultAsync(m => m.UserId == id);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -146,7 +146,7 @@ namespace webapp.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.ParticipantId == id);
+            return _context.Users.Any(e => e.UserId == id);
         }
     }
 }
