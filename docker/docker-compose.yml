@@ -5,12 +5,11 @@ services:
     image: 'schedule-app:latest'
     ports:
       - '80:80'
-      - '443:443'
-      - '5000:5000'
     environment:
       DATABASE_HOST: "db"
       DATABASE_USER: "sa"
       DATABASE_PASSWORD: "Secret1234"
+      WEB_HOSTS: "http://*:80"
     depends_on:
       - "db"
     volumes:
