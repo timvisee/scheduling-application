@@ -40,3 +40,7 @@ msbuild.wrn
 
 # Local configuration files
 *.local.json
+
+# Dependencies, vendored and distribution files
+node_modules/
+dist/
