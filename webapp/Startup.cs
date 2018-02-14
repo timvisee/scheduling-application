@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using webapp.Models;
 
 namespace webapp
@@ -21,7 +23,7 @@ namespace webapp
                                      " BBBBBBBB   EEEEEEEE   UUUUUUU   NN    NN  IIII       TT         \n\n";
 
             Console.Write(Copyright);
-            
+
             Configuration = configuration;
         }
 
@@ -48,6 +50,14 @@ namespace webapp
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // TODO: This is used to serve frontend files, use something better
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "../frontend/")
+                ),
+                RequestPath = ""
+            });
 
             app.UseStaticFiles();
 
@@ -56,6 +66,10 @@ namespace webapp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "api",
+                    template: "api/v1/{controller}/{action=Index}/{id?}");
             });
         }
     }
