@@ -8,22 +8,47 @@ Russia, Spain, Estonia and The Netherlands.
 git clone
 "ssh://nathanbakhuijzen@vs-ssh.visualstudio.com:22/_ssh/scheduling-application" scheduling-application
 cd scheduling-application
+```
+
+Run the project locally:
+```bash
+cd webapp
 
 # Restore all dependencies
-dotnet run
+dotnet restore
+
+# Run database migrations
+dotnet ef database update
 
 # Run the project
 dotnet run
+```
 
+Or build and run the application in a Docker stack:
+```bash
+cd docker
+
+# Build the Docker images for this application
+./build
+
+# Start the stack
+./start
+# or ./startd to start as a daemon
+
+# Stop the stack
+./stop
+```
+
+## Other commands
+```bash
 # Create a new migration
 dotnet ef migrations add <migration_name>
 
-# Create the database
+# Run database migrations (and create a database)
 dotnet ef database update
 
 # Scaffold a controller with its views
 dotnet aspnet-codegenerator --project . controller -name <ClassNameController> -m <ClassName> -dc DbEntity
-
 ```
 
 ## Requirements
