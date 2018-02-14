@@ -61,5 +61,19 @@ namespace webapp
             // No property was found, throw an error
             throw new Exception("Missing configuration key '" + key + "'");
         }
+
+        /**
+         * Generate the connection string to use for the database.
+         */
+        public String GenerateDbConnectionString()
+        {
+            // Generate a connection string
+            return "Data Source=" + this.GetProperty("Database.Host") + ";"
+                + "Initial Catalog=" + this.GetProperty("Database.Database") + ";"
+                + "Integrated Security=False;User ID=" + this.GetProperty("Database.User") + ";"
+                + "Password=" + this.GetProperty("Database.Password") + ";"
+                + "Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;"
+                + "ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        }
     }
 }
