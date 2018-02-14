@@ -11,6 +11,8 @@ services:
       - "db"
     volumes:
       - '../:/app'
+    networks:
+      - scheduleapp
   db:
     image: 'microsoft/mssql-server-linux'
     ports:
@@ -20,7 +22,12 @@ services:
       - SA_PASSWORD=Secret1234
     volumes:
       - 'dbdata:/mnt/drive'
+    networks:
+      - scheduleapp
     restart: on-failure
 
 volumes:
   dbdata:
+
+networks:
+  scheduleapp:

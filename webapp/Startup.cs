@@ -22,7 +22,7 @@ namespace webapp
             services.AddMvc();
 
             var connection =
-                @"Data Source=localhost;Initial Catalog=schedule;Integrated Security=False;User ID=sa;Password=Test1234!;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                @"Data Source=db;Initial Catalog=schedule;Integrated Security=False;User ID=sa;Password=Secret1234;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddDbContext<DbEntity>(options => options.UseSqlServer(connection));
         }
 
