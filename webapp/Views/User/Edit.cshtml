@@ -1,17 +1,8 @@
-@model webapp.Models.User
+@model User
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Edit user";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
 
 <h4>User</h4>
 <hr />
@@ -72,6 +63,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-</body>
-</html>
