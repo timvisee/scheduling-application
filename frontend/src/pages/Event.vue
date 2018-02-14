@@ -4,8 +4,8 @@
         <h1>Event {{ headerSuffix }}</h1>
         <event :event="event" :editable="editable" />
 
-        <router-link v-if="editable" :to="{ name: 'event', params: { id: event.id }}">View</router-link>
-        <router-link v-else :to="{ name: 'event-edit', params: { id: event.id }}">Edit</router-link>
+        <router-link v-if="editable" :to="{ name: 'event', params: { id: event.eventId }}">View</router-link>
+        <router-link v-else :to="{ name: 'event-edit', params: { id: event.eventId }}">Edit</router-link>
 
     </div>
 </template>
@@ -22,20 +22,35 @@ export default {
     props: [
         "editable"
     ],
+    created() {
+        this.fetchEvent();
+    },
     data() {
         return {
             event: {
-                id: 1,
-                name: 'Some name',
-                description: 'Dingen'
+                eventId: 1,
+                title: '...',
+                description: '...'
             }
         }
     },
     computed: {
         headerSuffix: function() {
-            return this.event.name.trim()
-                ? " - " + this.event.name
+            return this.event.title.trim()
+                ? " - " + this.event.title
                 : "";
+        }
+    },
+    methods: {
+        fetchEvent () {
+            this.$http
+                .get('/api/v1/event/details/' + this.$route.params.id)
+                .then((response) => {
+                    this.event = response.data;
+                }, (response) => {
+                    console.log("ERROR");
+                    console.log(response);
+                });
         }
     }
 }

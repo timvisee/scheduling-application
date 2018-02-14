@@ -3,9 +3,9 @@
 
         <table>
             <tr>
-                <td>Name:</td>
-                <td v-if="editable"><input type="text" v-model="event.name" /></td>
-                <td v-else>{{ event.name }}</td>
+                <td>Title:</td>
+                <td v-if="editable"><input type="text" v-model="event.title" /></td>
+                <td v-else>{{ event.title }}</td>
             </tr>
             <tr>
                 <td>Description:</td>

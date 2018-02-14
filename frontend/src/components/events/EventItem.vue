@@ -1,12 +1,12 @@
 <template>
     <div class="event-item">
 
-        <h1>{{ name }}</h1>
+        <h1>{{ title }}</h1>
         <p>{{ description }}</p>
 
-        <router-link :to="{ name: 'event', params: { id: id }}">View</router-link>
-        <router-link :to="{ name: 'event-edit', params: { id: id }}">Edit</router-link>
-        <router-link :to="{ name: 'event-delete', params: { id: id }}">Delete</router-link>
+        <router-link :to="{ name: 'event', params: { id: eventId }}">View</router-link>
+        <router-link :to="{ name: 'event-edit', params: { id: eventId }}">Edit</router-link>
+        <router-link :to="{ name: 'event-delete', params: { id: eventId }}">Delete</router-link>
 
     </div>
 </template>
@@ -17,8 +17,8 @@
 export default {
     name: 'event-item',
     props: [
-        "id",
-        "name",
+        "eventId",
+        "title",
         "description"
     ],
 }

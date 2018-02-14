@@ -1,3 +1,5 @@
+<!-- See: https://router.vuejs.org/en/advanced/data-fetching.html -->
+
 <template>
     <div class="event-view">
 
@@ -15,24 +17,28 @@ import EventItem from './EventItem.vue'
 
 export default {
     name: 'event-view',
+    created () {
+        this.fetchEvents();
+    },
     data () {
         return {
-            events: [
-                {
-                    id: 1,
-                    name: "Event #1",
-                    description: "Description #1"
-                },
-                {
-                    id: 2,
-                    name: "Event #2",
-                    description: "Description #2"
-                },
-            ]
+            events: []
         }
     },
     components: {
         EventItem
+    },
+    methods: {
+        fetchEvents () {
+            this.$http
+                .get('/api/v1/event')
+                .then((response) => {
+                    this.events = response.data;
+                }, (response) => {
+                    console.log("ERROR");
+                    console.log(response);
+                });
+        }
     }
 }
 </script>
