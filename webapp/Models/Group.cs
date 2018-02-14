@@ -12,8 +12,8 @@ namespace webapp.Models
         public int GroupId { get; set; }
         public string Name { get; set; }
         
-        [ForeignKey("Participant")]
-        public int Participant { get; set; }
+        [ForeignKey("People")]
+        public int People { get; set; }
         
         [ForeignKey("User")] 
         public List<User> Users { get; set; }
