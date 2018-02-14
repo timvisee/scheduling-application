@@ -16,7 +16,7 @@ namespace webapp.Models
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         
-        [ForeignKey("Participant")]
-        public List<Participant> Participants { get; set; }
+        [ForeignKey("People")]
+        public List<People> Peoples { get; set; }
     }
 }
