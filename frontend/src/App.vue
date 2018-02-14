@@ -1,22 +1,16 @@
 <template>
     <div id="app">
-        <timetable></timetable>
+        <router-view></router-view>
+
+        <router-link to="/">Go to Home</router-link>
     </div>
 </template>
 
 
 
 <script>
-import Timetable from './components/timetable/Timetable.vue'
-
 export default {
-    name: 'app',
-    data () {
-        return {}
-    },
-    components: {
-        Timetable
-    }
+    name: 'app'
 }
 </script>
 
