@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Immediately stop the script if an error occurred
+set -e
+
+# Start the stack
+echo "Starting Docker application stack..."
+docker-compose up -d
