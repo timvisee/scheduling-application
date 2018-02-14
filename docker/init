@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Immediately stop the script if an error occurred
+set -e
+
 # Make sure an application directory is mounted
 if [[ ! -d /app ]]; then
     echo "Missing /app directory, no application directory is mounted."

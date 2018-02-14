@@ -9,7 +9,7 @@ services:
     depends_on:
       - "db"
     volumes:
-      - './app:/app'
+      - '../:/app'
   db:
     image: 'microsoft/mssql-server-linux'
     ports:
