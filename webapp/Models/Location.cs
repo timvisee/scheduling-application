@@ -7,10 +7,10 @@ namespace webapp.Models
     public class Location
     {
         [Key]
-        private int Id { get; set; }
-        private string Name { get; set; }
-        private string Description { get; set; }
-        private double Latitude { get; set; }
-        private double Longitude { get; set; }
+        public int LocationId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
