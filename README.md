@@ -14,6 +14,16 @@ dotnet run
 
 # Run the project
 dotnet run
+
+# Create a new migration
+dotnet ef migrations add <migration_name>
+
+# Create the database
+dotnet ef database update
+
+# Scaffold a controller with its views
+dotnet aspnet-codegenerator --project . controller -name <ClassNameController> -m <ClassName> -dc DbEntity
+
 ```
 
 ## Requirements

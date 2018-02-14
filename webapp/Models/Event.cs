@@ -18,7 +18,5 @@ namespace webapp.Models
         
         [ForeignKey("Participant")]
         public List<Participant> Participants { get; set; }
-
-        
     }
 }

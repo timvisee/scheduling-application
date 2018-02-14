@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using webapp.Models;
 using webapp.Types;
@@ -40,6 +39,20 @@ namespace webapp.Migrations
                     b.ToTable("events");
                 });
 
+            modelBuilder.Entity("webapp.Models.Group", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Participant");
+
+                    b.HasKey("GroupId");
+
+                    b.ToTable("groups");
+                });
+
             modelBuilder.Entity("webapp.Models.Location", b =>
                 {
                     b.Property<int>("LocationId")
@@ -63,9 +76,6 @@ namespace webapp.Migrations
                     b.Property<int>("ParticipantId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<int?>("Participant");
 
                     b.HasKey("ParticipantId");
@@ -73,26 +83,12 @@ namespace webapp.Migrations
                     b.HasIndex("Participant");
 
                     b.ToTable("participants");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Participant");
-                });
-
-            modelBuilder.Entity("webapp.Models.Group", b =>
-                {
-                    b.HasBaseType("webapp.Models.Participant");
-
-                    b.Property<int>("GroupId");
-
-                    b.Property<string>("Name");
-
-                    b.ToTable("groups");
-
-                    b.HasDiscriminator().HasValue("Group");
                 });
 
             modelBuilder.Entity("webapp.Models.User", b =>
                 {
-                    b.HasBaseType("webapp.Models.Participant");
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Deleted");
 
@@ -104,19 +100,19 @@ namespace webapp.Migrations
 
                     b.Property<string>("Locale");
 
+                    b.Property<int>("Participant");
+
                     b.Property<int>("Role");
 
                     b.Property<int>("Type");
 
                     b.Property<int?>("User");
 
-                    b.Property<int>("UserId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("User");
 
                     b.ToTable("users");
-
-                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("webapp.Models.Participant", b =>

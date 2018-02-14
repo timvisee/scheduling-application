@@ -20,11 +20,10 @@ namespace webapp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=EFGetStarted.AspNetCore.NewDb;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<DbEntity>(options => options.UseSqlServer(connection));
 
-         
+            var connection =
+                @"Data Source=localhost;Initial Catalog=schedule;Integrated Security=False;User ID=sa;Password=Test1234!;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            services.AddDbContext<DbEntity>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
