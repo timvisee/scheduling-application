@@ -37,3 +37,6 @@ msbuild.wrn
 
 # Vim
 .*.sw[po]
+
+# Local configuration files
+*.local.json

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +22,8 @@ namespace webapp
         {
             services.AddMvc();
 
-            var connection =
-                @"Data Source=db;Initial Catalog=schedule;Integrated Security=False;User ID=sa;Password=Secret1234;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            services.AddDbContext<DbEntity>(options => options.UseSqlServer(connection));
+            var dbConnection = new AppConfig().GenerateDbConnectionString();
+            services.AddDbContext<DbEntity>(options => options.UseSqlServer(dbConnection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +37,7 @@ namespace webapp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
 
             app.UseStaticFiles();
 
