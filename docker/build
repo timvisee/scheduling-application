@@ -3,6 +3,9 @@
 # Immediately stop the script if an error occurred
 set -e
 
+# Change into the containers directory
+cd ./containers
+
 # Build the dotnet image
 echo "Building dotnet image..."
 docker build -t schedule-dotnet:latest -f Dockerfile.dotnet --no-cache .
@@ -10,3 +13,5 @@ docker build -t schedule-dotnet:latest -f Dockerfile.dotnet --no-cache .
 # Build the application image
 echo "Building application image..."
 docker build -t schedule-app:latest -f Dockerfile.app --no-cache .
+
+cd ..
