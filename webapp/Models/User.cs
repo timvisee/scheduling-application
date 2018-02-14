@@ -10,8 +10,8 @@ namespace webapp.Models
         [Key]
         public int UserId { get; set; }
         
-        [ForeignKey("Participant")]
-        public int Participant { get; set; }
+        [ForeignKey("People")]
+        public int People { get; set; }
         
         public string FirstName { get; set; }
         public string Infix { get; set; }

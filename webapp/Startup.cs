@@ -12,13 +12,13 @@ namespace webapp
     {
         public Startup(IConfiguration configuration)
         {
-            const string Copyright = " ########  ######## ##     ## ##    ##         ####  ######## \n" +
-                                     " ##     ## ##       ##     ## ###   ##         ##      ##    \n" +
-                                     " ##     ## ##       ##     ## ####  ##        ##      ##    \n" +
-                                     " ########  ######   ##     ## ## ## ##       ##      ##    \n" +
-                                     " ##     ## ##       ##     ## ##  ####      ##      ##    \n" +
-                                     " ##     ## ##       ##     ## ##   ###     ##      ##    \n" +
-                                     " ########  ########  #######  ##    ##   ####     ##    \n\n";
+            const string Copyright = " BBBBBBBB   EEEEEEEE  UU     UU  NN    NN        IIII    TTTTTTTT\n" +
+                                     " BB     BB  EE        UU     UU  NNN   NN        II        TT    \n" +
+                                     " BB     BB  EE        UU     UU  NNNN  NN       II        TT     \n" +
+                                     " BBBBBBBB   EEEEEE    UU     UU  NN NN NN      II        TT      \n" +
+                                     " BB     BB  EE        UU     UU  NN  NNNN     II        TT       \n" +
+                                     " BB     BB  EE        UU     UU  NN   NNN    II        TT        \n" +
+                                     " BBBBBBBB   EEEEEEEE   UUUUUUU   NN    NN  IIII       TT         \n\n";
 
             Console.Write(Copyright);
             
