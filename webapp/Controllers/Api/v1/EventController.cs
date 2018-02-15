@@ -9,6 +9,8 @@ using webapp.Models;
 
 namespace webapp
 {
+    [Produces("application/json")]
+    [Route("api/v1/[controller]")]
     public class EventController : Controller
     {
         private readonly DbEntity _context;
@@ -18,13 +20,27 @@ namespace webapp
             _context = context;
         }
 
-        // GET: Event
-        public async Task<IActionResult> Index()
+        /// <summary>
+        /// Fetch a list of all events.
+        /// </summary>
+        ///
+        /// <returns>
+        /// JSON array of events.
+        /// </returns>
+        [HttpGet("list")]
+        public async Task<IActionResult> List()
         {
             return Json(await _context.Events.ToListAsync());
         }
 
-        // GET: Event/Details/5
+        /// <summary>
+        /// Fetch details of a specific event with the given id.
+        /// </summary>
+        ///
+        /// <returns>
+        /// JSON object of the event.
+        /// </returns>
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

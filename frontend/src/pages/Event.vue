@@ -1,11 +1,16 @@
 <template>
     <div class="page-event">
 
-        <h1>Event {{ headerSuffix }}</h1>
-        <event :event="event" :editable="editable" />
+        <p v-if="loading">Loading...</p>
 
-        <router-link v-if="editable" :to="{ name: 'event', params: { id: event.eventId }}">View</router-link>
-        <router-link v-else :to="{ name: 'event-edit', params: { id: event.eventId }}">Edit</router-link>
+        <p v-else-if="error">ERROR!</p>
+
+        <div v-else>
+            <h1>Event {{ headerSuffix }}</h1>
+            <event :event="event" :editable="editable" />
+
+            <router-link v-if="editable" :to="{ name: 'event', params: { id: event.eventId }}">View</router-link>
+            <router-link v-else :to="{ name: 'event-edit', params: { id: event.eventId }}">Edit</router-link> </div>
 
     </div>
 </template>
@@ -22,35 +27,33 @@ export default {
     props: [
         "editable"
     ],
-    created() {
-        this.fetchEvent();
-    },
     data() {
         return {
-            event: {
-                eventId: 1,
-                title: '...',
-                description: '...'
-            }
+            event: {},
+            loading: false,
+            error: null,
         }
     },
     computed: {
         headerSuffix: function() {
-            return this.event.title.trim()
+            return this.event.title
                 ? " - " + this.event.title
                 : "";
         }
     },
+    created() {
+        this.fetchEvent();
+    },
     methods: {
-        fetchEvent () {
-            this.$http
-                .get('http://localhost:5000/api/v1/event/details/' + this.$route.params.id)
-                .then((response) => {
-                    this.event = response.data;
-                }, (response) => {
-                    console.log("ERROR");
-                    console.log(response);
-                });
+        fetchEvent() {
+            // Set the loading and error state
+            this.loading = true, this.error = null;
+
+            // Fetch the event data
+            this.api.event.fetch(this.$route.params.id)
+                .then(data => this.event = data)
+                .catch(err => this.error = err)
+                .finally(() => this.loading = false);
         }
     }
 }

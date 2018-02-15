@@ -53,8 +53,8 @@ namespace webapp
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // Serve frontend files
-            // TODO: Use distribution versions of frontend files to serve
+            // Serve frontend and backend files
+            //app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
@@ -62,8 +62,6 @@ namespace webapp
                 ),
                 RequestPath = ""
             });
-
-            // Serve backend files
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
@@ -72,30 +70,24 @@ namespace webapp
                 RequestPath = ""
             });
 
-            /* app.UseStaticFiles(); */
+            // Determine which hosts are allowed, for proper CORS configuration
+            AppConfig config = new AppConfig();
+            String allowedHosts = config.GetProperty("Web.AllowedHosts");
 
-            // Allow CORS from the domains below
-            // TODO: load these domains from a configuration file
+            // Configure CORS with the proper hosts
             app.UseCors(corsPolicyBuilder =>
-                       corsPolicyBuilder.WithOrigins("http://localhost:8080")
-                         .AllowAnyMethod()
-                           .AllowAnyHeader()
-                    );
-            app.UseCors(corsPolicyBuilder =>
-                       corsPolicyBuilder.WithOrigins("http://localhost:5000")
-                         .AllowAnyMethod()
-                           .AllowAnyHeader()
-                    );
+                corsPolicyBuilder.WithOrigins(allowedHosts)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
 
+            // Define the routes
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "api",
-                    template: "api/v1/{controller}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }

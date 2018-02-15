@@ -1,15 +1,19 @@
 import Vue from 'vue';
-import VueResource from 'vue-resource';
 
+import api from './api/index.js'
 import App from './App.vue';
 import router from './router';
 
-// Enable Vue resource
-Vue.use(VueResource);
-Vue.http.options.emulateJSON = true;
-const http = Vue.http
-export default http
+// Bind the API client to all components by default
+Vue.mixin({
+    data () {
+        return {
+            api,
+        }
+    },
+})
 
+// Start the Vue application
 new Vue({
     el: '#app',
     router,
