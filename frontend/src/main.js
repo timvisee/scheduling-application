@@ -1,15 +1,10 @@
+import axios from 'axios';
 import Vue from 'vue';
-import VueResource from 'vue-resource';
 
 import App from './App.vue';
 import router from './router';
 
-// Enable Vue resource
-Vue.use(VueResource);
-Vue.http.options.emulateJSON = true;
-const http = Vue.http
-export default http
-
+// Build an API client
 const api = {
     host: "http://localhost:5000/api/v1/",
     getUrl(context, endpoint) {
@@ -18,51 +13,46 @@ const api = {
 
     /**
      * Send a GET request through AJAX on the given endpoint.
+     * Returns a promise with the resulting data.
      */
-    ajaxGet(context, endpoint, callback) {
-        // Set the loading state
-        context.loading = true;
-        context.error = null;
+    ajaxGet(context, endpoint) {
+        // Create a promise for the request, return it
+        return new Promise(function(resolve, reject) {
+            // Make the request
+            axios.get(context.api.getUrl(context, endpoint))
+                .then(response => {
+                    resolve(response.data)
+                })
+                .catch(error => {
+                    // Report the error, and continue
+                    console.error("AJAX API request error: " + error);
 
-        // Make the request
-        context.$http
-            .get(context.api.getUrl(context, endpoint))
-            .then((response) => {
-                // Set the loading state
-                context.loading = false;
-
-                // Call back the result
-                callback(null, response.data);
-            }, (response) => {
-                // Set the loading state
-                context.loading = false;
-                context.error = response;
-
-                // Call back the result
-                callback(response);
-            });
+                    // Reject the promise
+                    reject(error);
+                });
+        });
     },
 
     event: {
-        fetchAll(context, callback) {
-            context.api.ajaxGet(context, "event", callback);
+        fetchAll(context) {
+            return context.api.ajaxGet(context, "event");
         },
-        fetch(context, id, callback) {
-            context.api.ajaxGet(context, "event/details/" + id, callback);
+        fetch(context, id) {
+            return context.api.ajaxGet(context, "event/details/" + id);
         },
     }
 };
 
+// Bind the API client to all components by default
 Vue.mixin({
     data () {
         return {
             api,
-            loading: false,
-            error: null,
         }
     },
 })
 
+// Start the Vue application
 new Vue({
     el: '#app',
     router,

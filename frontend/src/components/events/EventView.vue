@@ -5,7 +5,7 @@
 
         <p v-if="loading">Loading...</p>
 
-        <p v-if="error">ERROR!</p>
+        <p v-else-if="error">ERROR!</p>
 
         <div v-else v-for="event in events">
             <event-item v-bind="event"></event-item>
@@ -27,6 +27,8 @@ export default {
     data() {
         return {
             events: [],
+            loading: false,
+            error: null,
         }
     },
     components: {
@@ -34,10 +36,14 @@ export default {
     },
     methods: {
         fetchEvents() {
-            this.api.event.fetchAll(this, (err, data) => {
-                if(!err)
-                    this.events = data;
-            });
+            // Set the loading and error state
+            this.loading = true, this.error = null;
+
+            // Fetch the data
+            this.api.event.fetchAll(this)
+                .then(data => this.events = data)
+                .catch(err => this.error = err)
+                .finally(() => this.loading = false);
         }
     }
 }
