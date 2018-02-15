@@ -14,7 +14,7 @@ export default (api) => {
     * @return Promise.
     */
     event.fetchAll = function() {
-        return api.ajaxGet("event");
+        return api.ajaxGet("event/list");
     };
 
     /**
