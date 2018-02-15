@@ -67,6 +67,17 @@ npm run build
 npm run dev
 ```
 
+## Config
+It is possible to create a couple of settings for local use. Duplicate the `appsettings.json` and rename it to `appsettings.local.json`.  
+Some of the config variables are:
+* `Environment` (`Development`, `Staging` or `Production`)  
+Environment variable is `Production` by default.
+* `Database`
+    * `Host`
+    * `Database`
+    * `User`
+    * `Password`
+
 ## Requirements
 * dotnet core 2.0 or higher
 
