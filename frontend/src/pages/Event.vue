@@ -10,8 +10,7 @@
             <event :event="event" :editable="editable" />
 
             <router-link v-if="editable" :to="{ name: 'event', params: { id: event.eventId }}">View</router-link>
-            <router-link v-else :to="{ name: 'event-edit', params: { id: event.eventId }}">Edit</router-link>
-        </div>
+            <router-link v-else :to="{ name: 'event-edit', params: { id: event.eventId }}">Edit</router-link> </div>
 
     </div>
 </template>
@@ -51,7 +50,7 @@ export default {
             this.loading = true, this.error = null;
 
             // Fetch the event data
-            this.api.event.fetch(this, this.$route.params.id)
+            this.api.event.fetch(this.$route.params.id)
                 .then(data => this.event = data)
                 .catch(err => this.error = err)
                 .finally(() => this.loading = false);

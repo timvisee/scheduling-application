@@ -40,7 +40,7 @@ export default {
             this.loading = true, this.error = null;
 
             // Fetch the data
-            this.api.event.fetchAll(this)
+            this.api.event.fetchAll()
                 .then(data => this.events = data)
                 .catch(err => this.error = err)
                 .finally(() => this.loading = false);
