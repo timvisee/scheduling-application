@@ -29,5 +29,32 @@ namespace webapp
                 .UseUrls(host)
                 .Build();
         }
+
+        public static void SetEnvironment(IHostingEnvironment env)
+        {
+            // Get the host from the configuration
+            var config = new AppConfig();
+
+            // Get the host
+            var envProperty = config.GetProperty("Environment");
+            
+            switch (envProperty)
+            {
+                case "Development":
+                    env.EnvironmentName = EnvironmentName.Development;
+                    break;
+                case "Staging":
+                    env.EnvironmentName = EnvironmentName.Staging;
+                    break;
+                case "Production":
+                    env.EnvironmentName = EnvironmentName.Production;
+                    break;
+                case null:
+                    Console.WriteLine("Missing Environment key in configuration");
+                    break;
+                default:
+                    throw new Exception("Wrong Environment specified in appsettings.json");
+            }
+        }
     }
 }

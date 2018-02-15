@@ -21,7 +21,7 @@ namespace webapp
                                      " BBBBBBBB   EEEEEEEE   UUUUUUU   NN    NN  IIII       TT         \n\n";
 
             Console.Write(Copyright);
-            
+
             Configuration = configuration;
         }
 
@@ -39,6 +39,9 @@ namespace webapp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Set the environment based on the appsettings.json
+            Program.SetEnvironment(env);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
