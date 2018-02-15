@@ -1,6 +1,5 @@
 <template>
     <div class="page-event">
-
         <h1>Event {{ headerSuffix }}</h1>
         <event :event="event" :editable="editable" />
 
@@ -42,15 +41,11 @@ export default {
         }
     },
     methods: {
-        fetchEvent () {
-            this.$http
-                .get('http://localhost:5000/api/v1/event/details/' + this.$route.params.id)
-                .then((response) => {
-                    this.event = response.data;
-                }, (response) => {
-                    console.log("ERROR");
-                    console.log(response);
-                });
+        fetchEvent() {
+            this.api.event.fetch(this, this.$route.params.id, (err, data) => {
+                if(!err)
+                    this.event = data;
+            });
         }
     }
 }

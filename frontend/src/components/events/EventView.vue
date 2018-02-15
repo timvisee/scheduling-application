@@ -3,7 +3,11 @@
 <template>
     <div class="event-view">
 
-        <div v-for="event in events">
+        <p v-if="loading">Loading...</p>
+
+        <p v-if="error">ERROR!</p>
+
+        <div v-else v-for="event in events">
             <event-item v-bind="event"></event-item>
         </div>
 
@@ -17,27 +21,23 @@ import EventItem from './EventItem.vue'
 
 export default {
     name: 'event-view',
-    created () {
+    created() {
         this.fetchEvents();
     },
-    data () {
+    data() {
         return {
-            events: []
+            events: [],
         }
     },
     components: {
-        EventItem
+        EventItem,
     },
     methods: {
-        fetchEvents () {
-            this.$http
-                .get('http://localhost:5000/api/v1/event')
-                .then((response) => {
-                    this.events = response.data;
-                }, (response) => {
-                    console.log("ERROR");
-                    console.log(response);
-                });
+        fetchEvents() {
+            this.api.event.fetchAll(this, (err, data) => {
+                if(!err)
+                    this.events = data;
+            });
         }
     }
 }
