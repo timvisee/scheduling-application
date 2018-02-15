@@ -40,6 +40,7 @@ cd docker
 ```
 
 ## Other commands
+General commands:
 ```bash
 # Create a new migration
 dotnet ef migrations add <migration_name>
@@ -49,6 +50,21 @@ dotnet ef database update
 
 # Scaffold a controller with its views
 dotnet aspnet-codegenerator --project . controller -name <ClassNameController> -m <ClassName> -dc DbEntity
+```
+
+Vue frontend commands:
+```bash
+cd frontend
+
+# Install npm dependencies
+npm install
+
+# Build the frontend resources
+npm run build
+
+# or run a live development server for the frontend
+# make sure the dotnet core backend server is running
+npm run dev
 ```
 
 ## Config
