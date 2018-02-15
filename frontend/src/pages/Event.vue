@@ -44,7 +44,7 @@ export default {
     methods: {
         fetchEvent () {
             this.$http
-                .get('/api/v1/event/details/' + this.$route.params.id)
+                .get('http://localhost:5000/api/v1/event/details/' + this.$route.params.id)
                 .then((response) => {
                     this.event = response.data;
                 }, (response) => {

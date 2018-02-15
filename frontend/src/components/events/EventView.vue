@@ -31,7 +31,7 @@ export default {
     methods: {
         fetchEvents () {
             this.$http
-                .get('/api/v1/event')
+                .get('http://localhost:5000/api/v1/event')
                 .then((response) => {
                     this.events = response.data;
                 }, (response) => {
