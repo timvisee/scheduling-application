@@ -50,7 +50,8 @@ namespace webapp
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // TODO: This is used to serve frontend files, use something better
+            // Serve frontend files
+            // TODO: Use distribution versions of frontend files to serve
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
@@ -59,7 +60,29 @@ namespace webapp
                 RequestPath = ""
             });
 
-            app.UseStaticFiles();
+            // Serve backend files
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "./wwwroot")
+                ),
+                RequestPath = ""
+            });
+
+            /* app.UseStaticFiles(); */
+
+            // Allow CORS from the domains below
+            // TODO: load these domains from a configuration file
+            app.UseCors(corsPolicyBuilder =>
+                       corsPolicyBuilder.WithOrigins("http://localhost:8080")
+                         .AllowAnyMethod()
+                           .AllowAnyHeader()
+                    );
+            app.UseCors(corsPolicyBuilder =>
+                       corsPolicyBuilder.WithOrigins("http://localhost:5000")
+                         .AllowAnyMethod()
+                           .AllowAnyHeader()
+                    );
 
             app.UseMvc(routes =>
             {
