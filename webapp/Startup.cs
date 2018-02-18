@@ -3,8 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection; using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using webapp.Models;
 
@@ -72,11 +71,21 @@ namespace webapp
 
             // Determine which hosts are allowed, for proper CORS configuration
             AppConfig config = new AppConfig();
-            String allowedHosts = config.GetProperty("Web.AllowedHosts");
+            String[] allowedHosts = config.GetProperty("Web.AllowedHosts").Split(',');
+
+            // Report the hosts we're allowing CORS on
+            foreach(String host in allowedHosts)
+                Console.WriteLine("Allowing CORS request for: {0}", host);
 
             // Configure CORS with the proper hosts
+            // TODO: use the specific host logic below, ensure it works
+            //app.UseCors(corsPolicyBuilder =>
+            //    corsPolicyBuilder.WithOrigins(allowedHosts)
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //);
             app.UseCors(corsPolicyBuilder =>
-                corsPolicyBuilder.WithOrigins(allowedHosts)
+                corsPolicyBuilder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );

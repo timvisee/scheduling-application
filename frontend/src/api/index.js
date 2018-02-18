@@ -35,9 +35,7 @@ api.ajaxGet = function(endpoint) {
     return new Promise(function(resolve, reject) {
         // Make the request
         axios.get(api.getUrl(endpoint))
-            .then(response => {
-                resolve(response.data)
-            })
+            .then(response => resolve(response.data))
             .catch(error => {
                 // Report the error, and continue
                 console.error("AJAX API request error: " + error);

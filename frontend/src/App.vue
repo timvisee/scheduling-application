@@ -9,6 +9,9 @@
             <router-view></router-view>
         </transition>
 
+        <!-- Page progress bar, on the top -->
+        <vue-progress-bar></vue-progress-bar>
+
     </div>
 </template>
 
@@ -16,7 +19,7 @@
 
 <script>
 export default {
-    name: 'app'
+    name: 'app',
 }
 </script>
 

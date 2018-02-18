@@ -36,13 +36,27 @@ export default {
     },
     methods: {
         fetchEvents() {
+            // Start the progress bar
+            // TODO: implement this globally for the whole API
+            this.$Progress.start();
+
             // Set the loading and error state
             this.loading = true, this.error = null;
 
             // Fetch the data
             this.api.event.fetchAll()
-                .then(data => this.events = data)
-                .catch(err => this.error = err)
+                .then(data => {
+                    this.events = data;
+
+                    // Finish the progress bar
+                    this.$Progress.finish();
+                })
+                .catch(err => {
+                    this.error = err;
+
+                    // Fail the progress bar
+                    this.$Progress.fail();
+                })
                 .finally(() => this.loading = false);
         }
     }
