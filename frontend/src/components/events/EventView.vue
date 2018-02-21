@@ -47,17 +47,18 @@ export default {
             this.api.event.fetchAll()
                 .then(data => {
                     this.events = data;
+                    this.loading = false;
 
                     // Finish the progress bar
                     this.$Progress.finish();
                 })
                 .catch(err => {
                     this.error = err;
+                    this.loading = false;
 
                     // Fail the progress bar
                     this.$Progress.fail();
-                })
-                .finally(() => this.loading = false);
+                });
         }
     }
 }
