@@ -1,6 +1,13 @@
 # Build steps
 steps:
   - script: dotnet restore
-    displayName: "dotnet: restore dependencies"
+    displayName: "backend: install dependencies"
+  # - script: dotnet ef database update
+  #   displayName: "backend: migrate database"
   - script: dotnet build
-    displayName: "dotnet: build"
+    displayName: "backend: build"
+  # TODO: run this in the proper path
+  # - script: npm install
+  #   displayName: "frontend: install dependencies"
+  # - script: npm run build
+  #   displayName: "frontend: build resources"
