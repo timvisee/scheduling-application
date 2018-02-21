@@ -1,0 +1,6 @@
+# Build steps
+steps:
+  - script: dotnet restore
+    displayName: "dotnet: restore dependencies"
+  - script: dotnet build
+    displayName: "dotnet: build"
