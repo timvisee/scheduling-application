@@ -32,7 +32,7 @@ steps:
   - script: './startd && sleep 1m'
     workingDirectory: "docker"
     displayName: "docker: start stack (wait 1m)"
-  - script: 'curl -f http://localhost:5000/'
+  - script: 'curl -f http://localhost:80/'
     workingDirectory: "docker"
     displayName: "docker: test HTTP request to stack"
   - script: './stop'
