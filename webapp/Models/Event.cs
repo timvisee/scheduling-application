@@ -15,7 +15,7 @@ namespace webapp.Models
         public string Description { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
-        // change to groepen > groepen links to people
+        // change to groepen ? people kan 1 user zijn of 1 groep 
 
         [ForeignKey("People")]
         public List<People> Peoples { get; set; }
