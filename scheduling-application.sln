@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapp", "webapp\webapp.csproj", "{1F023126-6494-4163-B63F-CD35748706BA}"
 EndProject
@@ -17,6 +17,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3CEE38CA-CFC4-4F69-82EE-6E885ED39880}
+		SolutionGuid = {B75F9680-1D3B-4D17-982F-A5DC1C7FC091}
 	EndGlobalSection
 EndGlobal
