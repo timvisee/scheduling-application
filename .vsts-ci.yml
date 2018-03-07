@@ -9,6 +9,9 @@ steps:
     displayName: "backend: build"
 
   # Frontend builds
+  - script: npm prune
+    workingDirectory: "frontend"
+    displayName: "frontend: clean environment"
   - script: npm install
     workingDirectory: "frontend"
     displayName: "frontend: install dependencies"
