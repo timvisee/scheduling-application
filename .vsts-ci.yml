@@ -20,8 +20,9 @@ steps:
     displayName: "frontend: build resources"
 
   # Docker container builds
-  - script: 'docker rm -f $(docker ps -aq) && docker rmi -f $(docker images -aq)'
-    displayName: "docker: clean environment"
   - script: './build'
     workingDirectory: "docker"
     displayName: "docker: build containers"
+  - script: './clean'
+    workingDirectory: "docker"
+    displayName: "docker: clean environment"
