@@ -15,3 +15,8 @@ steps:
   - script: npm run build
     workingDirectory: "frontend"
     displayName: "frontend: build resources"
+
+  # Docker container builds
+  - script: './build'
+    workingDirectory: "docker"
+    displayName: "docker: build containers"
