@@ -27,5 +27,6 @@ export default (api) => {
         return api.ajaxGet("event/details/" + id);
     };
 
+    // Return the event API
     return event;
 };
