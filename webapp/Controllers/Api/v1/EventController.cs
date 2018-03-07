@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using webapp.Data;
 using webapp.Models;
 
 namespace webapp
@@ -13,9 +14,9 @@ namespace webapp
     [Route("api/v1/[controller]")]
     public class EventController : Controller
     {
-        private readonly DbEntity _context;
+        private readonly ApplicationDbContext _context;
 
-        public EventController(DbEntity context)
+        public EventController(ApplicationDbContext context)
         {
             _context = context;
         }
