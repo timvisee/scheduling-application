@@ -9,9 +9,35 @@ steps:
     displayName: "backend: build"
 
   # Frontend builds
+  - script: npm prune
+    workingDirectory: "frontend"
+    displayName: "frontend: clean environment"
   - script: npm install
     workingDirectory: "frontend"
     displayName: "frontend: install dependencies"
   - script: npm run build
     workingDirectory: "frontend"
     displayName: "frontend: build resources"
+
+  # Docker container builds
+  - script: './clean'
+    workingDirectory: "docker"
+    displayName: "docker: clean environment"
+  - script: './build'
+    workingDirectory: "docker"
+    displayName: "docker: build containers"
+  - script: './startd'
+    workingDirectory: "docker"
+    displayName: "docker: start stack"
+  - script: './startd && sleep 1m'
+    workingDirectory: "docker"
+    displayName: "docker: start stack (wait 1m)"
+    #   - script: 'curl -f http://localhost:80/'
+    #     workingDirectory: "docker"
+    #     displayName: "docker: test HTTP request to stack"
+  - script: './stop'
+    workingDirectory: "docker"
+    displayName: "docker: stop stack"
+  - script: './clean'
+    workingDirectory: "docker"
+    displayName: "docker: clean environment"
