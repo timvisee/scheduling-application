@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +15,8 @@ namespace webapp.Models
         public string Description { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
-        
+        // change to groepen > groepen links to people
+
         [ForeignKey("People")]
         public List<People> Peoples { get; set; }
     }

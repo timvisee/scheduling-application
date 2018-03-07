@@ -1,15 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapp", "webapp\webapp.csproj", "{1F023126-6494-4163-B63F-CD35748706BA}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapp", "webapp\webapp.csproj", "{1F023126-6494-4163-B63F-CD35748706BA}"
 EndProject
 Global
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.ActiveCfg = Laptop|Any CPU
-		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.Build.0 = Laptop|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Laptop|Any CPU = Laptop|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CEE38CA-CFC4-4F69-82EE-6E885ED39880}
 	EndGlobalSection
 EndGlobal
