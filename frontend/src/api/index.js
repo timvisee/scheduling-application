@@ -5,6 +5,7 @@
 import axios from 'axios';
 
 import apiEvent from './event';
+import apiParticipant from './participant';
 
 /**
  * API base object.
@@ -48,6 +49,7 @@ api.ajaxGet = function(endpoint) {
 
 // Add sub APIs
 api.event = apiEvent(api);
+api.participant = apiParticipant(api);
 
 // Export the whole API
 export default api;
