@@ -1,9 +1,9 @@
 <template>
     <div class="page-event">
 
-        <p v-if="loading">Loading...</p>
+        <p v-if="status.loading">Loading...</p>
 
-        <p v-else-if="error">ERROR!</p>
+        <p v-else-if="status.error">ERROR!</p>
 
         <div v-else>
             <h1>Event {{ headerSuffix }}</h1>
@@ -30,8 +30,10 @@ export default {
     data() {
         return {
             event: {},
-            loading: false,
-            error: null,
+            status: {
+                loading: false,
+                error: null,
+            },
         }
     },
     computed: {
@@ -46,28 +48,11 @@ export default {
     },
     methods: {
         fetchEvent() {
-            // Start the progress bar
-            this.$Progress.start();
-
-            // Set the loading and error state
-            this.loading = true, this.error = null;
-
             // Fetch the data
-            this.api.event.fetch(this.$route.params.id)
-                .then(data => {
-                    this.event = data;
-                    this.loading = false;
-
-                    // Finish the progress bar
-                    this.$Progress.finish();
-                })
-                .catch(err => {
-                    this.error = err;
-                    this.loading = false;
-
-                    // Fail the progress bar
-                    this.$Progress.fail();
-                });
+            this.api.event.fetch(this.$route.params.id, {
+                progress: this,
+                status: this.status,
+            }).then(data => this.event = data);
         }
     }
 }

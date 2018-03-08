@@ -3,9 +3,9 @@
 <template>
     <div class="event-view">
 
-        <p v-if="loading">Loading...</p>
+        <p v-if="status.loading">Loading...</p>
 
-        <p v-else-if="error">ERROR!</p>
+        <p v-else-if="status.error">ERROR!</p>
 
         <div v-else v-for="event in events">
             <event-item v-bind="event"></event-item>
@@ -27,8 +27,10 @@ export default {
     data() {
         return {
             events: [],
-            loading: false,
-            error: null,
+            status: {
+                loading: false,
+                error: null,
+            },
         }
     },
     components: {
@@ -36,29 +38,11 @@ export default {
     },
     methods: {
         fetchEvents() {
-            // Start the progress bar
-            // TODO: implement this globally for the whole API
-            this.$Progress.start();
-
-            // Set the loading and error state
-            this.loading = true, this.error = null;
-
             // Fetch the data
-            this.api.event.fetchAll()
-                .then(data => {
-                    this.events = data;
-                    this.loading = false;
-
-                    // Finish the progress bar
-                    this.$Progress.finish();
-                })
-                .catch(err => {
-                    this.error = err;
-                    this.loading = false;
-
-                    // Fail the progress bar
-                    this.$Progress.fail();
-                });
+            this.api.event.fetchAll({
+                progress: this,
+                status: this.status,
+            }).then(data => this.events = data);
         }
     }
 }
