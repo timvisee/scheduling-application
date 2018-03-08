@@ -12,7 +12,7 @@ cd scheduling-application
 
 Run the project locally:
 ```bash
-cd webapp
+cd backend
 
 # Restore all dependencies
 dotnet restore

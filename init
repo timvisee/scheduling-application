@@ -4,7 +4,7 @@
 set -e
 
 # Change into the application directory
-cd ./webapp
+cd ./backend
 
 # Restore dependencies
 echo "Restoring application dependencies..."
