@@ -1,11 +1,10 @@
 <template>
     <div class="page-event">
 
-        <p v-if="loading">Loading...</p>
+        <!-- A loading indicator -->
+        <status v-bind="status" />
 
-        <p v-else-if="error">ERROR!</p>
-
-        <div v-else>
+        <div v-if="status.ok">
             <h1>Event {{ headerSuffix }}</h1>
             <event :event="event" :editable="editable" />
 
@@ -18,11 +17,13 @@
 
 
 <script>
-import Event from '../components/events/Event'
+import Event from '../components/events/Event';
+import Status from '../components/Status.vue';
 
 export default {
     components: {
         Event,
+        Status,
     },
     props: [
         "editable"
@@ -30,8 +31,10 @@ export default {
     data() {
         return {
             event: {},
-            loading: false,
-            error: null,
+            status: {
+                loading: false,
+                error: null,
+            },
         }
     },
     computed: {
@@ -46,19 +49,12 @@ export default {
     },
     methods: {
         fetchEvent() {
-            // Set the loading and error state
-            this.loading = true, this.error = null;
-
-            // Fetch the event data
-            this.api.event.fetch(this.$route.params.id)
-                .then(data => this.event = data)
-                .catch(err => this.error = err)
-                .finally(() => this.loading = false);
+            // Fetch the data
+            this.api.event.fetch(this.$route.params.id, {
+                progress: this,
+                status: this.status,
+            }).then(data => this.event = data);
         }
-    }
+    },
 }
 </script>
-
-
-
-<style scoped lang="scss"></style>

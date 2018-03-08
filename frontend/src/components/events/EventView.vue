@@ -3,11 +3,10 @@
 <template>
     <div class="event-view">
 
-        <p v-if="loading">Loading...</p>
+        <!-- A loading indicator -->
+        <status v-bind="status" />
 
-        <p v-else-if="error">ERROR!</p>
-
-        <div v-else v-for="event in events">
+        <div v-if="status.ok" v-for="event in events">
             <event-item v-bind="event"></event-item>
         </div>
 
@@ -18,6 +17,7 @@
 
 <script>
 import EventItem from './EventItem.vue'
+import Status from './../Status.vue'
 
 export default {
     name: 'event-view',
@@ -27,38 +27,24 @@ export default {
     data() {
         return {
             events: [],
-            loading: false,
-            error: null,
+            status: {
+                loading: false,
+                error: null,
+                ok: false,
+            },
         }
     },
     components: {
         EventItem,
+        Status,
     },
     methods: {
         fetchEvents() {
-            // Start the progress bar
-            // TODO: implement this globally for the whole API
-            this.$Progress.start();
-
-            // Set the loading and error state
-            this.loading = true, this.error = null;
-
             // Fetch the data
-            this.api.event.fetchAll()
-                .then(data => {
-                    this.events = data;
-                    this.loading = false;
-
-                    // Finish the progress bar
-                    this.$Progress.finish();
-                })
-                .catch(err => {
-                    this.error = err;
-                    this.loading = false;
-
-                    // Fail the progress bar
-                    this.$Progress.fail();
-                });
+            this.api.event.fetchAll({
+                progress: this,
+                status: this.status,
+            }).then(data => this.events = data);
         }
     }
 }
