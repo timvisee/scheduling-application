@@ -1,11 +1,10 @@
 <template>
     <div class="page-event">
 
-        <p v-if="status.loading">Loading...</p>
+        <!-- A loading indicator -->
+        <status v-bind="status" />
 
-        <p v-else-if="status.error">ERROR!</p>
-
-        <div v-else>
+        <div v-if="status.ok">
             <h1>Event {{ headerSuffix }}</h1>
             <event :event="event" :editable="editable" />
 
@@ -18,11 +17,13 @@
 
 
 <script>
-import Event from '../components/events/Event'
+import Event from '../components/events/Event';
+import Status from '../components/Status.vue';
 
 export default {
     components: {
         Event,
+        Status,
     },
     props: [
         "editable"
@@ -54,10 +55,6 @@ export default {
                 status: this.status,
             }).then(data => this.event = data);
         }
-    }
+    },
 }
 </script>
-
-
-
-<style scoped lang="scss"></style>

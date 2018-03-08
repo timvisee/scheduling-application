@@ -3,11 +3,10 @@
 <template>
     <div class="event-view">
 
-        <p v-if="status.loading">Loading...</p>
+        <!-- A loading indicator -->
+        <status v-bind="status" />
 
-        <p v-else-if="status.error">ERROR!</p>
-
-        <div v-else v-for="event in events">
+        <div v-if="status.ok" v-for="event in events">
             <event-item v-bind="event"></event-item>
         </div>
 
@@ -18,6 +17,7 @@
 
 <script>
 import EventItem from './EventItem.vue'
+import Status from './../Status.vue'
 
 export default {
     name: 'event-view',
@@ -30,11 +30,13 @@ export default {
             status: {
                 loading: false,
                 error: null,
+                ok: false,
             },
         }
     },
     components: {
         EventItem,
+        Status,
     },
     methods: {
         fetchEvents() {

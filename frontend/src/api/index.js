@@ -65,8 +65,11 @@ api.ajaxGet = function(endpoint, options) {
             options.progress.$Progress.start();
 
         // Update the status
-        if(options.status)
-            options.status.loading = true, options.status.error = null;
+        if(options.status) {
+            options.status.loading = true;
+            options.status.error = null;
+            options.status.ok = false;
+        }
 
         // Make the request
         axios.get(api.getUrl(endpoint))
@@ -80,7 +83,7 @@ api.ajaxGet = function(endpoint, options) {
 
                 // Update the status
                 if(options.status)
-                    options.status.loading = false;
+                    options.status.loading = false, options.status.ok = true;
             })
             .catch(error => {
                 // Report the error, and continue
