@@ -1,4 +1,4 @@
-﻿namespace webapp.Types
+﻿namespace backend.Types
 {
     public enum Role
     {
@@ -8,7 +8,7 @@
         ReadOnly = 1,
 
         // A basic role.
-        // 
+        //
         // A user with this role can:
         // - everything a ReadOnly user can
         // - create a new event, with approval

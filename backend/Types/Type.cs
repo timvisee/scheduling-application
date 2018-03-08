@@ -1,4 +1,4 @@
-﻿namespace webapp.Types
+﻿namespace backend.Types
 {
     public enum Type
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace webapp.Models
+namespace backend.Models
 {
     [Table("locations")]
     public class Location

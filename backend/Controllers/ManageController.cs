@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using webapp.Models;
-using webapp.Models.ManageViewModels;
-using webapp.Services;
+using backend.Models;
+using backend.Models.ManageViewModels;
+using backend.Services;
 
-namespace webapp.Controllers
+namespace backend.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -522,7 +522,7 @@ namespace webapp.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("webapp"),
+                _urlEncoder.Encode("backend"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -1,18 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using webapp.Types;
+using backend.Types;
 
-namespace webapp.Models
+namespace backend.Models
 {
     [Table("users")]
     public class User
     {
         [Key]
         public int UserId { get; set; }
-        
+
         [ForeignKey("People")]
         public int People { get; set; }
-        
+
         public string FirstName { get; set; }
         public string Infix { get; set; }
         public string LastName { get; set; }
@@ -22,6 +22,6 @@ namespace webapp.Models
         public Role Role { get; set; }
         public bool Deleted { get; set; }
 
-        
+
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace webapp
+namespace backend
 {
     /**
      * This configuration is used to manage the application configuration,
@@ -52,7 +52,7 @@ namespace webapp
             String envVar = Environment.GetEnvironmentVariable(envKey);
             if (envVar != null)
                 return envVar;
-            
+
             // Get the key from the configuration
             String configVar = this.config[configKey];
             if (configVar != null)

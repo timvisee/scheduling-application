@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace webapp
+namespace backend
 {
     public class Program
     {
@@ -37,7 +37,7 @@ namespace webapp
 
             // Get the host
             var envProperty = config.GetProperty("Environment");
-            
+
             switch (envProperty)
             {
                 case "Development":

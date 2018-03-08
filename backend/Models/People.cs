@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace webapp.Models
+namespace backend.Models
 {
     [Table("people")]
     public class People
     {
-        [Key] 
+        [Key]
         public int PeopleId { get; set; }
     }
 }

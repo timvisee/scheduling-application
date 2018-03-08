@@ -8,11 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using webapp.Models;
-using webapp.Data;
-using webapp.Services;
+using backend.Models;
+using backend.Data;
+using backend.Services;
 
-namespace webapp
+namespace backend
 {
     public class Startup
     {

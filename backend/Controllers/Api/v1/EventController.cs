@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using webapp.Data;
-using webapp.Models;
+using backend.Data;
+using backend.Models;
 
-namespace webapp
+namespace backend
 {
     [Produces("application/json")]
     [Route("api/v1/[controller]")]

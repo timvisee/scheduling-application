@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using webapp.Data;
-using webapp.Types;
+using backend.Data;
+using backend.Types;
 
-namespace webapp.Data.Migrations
+namespace backend.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20180307111654_new_db_migration")]
@@ -130,7 +130,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("webapp.Models.ApplicationUser", b =>
+            modelBuilder.Entity("backend.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -181,7 +181,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("webapp.Models.Event", b =>
+            modelBuilder.Entity("backend.Models.Event", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd();
@@ -199,7 +199,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("events");
                 });
 
-            modelBuilder.Entity("webapp.Models.Group", b =>
+            modelBuilder.Entity("backend.Models.Group", b =>
                 {
                     b.Property<int>("GroupId")
                         .ValueGeneratedOnAdd();
@@ -213,7 +213,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("groups");
                 });
 
-            modelBuilder.Entity("webapp.Models.Location", b =>
+            modelBuilder.Entity("backend.Models.Location", b =>
                 {
                     b.Property<int>("LocationId")
                         .ValueGeneratedOnAdd();
@@ -231,7 +231,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("locations");
                 });
 
-            modelBuilder.Entity("webapp.Models.People", b =>
+            modelBuilder.Entity("backend.Models.People", b =>
                 {
                     b.Property<int>("PeopleId")
                         .ValueGeneratedOnAdd();
@@ -245,7 +245,7 @@ namespace webapp.Data.Migrations
                     b.ToTable("people");
                 });
 
-            modelBuilder.Entity("webapp.Models.User", b =>
+            modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
@@ -285,7 +285,7 @@ namespace webapp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("webapp.Models.ApplicationUser")
+                    b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -293,7 +293,7 @@ namespace webapp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("webapp.Models.ApplicationUser")
+                    b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -306,7 +306,7 @@ namespace webapp.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("webapp.Models.ApplicationUser")
+                    b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -314,22 +314,22 @@ namespace webapp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("webapp.Models.ApplicationUser")
+                    b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("webapp.Models.People", b =>
+            modelBuilder.Entity("backend.Models.People", b =>
                 {
-                    b.HasOne("webapp.Models.Event")
+                    b.HasOne("backend.Models.Event")
                         .WithMany("Peoples")
                         .HasForeignKey("People");
                 });
 
-            modelBuilder.Entity("webapp.Models.User", b =>
+            modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.HasOne("webapp.Models.Group")
+                    b.HasOne("backend.Models.Group")
                         .WithMany("Users")
                         .HasForeignKey("User");
                 });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace webapp.Data.Migrations
+namespace backend.Data.Migrations
 {
     public partial class new_db_migration : Migration
     {

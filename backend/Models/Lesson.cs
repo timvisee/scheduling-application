@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webapp.Models
+namespace backend.Models
 {
     public class Lesson : Event
     {
@@ -15,7 +15,7 @@ namespace webapp.Models
         public int EventId { get; set; }
         public DateTime DTSTAMP { get; set; }
         public string UID { get; set; }
-   
-   
+
+
     }
 }
