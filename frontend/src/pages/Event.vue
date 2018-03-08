@@ -46,14 +46,28 @@ export default {
     },
     methods: {
         fetchEvent() {
+            // Start the progress bar
+            this.$Progress.start();
+
             // Set the loading and error state
             this.loading = true, this.error = null;
 
-            // Fetch the event data
+            // Fetch the data
             this.api.event.fetch(this.$route.params.id)
-                .then(data => this.event = data)
-                .catch(err => this.error = err)
-                .finally(() => this.loading = false);
+                .then(data => {
+                    this.event = data;
+                    this.loading = false;
+
+                    // Finish the progress bar
+                    this.$Progress.finish();
+                })
+                .catch(err => {
+                    this.error = err;
+                    this.loading = false;
+
+                    // Fail the progress bar
+                    this.$Progress.fail();
+                });
         }
     }
 }
