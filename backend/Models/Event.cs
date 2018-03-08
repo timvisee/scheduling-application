@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Server.Kestrel.Internal.System.Collections.Sequences;
+using webapp.Models;
 
 namespace backend.Models
 {
@@ -19,5 +20,7 @@ namespace backend.Models
 
         [ForeignKey("People")]
         public List<People> Peoples { get; set; }
+
+        public ICollection <EventLocation> EventLocations { get; set; }
     }
 }
