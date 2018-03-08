@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using webapp.Models;
 
 namespace backend.Models
 {
@@ -12,5 +14,7 @@ namespace backend.Models
         public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        public ICollection <EventLocation> EventLocations { get; set; }
     }
 }
