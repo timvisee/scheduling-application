@@ -71,8 +71,8 @@ namespace backend.Controllers
             {
                 var ev = new Event
                 {
-                    DateStart = new DateTime(2018, 1, 1, 8 + i, 0, 0, 0),
-                    DateEnd = new DateTime(2018, 1, 1, 9 + i, 0, 0, 0),
+                    Start = new DateTime(2018, 1, 1, 8 + i, 0, 0, 0),
+                    End = new DateTime(2018, 1, 1, 9 + i, 0, 0, 0),
                     Description = "Description of the event",
                     Title = "Title of Event",
                     //TODO List of people

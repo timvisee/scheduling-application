@@ -6,6 +6,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import apiEvent from './event';
+import apiPeople from './people';
 
 /**
  * API base object.
@@ -105,6 +106,7 @@ api.ajaxGet = function(endpoint, options) {
 
 // Add sub APIs
 api.event = apiEvent(api);
+api.people = apiPeople(api);
 
 // Export the whole API
 export default api;
