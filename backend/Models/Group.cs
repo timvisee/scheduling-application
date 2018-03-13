@@ -9,7 +9,7 @@ namespace backend.Models
     {
         [Key]
         [ForeignKey("People")]
-        public int People { get; set; }
+        public int PeopleId { get; set; }
         
         public string Name { get; set; }
 
