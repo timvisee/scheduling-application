@@ -13,8 +13,6 @@ namespace backend.Models
         public int PeopleId { get; set; }
         public string Name { get; set; }
 
-        
-
         [ForeignKey("User")]
         public List<User> Users { get; set; }
     }
