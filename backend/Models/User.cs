@@ -19,7 +19,5 @@ namespace backend.Models
         public Type Type { get; set; }
         public Role Role { get; set; }
         public bool Deleted { get; set; }
-
-
     }
 }
