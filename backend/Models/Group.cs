@@ -9,11 +9,11 @@ namespace backend.Models
     public class Group
     {
         [Key]
-        public int GroupId { get; set; }
+        [ForeignKey("People")]
+        public int PeopleId { get; set; }
         public string Name { get; set; }
 
-        [ForeignKey("People")]
-        public int People { get; set; }
+        
 
         [ForeignKey("User")]
         public List<User> Users { get; set; }
