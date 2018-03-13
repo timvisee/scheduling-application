@@ -14,6 +14,6 @@ namespace backend.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         
-        public ICollection <EventLocation> EventLocations { get; set; }
+        public ICollection <EventLocation> Events { get; set; }
     }
 }

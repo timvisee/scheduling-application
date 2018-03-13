@@ -24,12 +24,12 @@ namespace backend.Data
 
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Location)
-                .WithMany(e => e.EventLocations)
+                .WithMany(e => e.Events)
                 .HasForeignKey(el => el.LocationId);
 
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Event)
-                .WithMany(e => e.EventLocations)
+                .WithMany(e => e.Locations)
                 .HasForeignKey(el => el.EventId);
 
             base.OnModelCreating(builder);
