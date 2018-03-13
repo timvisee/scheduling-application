@@ -11,20 +11,22 @@ export default (api) => {
     * Fetch a list of all events.
     *
     * @param {int} id Event ID.
+    * @param {AjaxOptions} [options] Ajax options.
     * @return Promise.
     */
-    event.fetchAll = function() {
-        return api.ajaxGet("event/list");
+    event.fetchAll = function(options) {
+        return api.ajaxGet("event/list", options);
     };
 
     /**
     * Fetch properties of a specific event.
     *
     * @param {int} id Event ID.
+    * @param {AjaxOptions} [options] Ajax options.
     * @return Promise.
     */
-    event.fetch = function(id) {
-        return api.ajaxGet("event/details/" + id);
+    event.fetch = function(id, options) {
+        return api.ajaxGet("event/details/" + id, options);
     };
 
     // Return the event API

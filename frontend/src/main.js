@@ -18,7 +18,7 @@ Vue.mixin({
 const options = {
     color: '#4863A0',
     failedColor: '#B31D1D',
-    thickness: '2px',
+    thickness: '3px',
     transition: {
         speed: '0.2s',
         opacity: '0.6s',

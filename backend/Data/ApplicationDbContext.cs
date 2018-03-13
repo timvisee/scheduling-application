@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
-using webapp.Models;
 
 namespace backend.Data
 {
@@ -30,12 +25,12 @@ namespace backend.Data
 
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Location)
-                .WithMany(e => e.EventLocations)
+                .WithMany(e => e.Events)
                 .HasForeignKey(el => el.LocationId);
 
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Event)
-                .WithMany(e => e.EventLocations)
+                .WithMany(e => e.Locations)
                 .HasForeignKey(el => el.EventId);
 
             base.OnModelCreating(builder);

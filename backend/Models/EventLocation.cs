@@ -1,6 +1,4 @@
-﻿using backend.Models;
-
-namespace webapp.Models
+﻿namespace backend.Models
 {
     public class EventLocation
     {
