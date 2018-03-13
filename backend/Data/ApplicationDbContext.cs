@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
-using webapp.Models;
 
 namespace backend.Data
 {
@@ -15,8 +10,6 @@ namespace backend.Data
             : base(options)
         {
         }
-
-
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
