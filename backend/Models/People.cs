@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
@@ -14,11 +16,14 @@ namespace backend.Models
         /// </summary>
         public HashSet<User> GetUsers()
         {
+            // Create a user set
+            HashSet<User> users = new HashSet<User>();
+
             // If this is an user instance, return it as a list
-            if(this is User)
-                return new HashSet<User>() {
-                    this
-                };
+            if(this is User) {
+                users.Add((User) this);
+                return users;
+            }
 
             // If not a user, the model must be a group instance
             if(!(this is Group))
@@ -28,14 +33,13 @@ namespace backend.Models
 
             // Get the group instance, build a user list
             Group group = (Group) this;
-            HashSet<User> users = new HashSet<User>();
 
             // Loop through all group people, fold it's users
             foreach(var people in group.Peoples)
-                users.AddRange(
+                users.UnionWith(
                     people.GetUsers()
                 );
-            
+
             return users;
         }
     }
