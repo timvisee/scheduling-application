@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic.HashSet;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
@@ -35,7 +36,7 @@ namespace backend.Models
                 users.AddRange(
                     people.GetUsers()
                 );
-            
+
             return users;
         }
     }
