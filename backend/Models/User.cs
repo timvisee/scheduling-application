@@ -6,7 +6,7 @@ using backend.Types;
 namespace backend.Models
 {
     [Table("users")]
-    public class User
+    public class User : People
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
