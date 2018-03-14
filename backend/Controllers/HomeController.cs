@@ -45,7 +45,7 @@ namespace backend.Controllers
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
-        public void SeedDb()
+        public void Seed()
         {
 //          delete all existing data
             Console.WriteLine("Deleting all data...");
