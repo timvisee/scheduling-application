@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,22 +10,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class LocationController : Controller
+    public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public LocationController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Location
+        // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            return View(await _context.Events.ToListAsync());
         }
 
-        // GET: Location/Details/5
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations
-                .SingleOrDefaultAsync(m => m.LocationId == id);
-            if (location == null)
+            var @event = await _context.Events
+                .SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(location);
+            return View(@event);
         }
 
-        // GET: Location/Create
+        // GET: Events/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Location/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Events/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
+        public async Task<IActionResult> Create([Bind("EventId,Title,Description,Start,End")] Event @event)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(location);
+                _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(location);
+            return View(@event);
         }
 
-        // GET: Location/Edit/5
+        // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
-            if (location == null)
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
-            return View(location);
+            return View(@event);
         }
 
-        // POST: Location/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Events/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,Title,Description,Start,End")] Event @event)
         {
-            if (id != location.LocationId)
+            if (id != @event.EventId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(location);
+                    _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LocationExists(location.LocationId))
+                    if (!EventExists(@event.EventId))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace backend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(location);
+            return View(@event);
         }
 
-        // GET: Location/Delete/5
+        // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations
-                .SingleOrDefaultAsync(m => m.LocationId == id);
-            if (location == null)
+            var @event = await _context.Events
+                .SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(location);
+            return View(@event);
         }
 
-        // POST: Location/Delete/5
+        // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
-            _context.Locations.Remove(location);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LocationExists(int id)
+        private bool EventExists(int id)
         {
-            return _context.Locations.Any(e => e.LocationId == id);
+            return _context.Events.Any(e => e.EventId == id);
         }
     }
 }
