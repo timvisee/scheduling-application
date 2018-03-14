@@ -11,9 +11,7 @@ namespace backend.Models
         [Key]
         public int PeopleId { get; set; }
 
-        /// <summary>
         /// Get a set of users represented by this people model.
-        /// </summary>
         public HashSet<User> GetUsers()
         {
             // Create a user set
