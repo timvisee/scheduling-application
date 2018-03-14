@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,22 +10,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class GroupController : Controller
+    public class GroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public GroupController(ApplicationDbContext context)
+        public GroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Group
+        // GET: Groups
         public async Task<IActionResult> Index()
         {
             return View(await _context.Groups.ToListAsync());
         }
 
-        // GET: Group/Details/5
+        // GET: Groups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,14 +43,14 @@ namespace backend.Controllers
             return View(@group);
         }
 
-        // GET: Group/Create
+        // GET: Groups/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Group/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Groups/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -65,7 +65,7 @@ namespace backend.Controllers
             return View(@group);
         }
 
-        // GET: Group/Edit/5
+        // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,8 +81,8 @@ namespace backend.Controllers
             return View(@group);
         }
 
-        // POST: Group/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Groups/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -116,7 +116,7 @@ namespace backend.Controllers
             return View(@group);
         }
 
-        // GET: Group/Delete/5
+        // GET: Groups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace backend.Controllers
             return View(@group);
         }
 
-        // POST: Group/Delete/5
+        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

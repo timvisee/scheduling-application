@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,23 +10,23 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class EventLocationController : Controller
+    public class EventLocationsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventLocationController(ApplicationDbContext context)
+        public EventLocationsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: EventLocation
+        // GET: EventLocations
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.EventLocations.Include(e => e.Event).Include(e => e.Location);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: EventLocation/Details/5
+        // GET: EventLocations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,7 +46,7 @@ namespace backend.Controllers
             return View(eventLocation);
         }
 
-        // GET: EventLocation/Create
+        // GET: EventLocations/Create
         public IActionResult Create()
         {
             ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId");
@@ -54,8 +54,8 @@ namespace backend.Controllers
             return View();
         }
 
-        // POST: EventLocation/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: EventLocations/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,7 +72,7 @@ namespace backend.Controllers
             return View(eventLocation);
         }
 
-        // GET: EventLocation/Edit/5
+        // GET: EventLocations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,8 +90,8 @@ namespace backend.Controllers
             return View(eventLocation);
         }
 
-        // POST: EventLocation/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: EventLocations/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,7 +127,7 @@ namespace backend.Controllers
             return View(eventLocation);
         }
 
-        // GET: EventLocation/Delete/5
+        // GET: EventLocations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,7 +147,7 @@ namespace backend.Controllers
             return View(eventLocation);
         }
 
-        // POST: EventLocation/Delete/5
+        // POST: EventLocations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
