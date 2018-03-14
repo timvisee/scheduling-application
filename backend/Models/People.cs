@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace backend.Models
 {
     [Table("people")]
-    public abstract class People
+    public class People
     {
         [Key]
         public int PeopleId { get; set; }
