@@ -35,10 +35,11 @@ namespace backend.Models
             Group group = (Group) this;
 
             // Loop through all group people, fold it's users
-            foreach(var people in group.Peoples)
-                users.UnionWith(
-                    people.GetUsers()
-                );
+            //TODO needs to be fixed
+//            foreach(var people in group.Peoples)
+//                users.UnionWith(
+//                    people.GetUsers()
+//                );
 
             return users;
         }
