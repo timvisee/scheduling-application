@@ -45,3 +45,6 @@ launchSettings.json
 # Dependencies, vendored and distribution files
 node_modules/
 dist/
+
+#npm debug
+npm-debug.log

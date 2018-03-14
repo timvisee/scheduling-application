@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180314130057_database_init_build")]
+    partial class database_init_build
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,10 +92,6 @@ namespace backend.Migrations
                 });
 
             modelBuilder.Entity("backend.Models.EventLocation", b =>
-<<<<<<< HEAD:backend/Migrations/ApplicationDbContextModelSnapshot.cs
-                {
-                    b.Property<int>("EventId");
-=======
                 {
                     b.Property<int>("EventId");
 
@@ -111,19 +107,12 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Group", b =>
                 {
                     b.Property<int>("PeopleId");
->>>>>>> origin/master:backend/Migrations/ApplicationDbContextModelSnapshot.cs
 
-                    b.Property<int>("LocationId");
+                    b.Property<string>("Name");
 
-<<<<<<< HEAD:backend/Migrations/ApplicationDbContextModelSnapshot.cs
-                    b.HasKey("EventId", "LocationId");
-
-                    b.HasIndex("LocationId");
-=======
                     b.HasKey("PeopleId");
->>>>>>> origin/master:backend/Migrations/ApplicationDbContextModelSnapshot.cs
 
-                    b.ToTable("EventLocation");
+                    b.ToTable("groups");
                 });
 
             modelBuilder.Entity("backend.Models.Location", b =>
@@ -149,9 +138,6 @@ namespace backend.Migrations
                     b.Property<int>("PeopleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<int?>("People");
 
                     b.HasKey("PeopleId");
@@ -159,10 +145,6 @@ namespace backend.Migrations
                     b.HasIndex("People");
 
                     b.ToTable("people");
-<<<<<<< HEAD:backend/Migrations/ApplicationDbContextModelSnapshot.cs
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("People");
-=======
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -199,7 +181,6 @@ namespace backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserGroups");
->>>>>>> origin/master:backend/Migrations/ApplicationDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -310,41 +291,6 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-<<<<<<< HEAD:backend/Migrations/ApplicationDbContextModelSnapshot.cs
-            modelBuilder.Entity("backend.Models.Group", b =>
-                {
-                    b.HasBaseType("backend.Models.People");
-
-                    b.Property<string>("Name");
-
-                    b.ToTable("groups");
-
-                    b.HasDiscriminator().HasValue("Group");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.HasBaseType("backend.Models.People");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Infix");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Locale");
-
-                    b.Property<int>("Role");
-
-                    b.Property<int>("Type");
-
-                    b.ToTable("users");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
@@ -352,15 +298,6 @@ namespace backend.Migrations
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-=======
-            modelBuilder.Entity("backend.Models.EventLocation", b =>
-                {
-                    b.HasOne("backend.Models.Event", "Event")
-                        .WithMany("Locations")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
->>>>>>> origin/master:backend/Migrations/ApplicationDbContextModelSnapshot.cs
                     b.HasOne("backend.Models.Location", "Location")
                         .WithMany("Events")
                         .HasForeignKey("LocationId")
@@ -372,12 +309,8 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Event")
                         .WithMany("Peoples")
                         .HasForeignKey("People");
+                });
 
-<<<<<<< HEAD:backend/Migrations/ApplicationDbContextModelSnapshot.cs
-                    b.HasOne("backend.Models.Group")
-                        .WithMany("Peoples")
-                        .HasForeignKey("People");
-=======
             modelBuilder.Entity("backend.Models.UserGroup", b =>
                 {
                     b.HasOne("backend.Models.Group", "Group")
@@ -389,7 +322,6 @@ namespace backend.Migrations
                         .WithMany("Groups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
->>>>>>> origin/master:backend/Migrations/ApplicationDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

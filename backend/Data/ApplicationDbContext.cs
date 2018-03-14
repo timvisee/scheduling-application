@@ -17,6 +17,10 @@ namespace backend.Data
         public DbSet<People> Peoples { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<EventLocation> EventLocations { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<EventLocation>()
@@ -31,6 +35,19 @@ namespace backend.Data
                 .HasOne(el => el.Event)
                 .WithMany(e => e.Locations)
                 .HasForeignKey(el => el.EventId);
+
+            builder.Entity<UserGroup>()
+                .HasKey(el => new { el.GroupId, el.UserId});
+
+            builder.Entity<UserGroup>()
+                .HasOne(el => el.User)
+                .WithMany(e => e.Groups)
+                .HasForeignKey(el => el.UserId);
+
+            builder.Entity<UserGroup>()
+                .HasOne(el => el.Group)
+                .WithMany(e => e.Users)
+                .HasForeignKey(el => el.GroupId);
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

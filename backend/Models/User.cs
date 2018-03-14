@@ -1,4 +1,4 @@
-using backend.Types;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +8,7 @@ namespace backend.Models
     public class User : People
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [ForeignKey("People")]
         public int PeopleId { get; set; }
 
@@ -19,5 +20,8 @@ namespace backend.Models
         public Type Type { get; set; }
         public Role Role { get; set; }
         public bool Deleted { get; set; }
+
+        public ICollection <UserGroup> Groups { get; set; }
+
     }
 }
