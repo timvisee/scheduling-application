@@ -10,22 +10,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class PeopleController : Controller
+    public class LocationController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PeopleController(ApplicationDbContext context)
+        public LocationController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Location
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peoples.ToListAsync());
+            return View(await _context.Locations.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Location/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var location = await _context.Locations
+                .SingleOrDefaultAsync(m => m.LocationId == id);
+            if (location == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(location);
         }
 
-        // GET: People/Create
+        // GET: Location/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
+        // POST: Location/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PeopleId")] People people)
+        public async Task<IActionResult> Create([Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(people);
+                _context.Add(location);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(people);
+            return View(location);
         }
 
-        // GET: People/Edit/5
+        // GET: Location/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
+            if (location == null)
             {
                 return NotFound();
             }
-            return View(people);
+            return View(location);
         }
 
-        // POST: People/Edit/5
+        // POST: Location/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PeopleId")] People people)
+        public async Task<IActionResult> Edit(int id, [Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
         {
-            if (id != people.PeopleId)
+            if (id != location.LocationId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(people);
+                    _context.Update(location);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeopleExists(people.PeopleId))
+                    if (!LocationExists(location.LocationId))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace backend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(people);
+            return View(location);
         }
 
-        // GET: People/Delete/5
+        // GET: Location/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var location = await _context.Locations
+                .SingleOrDefaultAsync(m => m.LocationId == id);
+            if (location == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(location);
         }
 
-        // POST: People/Delete/5
+        // POST: Location/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
-            _context.Peoples.Remove(people);
+            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
+            _context.Locations.Remove(location);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PeopleExists(int id)
+        private bool LocationExists(int id)
         {
-            return _context.Peoples.Any(e => e.PeopleId == id);
+            return _context.Locations.Any(e => e.LocationId == id);
         }
     }
 }

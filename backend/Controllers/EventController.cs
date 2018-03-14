@@ -10,22 +10,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class PeopleController : Controller
+    public class EventController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PeopleController(ApplicationDbContext context)
+        public EventController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Event
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peoples.ToListAsync());
+            return View(await _context.Events.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Event/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var @event = await _context.Events
+                .SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(@event);
         }
 
-        // GET: People/Create
+        // GET: Event/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
+        // POST: Event/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PeopleId")] People people)
+        public async Task<IActionResult> Create([Bind("EventId,Title,Description,Start,End")] Event @event)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(people);
+                _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(people);
+            return View(@event);
         }
 
-        // GET: People/Edit/5
+        // GET: Event/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
-            return View(people);
+            return View(@event);
         }
 
-        // POST: People/Edit/5
+        // POST: Event/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PeopleId")] People people)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,Title,Description,Start,End")] Event @event)
         {
-            if (id != people.PeopleId)
+            if (id != @event.EventId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(people);
+                    _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeopleExists(people.PeopleId))
+                    if (!EventExists(@event.EventId))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace backend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(people);
+            return View(@event);
         }
 
-        // GET: People/Delete/5
+        // GET: Event/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
-            if (people == null)
+            var @event = await _context.Events
+                .SingleOrDefaultAsync(m => m.EventId == id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(@event);
         }
 
-        // POST: People/Delete/5
+        // POST: Event/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
-            _context.Peoples.Remove(people);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PeopleExists(int id)
+        private bool EventExists(int id)
         {
-            return _context.Peoples.Any(e => e.PeopleId == id);
+            return _context.Events.Any(e => e.EventId == id);
         }
     }
 }
