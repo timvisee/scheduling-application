@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
-namespace backend.Data.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -77,11 +78,11 @@ namespace backend.Data.Migrations
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateEnd");
-
-                    b.Property<DateTime>("DateStart");
-
                     b.Property<string>("Description");
+
+                    b.Property<DateTime>("End");
+
+                    b.Property<DateTime>("Start");
 
                     b.Property<string>("Title");
 
@@ -90,18 +91,17 @@ namespace backend.Data.Migrations
                     b.ToTable("events");
                 });
 
-            modelBuilder.Entity("backend.Models.Group", b =>
+            modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
-                    b.Property<int>("GroupId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("EventId");
 
-                    b.Property<string>("Name");
+                    b.Property<int>("LocationId");
 
-                    b.Property<int>("People");
+                    b.HasKey("EventId", "LocationId");
 
-                    b.HasKey("GroupId");
+                    b.HasIndex("LocationId");
 
-                    b.ToTable("groups");
+                    b.ToTable("EventLocation");
                 });
 
             modelBuilder.Entity("backend.Models.Location", b =>
@@ -127,6 +127,9 @@ namespace backend.Data.Migrations
                     b.Property<int>("PeopleId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<int?>("People");
 
                     b.HasKey("PeopleId");
@@ -134,36 +137,8 @@ namespace backend.Data.Migrations
                     b.HasIndex("People");
 
                     b.ToTable("people");
-                });
 
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Infix");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Locale");
-
-                    b.Property<int>("People");
-
-                    b.Property<int>("Role");
-
-                    b.Property<int>("Type");
-
-                    b.Property<int?>("User");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("User");
-
-                    b.ToTable("users");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("People");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -274,17 +249,51 @@ namespace backend.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("webapp.Models.EventLocation", b =>
+            modelBuilder.Entity("backend.Models.Group", b =>
                 {
-                    b.Property<int>("EventId");
+                    b.HasBaseType("backend.Models.People");
 
-                    b.Property<int>("LocationId");
+                    b.Property<string>("Name");
 
-                    b.HasKey("EventId", "LocationId");
+                    b.ToTable("groups");
 
-                    b.HasIndex("LocationId");
+                    b.HasDiscriminator().HasValue("Group");
+                });
 
-                    b.ToTable("EventLocation");
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.HasBaseType("backend.Models.People");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Infix");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Locale");
+
+                    b.Property<int>("Role");
+
+                    b.Property<int>("Type");
+
+                    b.ToTable("users");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
+            modelBuilder.Entity("backend.Models.EventLocation", b =>
+                {
+                    b.HasOne("backend.Models.Event", "Event")
+                        .WithMany("Locations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.Location", "Location")
+                        .WithMany("Events")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("backend.Models.People", b =>
@@ -292,13 +301,10 @@ namespace backend.Data.Migrations
                     b.HasOne("backend.Models.Event")
                         .WithMany("Peoples")
                         .HasForeignKey("People");
-                });
 
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
                     b.HasOne("backend.Models.Group")
-                        .WithMany("Users")
-                        .HasForeignKey("User");
+                        .WithMany("Peoples")
+                        .HasForeignKey("People");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -343,19 +349,6 @@ namespace backend.Data.Migrations
                     b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("webapp.Models.EventLocation", b =>
-                {
-                    b.HasOne("backend.Models.Event", "Event")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("backend.Models.Location", "Location")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
