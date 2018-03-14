@@ -8,8 +8,7 @@ using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Types;
-using webapp.Models;
-using Type = System.Type;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -50,13 +49,13 @@ namespace backend.Controllers
 //          delete all existing data
             Console.WriteLine("Deleting all data...");
             _context.Users.Clear();
+            _context.Peoples.Clear();
             _context.Locations.Clear();
             _context.Events.Clear();
             _context.EventLocations.Clear();
             _context.SaveChanges();
 
-            //seed
-            Console.WriteLine("Generating users..");
+            Console.WriteLine("Generating users and people..");
             for (var i = 0; i < 10; i++)
             {
                 var user = new User
@@ -65,12 +64,14 @@ namespace backend.Controllers
                     Infix = " ",
                     LastName = "lastName" + i,
                     Locale = "nl_NL",
-                    //TODO PEOPLE parameter here
                     Type = Types.Type.Student,
                     Role = Role.Basic
                 };
+
+                _context.Peoples.Add(new People{PeopleId = user.PeopleId});
                 _context.Users.Add(user);
             }
+            _context.SaveChanges();
 
             Console.WriteLine("Generating locations..");
             var locations = 4;
