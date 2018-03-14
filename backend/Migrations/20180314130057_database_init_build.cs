@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace backend.Migrations
 {
-    public partial class init_db : Migration
+    public partial class database_init_build : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,13 +68,12 @@ namespace backend.Migrations
                 name: "groups",
                 columns: table => new
                 {
-                    People = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PeopleId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_groups", x => x.People);
+                    table.PrimaryKey("PK_groups", x => x.PeopleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +90,24 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_locations", x => x.LocationId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    PeopleId = table.Column<int>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    Infix = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Locale = table.Column<string>(nullable: true),
+                    Role = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.PeopleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,32 +236,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    PeopleId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Deleted = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    Infix = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Locale = table.Column<string>(nullable: true),
-                    Role = table.Column<int>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
-                    User = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.PeopleId);
-                    table.ForeignKey(
-                        name: "FK_users_groups_User",
-                        column: x => x.User,
-                        principalTable: "groups",
-                        principalColumn: "People",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EventLocations",
                 columns: table => new
                 {
@@ -265,6 +256,30 @@ namespace backend.Migrations
                         column: x => x.LocationId,
                         principalTable: "locations",
                         principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserGroups",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGroups", x => new { x.GroupId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserGroups_groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "groups",
+                        principalColumn: "PeopleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserGroups_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "PeopleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -318,9 +333,9 @@ namespace backend.Migrations
                 column: "People");
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_User",
-                table: "users",
-                column: "User");
+                name: "IX_UserGroups_UserId",
+                table: "UserGroups",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -347,7 +362,7 @@ namespace backend.Migrations
                 name: "people");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "UserGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -363,6 +378,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "groups");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

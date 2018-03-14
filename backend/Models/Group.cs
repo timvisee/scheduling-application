@@ -8,12 +8,12 @@ namespace backend.Models
     public class Group
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [ForeignKey("People")]
-        public int People { get; set; }
-        
+        public int PeopleId { get; set; }
+
         public string Name { get; set; }
 
-        [ForeignKey("User")]
-        public List<User> Users { get; set; }
+        public ICollection <UserGroup> Users { get; set; }
     }
 }

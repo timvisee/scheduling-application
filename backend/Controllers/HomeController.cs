@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Extensions;
@@ -50,28 +51,59 @@ namespace backend.Controllers
             Console.WriteLine("Deleting all data...");
             _context.Users.Clear();
             _context.Peoples.Clear();
+            _context.Groups.Clear();
             _context.Locations.Clear();
             _context.Events.Clear();
             _context.EventLocations.Clear();
+            _context.UserGroups.Clear();
             _context.SaveChanges();
 
             Console.WriteLine("Generating users and people..");
             for (var i = 0; i < 10; i++)
             {
+                var ppl = new People();
+                _context.Peoples.Add(ppl);
+                _context.SaveChanges();
+
                 var user = new User
                 {
                     FirstName = "user" + i,
                     Infix = " ",
                     LastName = "lastName" + i,
                     Locale = "nl_NL",
+                    PeopleId = ppl.PeopleId,
                     Type = Types.Type.Student,
                     Role = Role.Basic
                 };
-
-                _context.Peoples.Add(new People{PeopleId = user.PeopleId});
                 _context.Users.Add(user);
             }
             _context.SaveChanges();
+
+            Console.WriteLine("Generating groups..");
+
+            var people = new People();
+            _context.Peoples.Add(people);
+            _context.SaveChanges();
+
+            var group = new Group
+            {
+                Name = "Informatics class 1",
+                PeopleId = people.PeopleId
+            };
+            _context.Groups.Add(group);
+            _context.SaveChanges();
+
+            Console.WriteLine("Pairing users and groups...");
+            var users = _context.Users.ToList();
+            foreach (var user in users)
+            {
+                var ug = new UserGroup
+                {
+                    User = user,
+                    Group = group
+                };
+                _context.UserGroups.Add(ug);
+            }
 
             Console.WriteLine("Generating locations..");
             var locations = 4;
