@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace backend.Data.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180308131614_add_dbset")]
-    partial class add_dbset
+    [Migration("20180313104135_init_db")]
+    partial class init_db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,11 +78,11 @@ namespace backend.Data.Migrations
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateEnd");
-
-                    b.Property<DateTime>("DateStart");
-
                     b.Property<string>("Description");
+
+                    b.Property<DateTime>("End");
+
+                    b.Property<DateTime>("Start");
 
                     b.Property<string>("Title");
 
@@ -91,16 +91,27 @@ namespace backend.Data.Migrations
                     b.ToTable("events");
                 });
 
+            modelBuilder.Entity("backend.Models.EventLocation", b =>
+                {
+                    b.Property<int>("EventId");
+
+                    b.Property<int>("LocationId");
+
+                    b.HasKey("EventId", "LocationId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("EventLocations");
+                });
+
             modelBuilder.Entity("backend.Models.Group", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("People")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("People");
-
-                    b.HasKey("GroupId");
+                    b.HasKey("People");
 
                     b.ToTable("groups");
                 });
@@ -139,7 +150,7 @@ namespace backend.Data.Migrations
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("PeopleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Deleted");
@@ -152,15 +163,13 @@ namespace backend.Data.Migrations
 
                     b.Property<string>("Locale");
 
-                    b.Property<int>("People");
-
                     b.Property<int>("Role");
 
                     b.Property<int>("Type");
 
                     b.Property<int?>("User");
 
-                    b.HasKey("UserId");
+                    b.HasKey("PeopleId");
 
                     b.HasIndex("User");
 
@@ -275,17 +284,17 @@ namespace backend.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("webapp.Models.EventLocation", b =>
+            modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
-                    b.Property<int>("EventId");
+                    b.HasOne("backend.Models.Event", "Event")
+                        .WithMany("Locations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Property<int>("LocationId");
-
-                    b.HasKey("EventId", "LocationId");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("EventLocations");
+                    b.HasOne("backend.Models.Location", "Location")
+                        .WithMany("Events")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("backend.Models.People", b =>
@@ -344,19 +353,6 @@ namespace backend.Data.Migrations
                     b.HasOne("backend.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("webapp.Models.EventLocation", b =>
-                {
-                    b.HasOne("backend.Models.Event", "Event")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("backend.Models.Location", "Location")
-                        .WithMany("EventLocations")
-                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
