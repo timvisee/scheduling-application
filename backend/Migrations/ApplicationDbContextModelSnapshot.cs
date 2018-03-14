@@ -105,12 +105,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Group", b =>
                 {
-                    b.Property<int>("People")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("PeopleId");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("People");
+                    b.HasKey("PeopleId");
 
                     b.ToTable("groups");
                 });
@@ -149,8 +148,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Property<int>("PeopleId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("PeopleId");
 
                     b.Property<bool>("Deleted");
 
@@ -166,13 +164,22 @@ namespace backend.Migrations
 
                     b.Property<int>("Type");
 
-                    b.Property<int?>("User");
-
                     b.HasKey("PeopleId");
 
-                    b.HasIndex("User");
-
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("backend.Models.UserGroup", b =>
+                {
+                    b.Property<int>("GroupId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("GroupId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -303,11 +310,17 @@ namespace backend.Migrations
                         .HasForeignKey("People");
                 });
 
-            modelBuilder.Entity("backend.Models.User", b =>
+            modelBuilder.Entity("backend.Models.UserGroup", b =>
                 {
-                    b.HasOne("backend.Models.Group")
+                    b.HasOne("backend.Models.Group", "Group")
                         .WithMany("Users")
-                        .HasForeignKey("User");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Groups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

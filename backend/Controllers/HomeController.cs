@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using backend.Data;
+using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Types;
-using Type = System.Type;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -45,29 +47,82 @@ namespace backend.Controllers
 
         public void SeedDb()
         {
-            //delete all existing data
-            var users =_context.Users.ToList();
-            var events = _context.Events.ToList();
-            _context.Users.RemoveRange(users);
-            _context.Events.RemoveRange(events);
-            //generate users
+//          delete all existing data
+            Console.WriteLine("Deleting all data...");
+            _context.Users.Clear();
+            _context.Peoples.Clear();
+            _context.Groups.Clear();
+            _context.Locations.Clear();
+            _context.Events.Clear();
+            _context.EventLocations.Clear();
+            _context.UserGroups.Clear();
+            _context.SaveChanges();
+
+            Console.WriteLine("Generating users and people..");
             for (var i = 0; i < 10; i++)
             {
+                var ppl = new People();
+                _context.Peoples.Add(ppl);
+                _context.SaveChanges();
+
                 var user = new User
                 {
                     FirstName = "user" + i,
                     Infix = " ",
                     LastName = "lastName" + i,
                     Locale = "nl_NL",
-                    //TODO PEOPLE parameter here
+                    PeopleId = ppl.PeopleId,
                     Type = Types.Type.Student,
                     Role = Role.Basic
                 };
                 _context.Users.Add(user);
-                _context.SaveChanges();
             }
-            //generate events
-            for (var i = 0; i < 8; i++)
+            _context.SaveChanges();
+
+            Console.WriteLine("Generating groups..");
+
+            var people = new People();
+            _context.Peoples.Add(people);
+            _context.SaveChanges();
+
+            var group = new Group
+            {
+                Name = "Informatics class 1",
+                PeopleId = people.PeopleId
+            };
+            _context.Groups.Add(group);
+            _context.SaveChanges();
+
+            Console.WriteLine("Pairing users and groups...");
+            var users = _context.Users.ToList();
+            foreach (var user in users)
+            {
+                var ug = new UserGroup
+                {
+                    User = user,
+                    Group = group
+                };
+                _context.UserGroups.Add(ug);
+            }
+
+            Console.WriteLine("Generating locations..");
+            var locations = 4;
+            for (var i = 0; i < locations; i++)
+            {
+                var location = new Location
+                {
+
+                    Description = "description " + i,
+                    Latitude = 10 + i * 5,
+                    Longitude = 100 - (i * 5),
+                    Name = "location " + i,
+                };
+                _context.Locations.Add(location);
+            }
+
+
+            Console.WriteLine("Generating events..");
+            for (var i = 0; i < 4; i++)
             {
                 var ev = new Event
                 {
@@ -77,7 +132,28 @@ namespace backend.Controllers
                     Title = "Title of Event",
                     //TODO List of people
                 };
+                _context.Events.Add(ev);
             }
+
+            _context.SaveChanges();
+
+            Console.WriteLine("Pairing locations and events...");
+
+            var locs = _context.Locations.ToList();
+            var count = 0;
+            foreach (var ev in _context.Events)
+            {
+                Random rnd = new Random();
+                var el = new EventLocation
+                {
+                    Event = ev,
+                    Location = locs[count]
+                };
+                _context.EventLocations.Add(el);
+                count++;
+            }
+            _context.SaveChanges();
+            Console.WriteLine("Seeded database.");
         }
     }
 }
