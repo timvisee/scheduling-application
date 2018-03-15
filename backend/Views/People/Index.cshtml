@@ -1,29 +1,35 @@
 ﻿@model IEnumerable<backend.Models.People>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "People Overview";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PeopleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PeopleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PeopleId">Delete</a>
-            </td>
-        </tr>
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/crud.css" />
 }
-    </tbody>
-</table>
+
+<h2>People Overview</h2>
+
+<a asp-action="Create" class="btn btn-outline-success">New People</a>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.PeopleId)</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.PeopleId)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.PeopleId">View</a> |
+                    <a asp-action="Edit" asp-route-id="@item.PeopleId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PeopleId">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
