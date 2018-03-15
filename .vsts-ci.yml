@@ -8,17 +8,6 @@ steps:
   - script: dotnet build
     displayName: "backend: build"
 
-  # Frontend builds
-  - script: npm prune
-    workingDirectory: "frontend"
-    displayName: "frontend: clean environment"
-  - script: npm install
-    workingDirectory: "frontend"
-    displayName: "frontend: install dependencies"
-  - script: npm run build
-    workingDirectory: "frontend"
-    displayName: "frontend: build resources"
-
     # # Docker container builds
     # - script: './clean'
     #   workingDirectory: "docker"
