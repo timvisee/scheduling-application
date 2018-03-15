@@ -72,15 +72,7 @@ namespace backend
 
             app.UseAuthentication();
 
-            // Serve frontend and backend files
-            //app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "../frontend/")
-                ),
-                RequestPath = ""
-            });
+            // Serve backend files
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
