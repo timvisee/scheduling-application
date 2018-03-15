@@ -52,21 +52,6 @@ dotnet ef database update
 dotnet aspnet-codegenerator --project . controller -name <ClassNameController> -m <ClassName> -dc DbEntity
 ```
 
-Vue frontend commands:
-```bash
-cd frontend
-
-# Install npm dependencies
-npm install
-
-# Build the frontend resources
-npm run build
-
-# or run a live development server for the frontend
-# make sure the dotnet core backend server is running
-npm run dev
-```
-
 ## Config
 It is possible to create a couple of settings for local use. Duplicate the `appsettings.json` and rename it to `appsettings.local.json`.  
 Some of the config variables are:

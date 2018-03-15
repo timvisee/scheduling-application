@@ -1,4 +1,4 @@
-﻿using backend.Data;
+using backend.Data;
 using backend.Extensions;
 using backend.Models;
 using backend.Types;
