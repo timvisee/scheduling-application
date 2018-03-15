@@ -31,7 +31,7 @@ namespace backend
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            return Json(await _context.Events.ToListAsync());
+            return Json(await _context.Event.ToListAsync());
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace backend
                 return NotFound();
             }
 
-            var even = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            var even = await _context.Event.SingleOrDefaultAsync(m => m.EventId == id);
             if (even == null)
             {
                 return NotFound();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -53,7 +53,7 @@ namespace backend.Controllers
             _context.Peoples.Clear();
             _context.Groups.Clear();
             _context.Locations.Clear();
-            _context.Events.Clear();
+            _context.Event.Clear();
             _context.EventLocations.Clear();
             _context.UserGroups.Clear();
             _context.SaveChanges();
@@ -132,7 +132,7 @@ namespace backend.Controllers
                     Title = "Title of Event",
                     //TODO List of people
                 };
-                _context.Events.Add(ev);
+                _context.Event.Add(ev);
             }
 
             _context.SaveChanges();
@@ -141,7 +141,7 @@ namespace backend.Controllers
 
             var locs = _context.Locations.ToList();
             var count = 0;
-            foreach (var ev in _context.Events)
+            foreach (var ev in _context.Event)
             {
                 Random rnd = new Random();
                 var el = new EventLocation

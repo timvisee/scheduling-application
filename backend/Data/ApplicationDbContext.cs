@@ -6,12 +6,16 @@ namespace backend.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Event> Event { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<People> Peoples { get; set; }

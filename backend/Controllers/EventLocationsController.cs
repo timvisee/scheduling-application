@@ -49,7 +49,7 @@ namespace backend.Controllers
         // GET: EventLocations/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId");
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId");
             ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId");
             return View();
         }
@@ -67,7 +67,7 @@ namespace backend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventLocation.EventId);
             ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
             return View(eventLocation);
         }
@@ -85,7 +85,7 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventLocation.EventId);
             ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
             return View(eventLocation);
         }
@@ -122,7 +122,7 @@ namespace backend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventLocation.EventId);
             ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
             return View(eventLocation);
         }
