@@ -50,7 +50,7 @@ namespace backend.Controllers
         }
 
         // POST: Events/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,8 +81,29 @@ namespace backend.Controllers
             return View(@event);
         }
 
+        public async Task<IActionResult> Seed()
+        {
+            var eventCount = 10;
+
+            for (int i = 0; i < eventCount; i++)
+            {
+                var ev = new Event
+                {
+
+                    Start = new DateTime(2018, 1, 1, 8 + i, 0, 0, 0),
+                    End = new DateTime(2018, 1, 1, 9 + i, 0, 0, 0),
+                    Description = "Description of the event",
+                    Title = "Title of Event",
+                };
+                _context.Events.Add(ev);
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         // POST: Events/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
