@@ -13,21 +13,22 @@
         <link rel="stylesheet" href="~/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
+    @RenderSection("Stylesheets", required: false)
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
         <div class="container">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Scheduling Application</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Scheduling Application</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-area="" asp-controller="Events" asp-action="Index">Event</a></li>
-                    </li>
+                    <li><a class="nav-link" asp-controller="Events" asp-action="Index">Event</a></li>
+                    <li><a class="nav-link" asp-controller="Locations" asp-action="Index">Locations</a></li>
+                    <li><a class="nav-link" asp-controller="People" asp-action="Index">People</a></li>
                 </ul>
             </div>
         </div>

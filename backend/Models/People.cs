@@ -10,7 +10,5 @@ namespace backend.Models
     {
         [Key]
         public int PeopleId { get; set; }
-
-
     }
 }

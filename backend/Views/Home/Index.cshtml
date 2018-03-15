@@ -6,11 +6,20 @@
 
 <h2>Event overview</h2>
 
+<div class="row">
+    
 @foreach (var item in Model) {
-    <p>
-    @Html.DisplayFor(modelItem => item.Title)
-    @Html.DisplayFor(modelItem => item.Description)
-    @Html.DisplayFor(modelItem => item.Start)
-    @Html.DisplayFor(modelItem => item.End)
-    </p>
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="card m-2">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Start)</h6>
+                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.End)</h6>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                <a class="card-link" asp-controller="Events" asp-action="Details" asp-route-id="@item.EventId">View details</a>
+            </div>
+        </div>
+    </div>
 }
+
+</div>
