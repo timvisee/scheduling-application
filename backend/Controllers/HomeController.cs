@@ -121,19 +121,7 @@ namespace backend.Controllers
             }
 
 
-            Console.WriteLine("Generating events..");
-            for (var i = 0; i < 4; i++)
-            {
-                var ev = new Event
-                {
-                    Start = new DateTime(2018, 1, 1, 8 + i, 0, 0, 0),
-                    End = new DateTime(2018, 1, 1, 9 + i, 0, 0, 0),
-                    Description = "Description of the event",
-                    Title = "Title of Event",
-                    //TODO List of people
-                };
-                _context.Events.Add(ev);
-            }
+
 
             _context.SaveChanges();
 
