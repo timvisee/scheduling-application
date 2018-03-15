@@ -1,5 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<backend.Models.Event>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
 <h2>Event overview</h2>
+
+@foreach (var item in Model) {
+    <p>
+    @Html.DisplayFor(modelItem => item.Title)
+    @Html.DisplayFor(modelItem => item.Description)
+    @Html.DisplayFor(modelItem => item.Start)
+    @Html.DisplayFor(modelItem => item.End)
+    </p>
+}
