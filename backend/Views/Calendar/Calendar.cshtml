@@ -1,0 +1,39 @@
+
+@{
+    ViewData["Title"] = "Calendar";
+}
+
+<h2>Calendar</h2>
+
+<div id="calendar"></div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel="stylesheet" />
+@section Scripts{
+    <script src="https://cdnjs.cloudfare.com/ajaz/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+  
+<script>
+    $(document).ready(function () {
+        
+
+        function makeCalendar(events) {
+            $('#calendar').fullCalendar('delete');
+            $('#calendar').fullCalendar({
+                contentHeight: 400,
+                defaultDate: new Date(),
+                timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev, next, today',
+                    center: 'title',
+                    right: 'month, basicWeek,basicDay,agenda'
+                },
+                eventLimit: true,
+                eventColor: '$#ffc9fc',
+                events: events
+            })
+        }
+
+    })
+    </script>
+}
