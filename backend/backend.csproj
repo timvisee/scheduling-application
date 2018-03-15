@@ -4,8 +4,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Laptop|AnyCPU'" />
   <ItemGroup>
-    <PackageReference Include="DHTMLX.Scheduler.MVC3.Sample" Version="1.0.3" />
-    <PackageReference Include="DHTMLX.Scheduler.NET.Responsive" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />

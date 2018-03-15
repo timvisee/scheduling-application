@@ -22,7 +22,7 @@ namespace backend.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Event.ToListAsync());
+            return View(await _context.Events.ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
+            var @event = await _context.Events
                 .SingleOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.SingleOrDefaultAsync(m => m.EventId == id);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
+            var @event = await _context.Events
                 .SingleOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.SingleOrDefaultAsync(m => m.EventId == id);
-            _context.Event.Remove(@event);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EventExists(int id)
         {
-            return _context.Event.Any(e => e.EventId == id);
+            return _context.Events.Any(e => e.EventId == id);
         }
     }
 }
