@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Types;
 using Type = System.Type;
+using System.IO;
+using System.Net;
 
 namespace backend.Controllers
 {
@@ -77,7 +79,51 @@ namespace backend.Controllers
                     Title = "Title of Event",
                     //TODO List of people
                 };
+                _context.Events.Add(ev);
+                _context.SaveChanges();
+            }
+        }
+        public void loadEventfromIcal(//to do make param GROUP + date and make some sort of generator to collect time tiables. )
+        {
+            // haal rooster op via url (liefst met param group + date
+
+            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://ruz.spbstu.ru/faculty/100/groups/25242/ical?date=2018-3-12");
+            myRequest.Method = "GET";
+            WebResponse myResponse = myRequest.GetResponse();
+            StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
+            // lees alle events in 
+            string ical = sr.ReadToEnd();
+            sr.Close();
+            myResponse.Close();
+            Console.WriteLine(ical);
+
+            char[] delim = { '\n' };
+            string[] lines = ical.Split(delim);
+            delim[0] = ':';
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("BEGIN:VEVENT"))
+                {
+                    string[] eventData = new string[9];
+                    for (int j = 0; j < 9; j++)
+                        eventData[j] = lines[i + j + 1].Split(delim)[1];
+                    ///////////////////////////
+                    //Do your SQL INSERT here //
+                    ///////////////////////////
+
+                    var ev = new Event
+                    { DateStart = Convert.ToDateTime(eventData[4]),
+                        DateEnd = Convert.ToDateTime(eventData[5]),
+                        Description = eventData[6]
+                    };
+                    _context.Events.Add(ev);
+                    _context.SaveChanges();
+                
+
+                      i += 10;
+                }
             }
         }
     }
+
 }
