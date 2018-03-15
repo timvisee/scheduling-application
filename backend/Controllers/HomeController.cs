@@ -1,14 +1,14 @@
+﻿using backend.Data;
+using backend.Extensions;
+using backend.Models;
+using backend.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
-using backend.Data;
-using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using backend.Models;
-using backend.Types;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
@@ -23,7 +23,7 @@ namespace backend.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Events.ToList());
         }
 
         public IActionResult About()
@@ -53,7 +53,7 @@ namespace backend.Controllers
             _context.Peoples.Clear();
             _context.Groups.Clear();
             _context.Locations.Clear();
-            _context.Event.Clear();
+            _context.Events.Clear();
             _context.EventLocations.Clear();
             _context.UserGroups.Clear();
             _context.SaveChanges();
@@ -132,7 +132,7 @@ namespace backend.Controllers
                     Title = "Title of Event",
                     //TODO List of people
                 };
-                _context.Event.Add(ev);
+                _context.Events.Add(ev);
             }
 
             _context.SaveChanges();
@@ -141,7 +141,7 @@ namespace backend.Controllers
 
             var locs = _context.Locations.ToList();
             var count = 0;
-            foreach (var ev in _context.Event)
+            foreach (var ev in _context.Events)
             {
                 Random rnd = new Random();
                 var el = new EventLocation
