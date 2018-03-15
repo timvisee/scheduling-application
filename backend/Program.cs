@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using backend.App.Config;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
@@ -6,9 +8,46 @@ namespace backend
 {
     public class Program
     {
+        /// <summary>
+        /// Application configuration.
+        /// This configuration is used throughout the application to define the applications behaviour.
+        /// </summary>
+        public static AppConfig AppConfig;
+
+
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            try
+            {
+                // Initialize the application configuration
+                Program.AppConfig = new AppConfig(true);
+
+                // Parse the startup arguments, and apply them to the configuration
+                AppConfigParameterParser.Parse(args, Program.AppConfig);
+
+                // Set up a new webhost
+                var host = new WebHostBuilder()
+                    .UseKestrel()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseIISIntegration()
+                    .UseStartup<Startup>()
+                    .Build();
+
+                // Run the actual web host
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                // Print the exception
+                Console.WriteLine(ex);
+
+                // Show a warning
+                Console.WriteLine(
+                    "\n\nAn unrecorerable exception occurred.\nThe application will not quit (code: -1).");
+
+                // Exit
+                Environment.Exit(-1);
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args)
