@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace backend.Models
 {
     [Table("groups")]
-    public class Group : People
+    public class Group
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [ForeignKey("People")]
         public int PeopleId { get; set; }
 
         public string Name { get; set; }
 
-        [ForeignKey("People")]
-        public List<People> Peoples { get; set; }
+        public ICollection <UserGroup> Users { get; set; }
     }
 }
