@@ -83,9 +83,9 @@ namespace backend.Controllers
                 _context.SaveChanges();
             }
         }
-        public void loadEventfromIcal(//to do make param GROUP + date and make some sort of generator to collect time tiables. )
+        public void loadEventfromIcal()
         {
-            // haal rooster op via url (liefst met param group + date
+            // haal rooster op via url (liefst met param group + date (yyyy-month-day)
 
             HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://ruz.spbstu.ru/faculty/100/groups/25242/ical?date=2018-3-12");
             myRequest.Method = "GET";
@@ -100,6 +100,7 @@ namespace backend.Controllers
             char[] delim = { '\n' };
             string[] lines = ical.Split(delim);
             delim[0] = ':';
+            //split lines en maak array met data per events. 
             for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i].Contains("BEGIN:VEVENT"))
@@ -114,7 +115,7 @@ namespace backend.Controllers
                     var ev = new Event
                     { DateStart = Convert.ToDateTime(eventData[4]),
                         DateEnd = Convert.ToDateTime(eventData[5]),
-                        Description = eventData[6]
+                        Title = eventData[6]
                     };
                     _context.Events.Add(ev);
                     _context.SaveChanges();
