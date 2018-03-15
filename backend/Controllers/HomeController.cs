@@ -1,14 +1,14 @@
-﻿using System;
+﻿using backend.Data;
+using backend.Extensions;
+using backend.Models;
+using backend.Types;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
-using backend.Data;
-using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using backend.Models;
-using backend.Types;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
@@ -23,7 +23,7 @@ namespace backend.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Events.ToList());
         }
 
         public IActionResult About()
