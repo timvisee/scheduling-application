@@ -9,8 +9,7 @@ namespace backend.Models
     public class People
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PeopleId { get; set; }
-
-
     }
 }

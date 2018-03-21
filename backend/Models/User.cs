@@ -8,10 +8,10 @@ namespace backend.Models
     [Table("users")]
     public class User : People
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [ForeignKey("People")]
-        public int PeopleId { get; set; }
+        /* [Key] */
+        /* [DatabaseGenerated(DatabaseGeneratedOption.None)] */
+        /* [ForeignKey("People")] */
+        /* public int PeopleId { get; set; } */
 
         public string FirstName { get; set; }
         public string Infix { get; set; }

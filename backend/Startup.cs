@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using backend.Models;
 using backend.Data;
 using backend.Services;
+using backend.Types;
 
 namespace backend
 {
@@ -55,7 +56,7 @@ namespace backend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext context)
         {
             // Set the environment based on the appsettings.json
             Program.SetEnvironment(env);
@@ -90,17 +91,40 @@ namespace backend
                 Console.WriteLine("Allowing CORS request for: {0}", host);
 
             // Configure CORS with the proper hosts
-            // TODO: use the specific host logic below, ensure it works
-            //app.UseCors(corsPolicyBuilder =>
-            //    corsPolicyBuilder.WithOrigins(allowedHosts)
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //);
             app.UseCors(corsPolicyBuilder =>
-                corsPolicyBuilder.AllowAnyOrigin()
+                corsPolicyBuilder.WithOrigins(allowedHosts)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );
+
+
+
+            /* var user = new User(); */
+            /* user.FirstName = "TestUser"; */
+            /* user.FirstName = "TestUser"; */
+            /* context.Users.Add(user); */
+            /* context.SaveChanges(); */
+
+            var _event = new Event();
+            _event.Title = "Custom event";
+            _event.Description = "This is some event description";
+            _event.Start = new DateTime();
+            _event.End = new DateTime();
+            context.Events.Add(_event);
+            context.SaveChanges();
+
+            var user = new User();
+            user.FirstName = "First name";
+            user.Infix = "van ";
+            user.LastName = "Last name";
+            user.Locale = "en_US";
+            user.Role = Types.Role.Basic;
+            user.Type = Types.Type.Student;
+            user.Deleted = false;
+            context.Users.Add(user);
+            context.SaveChanges();
+
+
 
             // Define the routes
             app.UseMvc(routes =>
