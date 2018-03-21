@@ -34,7 +34,7 @@ namespace backend.Controllers
             }
 
             var @group = await _context.Groups
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PeopleId,Name")] Group @group)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Group @group)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.PeopleId == id);
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PeopleId,Name")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Group @group)
         {
-            if (id != @group.PeopleId)
+            if (id != @group.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.PeopleId))
+                    if (!GroupExists(@group.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace backend.Controllers
             }
 
             var @group = await _context.Groups
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -139,7 +139,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.PeopleId == id);
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
             _context.Groups.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", nameof(People));
@@ -147,7 +147,7 @@ namespace backend.Controllers
 
         private bool GroupExists(int id)
         {
-            return _context.Groups.Any(e => e.PeopleId == id);
+            return _context.Groups.Any(e => e.Id == id);
         }
     }
 }

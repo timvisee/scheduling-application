@@ -48,7 +48,7 @@ namespace backend.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["AllPeople"] = _context.Peoples.Select(r => new SelectListItem { Text = r.PeopleId.ToString(), Value = r.PeopleId.ToString() });
+            ViewData["AllPeople"] = _context.Peoples.Select(r => new SelectListItem { Text = r.Id.ToString(), Value = r.Id.ToString() });
 
             return View();
         }
