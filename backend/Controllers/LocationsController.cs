@@ -35,7 +35,7 @@ namespace backend.Controllers
             }
 
             var location = await _context.Locations
-                .SingleOrDefaultAsync(m => m.LocationId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (location == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Latitude,Longitude")] Location location)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
+            var location = await _context.Locations.SingleOrDefaultAsync(m => m.Id == id);
             if (location == null)
             {
                 return NotFound();
@@ -87,9 +87,9 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LocationId,Name,Description,Latitude,Longitude")] Location location)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Latitude,Longitude")] Location location)
         {
-            if (id != location.LocationId)
+            if (id != location.Id)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LocationExists(location.LocationId))
+                    if (!LocationExists(location.Id))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace backend.Controllers
             }
 
             var location = await _context.Locations
-                .SingleOrDefaultAsync(m => m.LocationId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (location == null)
             {
                 return NotFound();
@@ -140,7 +140,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var location = await _context.Locations.SingleOrDefaultAsync(m => m.LocationId == id);
+            var location = await _context.Locations.SingleOrDefaultAsync(m => m.Id == id);
             _context.Locations.Remove(location);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -148,7 +148,7 @@ namespace backend.Controllers
 
         private bool LocationExists(int id)
         {
-            return _context.Locations.Any(e => e.LocationId == id);
+            return _context.Locations.Any(e => e.Id == id);
         }
 
         /**

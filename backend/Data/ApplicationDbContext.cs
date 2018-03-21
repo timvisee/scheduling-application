@@ -27,11 +27,11 @@ namespace backend.Data
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Location)
                 .WithMany(e => e.Events)
-                .HasForeignKey(el => el.LocationId);
+                .HasForeignKey("Id");
             builder.Entity<EventLocation>()
                 .HasOne(el => el.Event)
                 .WithMany(e => e.Locations)
-                .HasForeignKey(el => el.EventId);
+                .HasForeignKey("Id");
 
             // People group couplings
             builder.Entity<PeopleGroup>()
@@ -39,7 +39,7 @@ namespace backend.Data
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.People)
                 .WithMany(e => e.Groups)
-                .HasForeignKey(el => el.GroupId);
+                .HasForeignKey("Id");
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.Group)
                 .WithMany(e => e.Peoples)

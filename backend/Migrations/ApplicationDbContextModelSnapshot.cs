@@ -75,7 +75,7 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Event", b =>
                 {
-                    b.Property<int>("EventId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -86,7 +86,7 @@ namespace backend.Migrations
 
                     b.Property<string>("Title");
 
-                    b.HasKey("EventId");
+                    b.HasKey("Id");
 
                     b.ToTable("event");
                 });
@@ -97,16 +97,18 @@ namespace backend.Migrations
 
                     b.Property<int>("LocationId");
 
+                    b.Property<int>("Id");
+
                     b.HasKey("EventId", "LocationId");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("Id");
 
                     b.ToTable("event_location");
                 });
 
             modelBuilder.Entity("backend.Models.Location", b =>
                 {
-                    b.Property<int>("LocationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -117,7 +119,7 @@ namespace backend.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("LocationId");
+                    b.HasKey("Id");
 
                     b.ToTable("locations");
                 });
@@ -147,7 +149,7 @@ namespace backend.Migrations
 
                     b.Property<int>("PeopleId");
 
-                    b.Property<int?>("Id");
+                    b.Property<int>("Id");
 
                     b.HasKey("GroupId", "PeopleId");
 
@@ -302,12 +304,12 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Event", "Event")
                         .WithMany("Locations")
-                        .HasForeignKey("EventId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.Location", "Location")
                         .WithMany("Events")
-                        .HasForeignKey("LocationId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -320,14 +322,15 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.PeopleGroup", b =>
                 {
-                    b.HasOne("backend.Models.People", "People")
-                        .WithMany("Groups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("backend.Models.Group", "Group")
                         .WithMany("Peoples")
-                        .HasForeignKey("Id");
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.People", "People")
+                        .WithMany("Groups")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
