@@ -34,7 +34,7 @@ namespace backend.Controllers
             }
 
             var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PeopleId")] People people)
+        public async Task<IActionResult> Create([Bind("Id")] People people)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
+            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PeopleId")] People people)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] People people)
         {
-            if (id != people.PeopleId)
+            if (id != people.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeopleExists(people.PeopleId))
+                    if (!PeopleExists(people.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace backend.Controllers
             }
 
             var people = await _context.Peoples
-                .SingleOrDefaultAsync(m => m.PeopleId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
                 return NotFound();
@@ -139,7 +139,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.PeopleId == id);
+            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
             _context.Peoples.Remove(people);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -147,7 +147,7 @@ namespace backend.Controllers
 
         private bool PeopleExists(int id)
         {
-            return _context.Peoples.Any(e => e.PeopleId == id);
+            return _context.Peoples.Any(e => e.Id == id);
         }
     }
 }

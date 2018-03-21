@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180314130057_database_init_build")]
-    partial class database_init_build
+    [Migration("20180321121346_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +89,7 @@ namespace backend.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("events");
+                    b.ToTable("event");
                 });
 
             modelBuilder.Entity("backend.Models.EventLocation", b =>
@@ -101,18 +102,7 @@ namespace backend.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("EventLocations");
-                });
-
-            modelBuilder.Entity("backend.Models.Group", b =>
-                {
-                    b.Property<int>("PeopleId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("PeopleId");
-
-                    b.ToTable("groups");
+                    b.ToTable("event_location");
                 });
 
             modelBuilder.Entity("backend.Models.Location", b =>
@@ -135,52 +125,36 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.People", b =>
                 {
-                    b.Property<int>("PeopleId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
                     b.Property<int?>("People");
 
-                    b.HasKey("PeopleId");
+                    b.HasKey("Id");
 
                     b.HasIndex("People");
 
                     b.ToTable("people");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("People");
                 });
 
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Property<int>("PeopleId");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Infix");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Locale");
-
-                    b.Property<int>("Role");
-
-                    b.Property<int>("Type");
-
-                    b.HasKey("PeopleId");
-
-                    b.ToTable("users");
-                });
-
-            modelBuilder.Entity("backend.Models.UserGroup", b =>
+            modelBuilder.Entity("backend.Models.PeopleGroup", b =>
                 {
                     b.Property<int>("GroupId");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("PeopleId");
 
-                    b.HasKey("GroupId", "UserId");
+                    b.Property<int?>("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("GroupId", "PeopleId");
 
-                    b.ToTable("UserGroups");
+                    b.HasIndex("Id");
+
+                    b.ToTable("people_group");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -291,6 +265,40 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("backend.Models.Group", b =>
+                {
+                    b.HasBaseType("backend.Models.People");
+
+                    b.Property<string>("Name");
+
+                    b.ToTable("group");
+
+                    b.HasDiscriminator().HasValue("Group");
+                });
+
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.HasBaseType("backend.Models.People");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Infix");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Locale");
+
+                    b.Property<int>("Role");
+
+                    b.Property<int>("Type");
+
+                    b.ToTable("user");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
@@ -311,17 +319,16 @@ namespace backend.Migrations
                         .HasForeignKey("People");
                 });
 
-            modelBuilder.Entity("backend.Models.UserGroup", b =>
+            modelBuilder.Entity("backend.Models.PeopleGroup", b =>
                 {
-                    b.HasOne("backend.Models.Group", "Group")
-                        .WithMany("Users")
+                    b.HasOne("backend.Models.People", "People")
+                        .WithMany("Groups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("backend.Models.Group", "Group")
+                        .WithMany("Peoples")
+                        .HasForeignKey("Id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
