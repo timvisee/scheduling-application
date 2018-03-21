@@ -1,81 +1,39 @@
-﻿@using System.Runtime.InteropServices.ComTypes
+﻿@using System.Diagnostics
+@using System.Runtime.InteropServices.ComTypes
 @model IEnumerable<backend.Models.Event>
 
 @{
     ViewData["Title"] = "Home";
+
+    string [] colors =  new string[]{"text-success", "text-danger", "text-info", "text-primary", "text-warning"};
 }
 
 <div class="row sc-body p-5">
     <div class="col-lg-2">
     </div>
 
-    <div class="col-lg-2">
-        <div class="col-lg-12">
-            <h4 class="text-success text-center">Monday</h4>
-        </div>
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="card card-date m-2">
-                <div class="card-body">
-                    <h5>test</h5>
-                </div>
+    @{
+        var count = 0;
+    }
+    @foreach (var day in ViewData["week"] as List<List<Event>>)
+    {
+        <div class="col-lg-2">
+            <div class="col-lg-12">
+                <h4 class="text-center @colors[count]">@day[0].Start.DayOfWeek</h4>
             </div>
-        }
-    </div>
 
-    <div class="col-lg-2">
-        <div class="col-lg-12">
-            <h4 class="text-danger text-center">Tuesday</h4>
-        </div>
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="card card-date m-2">
-                <div class="card-body">
-                    <h5>test</h5>
+            @foreach (var eve in day)
+            {
+                <div class="card card-date m-1">
+                    <div class="card-body">
+                        <h6>@eve.Title</h6>
+                        <hr>
+                        <p>@eve.Start.TimeOfDay</p>
+                    </div>
+                    <a asp-controller="Events" asp-action="Details" asp-route-id="@eve.Id" class="card-info"><i class="fa fa-question-circle"></i></a>
                 </div>
-            </div>
-        }
-    </div>
-
-    <div class="col-lg-2">
-        <div class="col-lg-12">
-            <h4 class="text-warning text-center">Wednesday</h4>
+            }
+            @{count++;}
         </div>
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="card card-date m-2">
-                <div class="card-body">
-                    <h5>test</h5>
-                </div>
-            </div>
-        }
-    </div>
-
-    <div class="col-lg-2">
-        <div class="col-lg-12">
-            <h4 class="text-info text-center">Thursday</h4>
-        </div>
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="card card-date m-2">
-                <div class="card-body">
-                    <h5>test</h5>
-                </div>
-            </div>
-        }
-    </div>
-
-    <div class="col-lg-2">
-        <div class="col-lg-12">
-            <h4 class="text-primary text-center">Friday</h4>
-        </div>
-        @for (var i = 0; i < 5; i++)
-        {
-            <div class="card card-date m-2">
-                <div class="card-body">
-                    <h5>test</h5>
-                </div>
-            </div>
-        }
-    </div>
+    }
 </div>
