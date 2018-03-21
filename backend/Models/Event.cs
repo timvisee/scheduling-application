@@ -17,7 +17,7 @@ namespace backend.Models
 
         [ForeignKey("People")]
         public List<People> Peoples { get; set; }
-        
+
         public ICollection <EventLocation> Locations { get; set; }
     }
 }
