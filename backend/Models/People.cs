@@ -12,5 +12,8 @@ namespace backend.Models
         public int Id { get; set; }
 
         public ICollection <PeopleGroup> Groups { get; set; }
+
+        // Some generic getters
+        public abstract string DisplayName { get; }
     }
 }
