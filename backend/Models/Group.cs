@@ -10,5 +10,11 @@ namespace backend.Models
         public string Name { get; set; }
 
         public ICollection <PeopleGroup> Peoples { get; set; }
+
+        public override string DisplayName {
+            get {
+                return Name;
+            }
+        }
     }
 }

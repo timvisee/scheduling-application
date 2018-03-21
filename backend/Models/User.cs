@@ -17,7 +17,7 @@ namespace backend.Models
         public Role Role { get; set; }
         public bool Deleted { get; set; }
 
-        /// The full name of the user
+        /// Full name property
         public string FullName {
             get {
                 if(string.IsNullOrEmpty(Infix)) {
@@ -25,6 +25,13 @@ namespace backend.Models
                 } else {
                     return FirstName + " " + Infix + " " + LastName;
                 }
+            }
+        }
+
+        // Override abstract getters
+        public override string DisplayName {
+            get {
+                return FullName;
             }
         }
     }
