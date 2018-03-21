@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using backend.Extensions;
 using backend.Models;
 
 namespace backend.Controllers
@@ -50,7 +51,7 @@ namespace backend.Controllers
         }
 
         // POST: Locations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -82,7 +83,7 @@ namespace backend.Controllers
         }
 
         // POST: Locations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -148,6 +149,42 @@ namespace backend.Controllers
         private bool LocationExists(int id)
         {
             return _context.Locations.Any(e => e.LocationId == id);
+        }
+
+        /**
+        * Seeds database with Location objects
+        */
+        public async Task<IActionResult> Seed()
+        {
+            var locations = 5;
+
+            for (var i = 0; i < locations; i++)
+            {
+                var location = new Location
+                {
+
+                    Description = "description " + i,
+                    Latitude = 10 + i * 5,
+                    Longitude = 100 - (i * 5),
+                    Name = "location " + i,
+                };
+                _context.Locations.Add(location);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        /**
+         * Delete all Location entries
+         */
+        public async Task<IActionResult> DeleteAll()
+        {
+            _context.Locations.Clear();
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

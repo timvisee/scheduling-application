@@ -53,6 +53,8 @@ namespace backend
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,6 +136,11 @@ namespace backend
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+
+
+            // Seed database if not running in production
+            if (Program.AppConfig.DatabaseReset)
+                DbBuilder.Rebuild(context);
         }
     }
 }

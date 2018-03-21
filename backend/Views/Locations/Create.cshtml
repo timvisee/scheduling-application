@@ -1,15 +1,13 @@
 ﻿@model backend.Models.Location
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "New Location";
 }
 
-<h2>Create</h2>
-
-<h4>Location</h4>
-<hr />
+<h2>Create Location</h2>
+<hr>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -33,14 +31,11 @@
                 <span asp-validation-for="Longitude" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-outline-success" />
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
