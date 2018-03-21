@@ -52,7 +52,7 @@ namespace backend.Migrations
                 name: "event",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     End = table.Column<DateTime>(nullable: false),
@@ -61,14 +61,14 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_event", x => x.EventId);
+                    table.PrimaryKey("PK_event", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "locations",
                 columns: table => new
                 {
-                    LocationId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     Latitude = table.Column<double>(nullable: false),
@@ -77,7 +77,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_locations", x => x.LocationId);
+                    table.PrimaryKey("PK_locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,7 +210,7 @@ namespace backend.Migrations
                         name: "FK_people_event_People",
                         column: x => x.People,
                         principalTable: "event",
-                        principalColumn: "EventId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -219,22 +219,23 @@ namespace backend.Migrations
                 columns: table => new
                 {
                     EventId = table.Column<int>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false)
+                    LocationId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_event_location", x => new { x.EventId, x.LocationId });
                     table.ForeignKey(
-                        name: "FK_event_location_event_EventId",
-                        column: x => x.EventId,
+                        name: "FK_event_location_event_Id",
+                        column: x => x.Id,
                         principalTable: "event",
-                        principalColumn: "EventId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_event_location_locations_LocationId",
-                        column: x => x.LocationId,
+                        name: "FK_event_location_locations_Id",
+                        column: x => x.Id,
                         principalTable: "locations",
-                        principalColumn: "LocationId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -244,23 +245,17 @@ namespace backend.Migrations
                 {
                     GroupId = table.Column<int>(nullable: false),
                     PeopleId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_people_group", x => new { x.GroupId, x.PeopleId });
                     table.ForeignKey(
-                        name: "FK_people_group_people_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "people",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_people_group_people_Id",
                         column: x => x.Id,
                         principalTable: "people",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -303,9 +298,9 @@ namespace backend.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_event_location_LocationId",
+                name: "IX_event_location_Id",
                 table: "event_location",
-                column: "LocationId");
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_people_People",

@@ -36,7 +36,7 @@ namespace backend.Controllers
             }
 
             var @event = await _context.Events
-                .SingleOrDefaultAsync(m => m.EventId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,Title,Description,Start,End")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Start,End")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
                 return NotFound();
@@ -90,9 +90,9 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,Title,Description,Start,End")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Start,End")] Event @event)
         {
-            if (id != @event.EventId)
+            if (id != @event.Id)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!EventExists(@event.Id))
                     {
                         return NotFound();
                     }
@@ -129,7 +129,7 @@ namespace backend.Controllers
             }
 
             var @event = await _context.Events
-                .SingleOrDefaultAsync(m => m.EventId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
                 return NotFound();
@@ -143,7 +143,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.Id == id);
             _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -151,7 +151,7 @@ namespace backend.Controllers
 
         private bool EventExists(int id)
         {
-            return _context.Events.Any(e => e.EventId == id);
+            return _context.Events.Any(e => e.Id == id);
         }
 
         /**
