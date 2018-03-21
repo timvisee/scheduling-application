@@ -16,5 +16,16 @@ namespace backend.Models
         public Type Type { get; set; }
         public Role Role { get; set; }
         public bool Deleted { get; set; }
+
+        /// The full name of the user
+        public string FullName {
+            get {
+                if(string.IsNullOrEmpty(Infix.Trim())) {
+                    return FirstName + " " + LastName;
+                } else {
+                    return FirstName + " " + Infix + " " + LastName;
+                }
+            }
+        }
     }
 }
