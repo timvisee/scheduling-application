@@ -26,7 +26,6 @@ namespace backend
                                      " BB     BB  EE        UU     UU  NN   NNN    II        TT        \n" +
                                      " BBBBBBBB   EEEEEEEE   UUUUUUU   NN    NN  IIII       TT         \n\n";
 
-            Console.WriteLine(Console.ForegroundColor);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Write(Copyright);
             Console.ResetColor();
@@ -117,9 +116,9 @@ namespace backend
             });
 
             // TODO: reenable this once the DbBuilder is complete
-            /* // Seed database if not running in production */
-            /* if (Program.AppConfig.DatabaseReset) */
-            /*     DbBuilder.Rebuild(context); */
+            // Seed database if not running in production
+//            if (Program.AppConfig.DatabaseReset)
+//                DbBuilder.Rebuild(context);
         }
     }
 }
