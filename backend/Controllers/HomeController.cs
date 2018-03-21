@@ -10,6 +10,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.IO;
 
 namespace backend.Controllers
 {
@@ -143,5 +145,50 @@ namespace backend.Controllers
             _context.SaveChanges();
             Console.WriteLine("Seeded database.");
         }
+
+        public void loadEventfromIcal()
+        {
+            // haal rooster op via url (liefst met param group + date (yyyy-month-day)
+
+            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://ruz.spbstu.ru/faculty/100/groups/25242/ical?date=2018-3-12");
+            myRequest.Method = "GET";
+            WebResponse myResponse = myRequest.GetResponse();
+            StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
+            // lees alle events in 
+            string ical = sr.ReadToEnd();
+            sr.Close();
+            myResponse.Close();
+            Console.WriteLine(ical);
+
+            char[] delim = { '\n' };
+            string[] lines = ical.Split(delim);
+            delim[0] = ':';
+            //split lines en maak array met data per events. 
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("BEGIN:VEVENT"))
+                {
+                    string[] eventData = new string[9];
+                    for (int j = 0; j < 9; j++)
+                        eventData[j] = lines[i + j + 1].Split(delim)[1];
+                    ///////////////////////////
+                    //Do your SQL INSERT here //
+                    ///////////////////////////
+
+                    var ev = new Event
+                    {
+                        Start = Convert.ToDateTime(eventData[4]),
+                        End = Convert.ToDateTime(eventData[5]),
+                        Title = eventData[6]
+                    };
+                    _context.Events.Add(ev);
+                    _context.SaveChanges();
+
+
+                    i += 10;
+                }
+            }
+        }
     }
+
 }
