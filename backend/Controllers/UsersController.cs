@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.App.Util;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,22 +11,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class PeopleController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PeopleController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peoples.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,39 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var user = await _context.Users
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(user);
         }
 
-        // GET: People/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Users/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] People people)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,Infix,LastName,Locale,Type,Role,Deleted")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(people);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", nameof(People));
             }
-            return View(people);
+            return View(user);
         }
 
-        // GET: People/Edit/5
+        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,36 +74,37 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(people);
+            return View(user);
         }
 
-        // POST: People/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] People people)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,Infix,LastName,Locale,Type,Role,Deleted")] User user)
         {
-            if (id != people.Id)
+            if (id != user.Id)
             {
                 return NotFound();
             }
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(people);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeopleExists(people.Id))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -111,12 +113,12 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", nameof(People));
             }
-            return View(people);
+            return View(user);
         }
 
-        // GET: People/Delete/5
+        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +126,30 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var user = await _context.Users
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(user);
         }
 
-        // POST: People/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Peoples.Remove(people);
+            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", nameof(People));
         }
 
-        private bool PeopleExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.Peoples.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

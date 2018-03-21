@@ -10,22 +10,22 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    public class PeopleController : Controller
+    public class GroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PeopleController(ApplicationDbContext context)
+        public GroupsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Groups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peoples.ToListAsync());
+            return View(await _context.Groups.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Groups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var @group = await _context.Groups
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(@group);
         }
 
-        // GET: People/Create
+        // GET: Groups/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Groups/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] People people)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Group @group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(people);
+                _context.Add(@group);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", nameof(People));
             }
-            return View(people);
+            return View(@group);
         }
 
-        // GET: People/Edit/5
+        // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
             {
                 return NotFound();
             }
-            return View(people);
+            return View(@group);
         }
 
-        // POST: People/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Groups/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] People people)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Group @group)
         {
-            if (id != people.Id)
+            if (id != @group.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(people);
+                    _context.Update(@group);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeopleExists(people.Id))
+                    if (!GroupExists(@group.Id))
                     {
                         return NotFound();
                     }
@@ -111,12 +111,12 @@ namespace backend.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", nameof(People));
             }
-            return View(people);
+            return View(@group);
         }
 
-        // GET: People/Delete/5
+        // GET: Groups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var @group = await _context.Groups
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
+            if (@group == null)
             {
                 return NotFound();
             }
 
-            return View(people);
+            return View(@group);
         }
 
-        // POST: People/Delete/5
+        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Peoples.Remove(people);
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Groups.Remove(@group);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", nameof(People));
         }
 
-        private bool PeopleExists(int id)
+        private bool GroupExists(int id)
         {
-            return _context.Peoples.Any(e => e.Id == id);
+            return _context.Groups.Any(e => e.Id == id);
         }
     }
 }

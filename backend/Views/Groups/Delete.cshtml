@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
-        <input type="hidden" asp-for="People" />
+        <input type="hidden" asp-for="PeopleId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="People" asp-action="Index">Back to List</a>
     </form>
 </div>

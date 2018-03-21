@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using backend.Models;
 using backend.Data;
 using backend.Services;
+using backend.Types;
 
 namespace backend
 {
@@ -25,7 +26,10 @@ namespace backend
                                      " BB     BB  EE        UU     UU  NN   NNN    II        TT        \n" +
                                      " BBBBBBBB   EEEEEEEE   UUUUUUU   NN    NN  IIII       TT         \n\n";
 
+            Console.WriteLine(Console.ForegroundColor);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.Write(Copyright);
+            Console.ResetColor();
 
             Configuration = configuration;
         }
@@ -92,17 +96,18 @@ namespace backend
                 Console.WriteLine("Allowing CORS request for: {0}", host);
 
             // Configure CORS with the proper hosts
-            // TODO: use the specific host logic below, ensure it works
-            //app.UseCors(corsPolicyBuilder =>
-            //    corsPolicyBuilder.WithOrigins(allowedHosts)
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //);
             app.UseCors(corsPolicyBuilder =>
-                corsPolicyBuilder.AllowAnyOrigin()
+                corsPolicyBuilder.WithOrigins(allowedHosts)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );
+
+            // TODO: remove this when we're done with it
+            /* // Create a new example group */
+            /* var group = new Group(); */
+            /* group.Name = "My new fancy group"; */
+            /* context.Groups.Add(group); */
+            /* context.SaveChanges(); */
 
             // Define the routes
             app.UseMvc(routes =>
@@ -113,10 +118,10 @@ namespace backend
                 );
             });
 
-
-            // Seed database if not running in production
-            if (Program.AppConfig.DatabaseReset)
-                DbBuilder.Rebuild(context);
+            // TODO: reenable this once the DbBuilder is complete
+            /* // Seed database if not running in production */
+            /* if (Program.AppConfig.DatabaseReset) */
+            /*     DbBuilder.Rebuild(context); */
         }
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("events")]
+    [Table("event")]
     public class Event
     {
         [Key]
@@ -17,7 +17,7 @@ namespace backend.Models
 
         [ForeignKey("People")]
         public List<People> Peoples { get; set; }
-        
+
         public ICollection <EventLocation> Locations { get; set; }
     }
 }
