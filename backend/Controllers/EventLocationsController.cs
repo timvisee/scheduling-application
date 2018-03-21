@@ -37,7 +37,7 @@ namespace backend.Controllers
             var eventLocation = await _context.EventLocations
                 .Include(e => e.Event)
                 .Include(e => e.Location)
-                .SingleOrDefaultAsync(m => m.EventId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (eventLocation == null)
             {
                 return NotFound();
@@ -67,8 +67,8 @@ namespace backend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
-            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
+            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.Id);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.Id);
             return View(eventLocation);
         }
 
@@ -80,13 +80,13 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var eventLocation = await _context.EventLocations.SingleOrDefaultAsync(m => m.EventId == id);
+            var eventLocation = await _context.EventLocations.SingleOrDefaultAsync(m => m.Id == id);
             if (eventLocation == null)
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
-            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
+            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.Id);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.Id);
             return View(eventLocation);
         }
 
@@ -97,7 +97,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EventId,LocationId")] EventLocation eventLocation)
         {
-            if (id != eventLocation.EventId)
+            if (id != eventLocation.Id)
             {
                 return NotFound();
             }
@@ -111,7 +111,7 @@ namespace backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventLocationExists(eventLocation.EventId))
+                    if (!EventLocationExists(eventLocation.Id))
                     {
                         return NotFound();
                     }
@@ -122,8 +122,8 @@ namespace backend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.EventId);
-            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.LocationId);
+            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId", eventLocation.Id);
+            ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "LocationId", eventLocation.Id);
             return View(eventLocation);
         }
 
@@ -138,7 +138,7 @@ namespace backend.Controllers
             var eventLocation = await _context.EventLocations
                 .Include(e => e.Event)
                 .Include(e => e.Location)
-                .SingleOrDefaultAsync(m => m.EventId == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (eventLocation == null)
             {
                 return NotFound();
@@ -152,7 +152,7 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var eventLocation = await _context.EventLocations.SingleOrDefaultAsync(m => m.EventId == id);
+            var eventLocation = await _context.EventLocations.SingleOrDefaultAsync(m => m.Id == id);
             _context.EventLocations.Remove(eventLocation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -160,7 +160,7 @@ namespace backend.Controllers
 
         private bool EventLocationExists(int id)
         {
-            return _context.EventLocations.Any(e => e.EventId == id);
+            return _context.EventLocations.Any(e => e.Id == id);
         }
     }
 }
