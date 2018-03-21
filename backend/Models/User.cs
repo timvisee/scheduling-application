@@ -20,7 +20,7 @@ namespace backend.Models
         /// The full name of the user
         public string FullName {
             get {
-                if(string.IsNullOrEmpty(Infix.Trim())) {
+                if(string.IsNullOrEmpty(Infix)) {
                     return FirstName + " " + LastName;
                 } else {
                     return FirstName + " " + Infix + " " + LastName;
