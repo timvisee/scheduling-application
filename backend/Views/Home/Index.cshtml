@@ -1,25 +1,46 @@
-﻿@model IEnumerable<backend.Models.Event>
+﻿@using System.Runtime.InteropServices.ComTypes
+@model IEnumerable<backend.Models.Event>
 
 @{
     ViewData["Title"] = "Home";
 }
 
-<h2>Event overview</h2>
+<div class="row sc-body p-5">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-2"><h4 class="text-success text-center">Monday</h4></div>
+        <div class="col-lg-2"><h4 class="text-danger text-center">Tuesday</h4></div>
+        <div class="col-lg-2"><h4 class="text-warning text-center">Wednesday</h4></div>
+        <div class="col-lg-2"><h4 class="text-info text-center">Thursday</h4></div>
+        <div class="col-lg-2"><h4 class="text-primary text-center">Friday</h4></div>
 
-<div class="row">
-    
-@foreach (var item in Model) {
-    <div class="col-xs-12 col-md-6 col-lg-4">
-        <div class="card m-2">
-            <div class="card-body">
-                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Start)</h6>
-                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.End)</h6>
-                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                <a class="card-link" asp-controller="Events" asp-action="Details" asp-route-id="@item.EventId">View details</a>
+    @{
+        var count = 0;
+    }
+    @foreach (var item in Model)
+    {
+        if (count % 5 == 0)
+        {
+            <div class="col-lg-2">
+                <div class="card card-date m-2 border-0">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Tijd hier</h6>
+                    <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">Tijd hier</h6>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-lg-2">
+            <div class="card card-date m-1">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                    @*                    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Start)</h6>*@
+                    @*                    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.End)</h6>*@
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <a class="card-link" asp-controller="Events" asp-action="Details" asp-route-id="@item.EventId">View details</a>
+                </div>
             </div>
         </div>
-    </div>
-}
-
+        count++;
+    }
 </div>
