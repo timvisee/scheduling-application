@@ -23,7 +23,21 @@ namespace backend.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Events.ToList());
+            DateTime startDate = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
+            DateTime endDate = startDate.AddDays(6).AddHours(23).AddMinutes(59);
+
+            var events = _context.Events.Where(x => x.Start >= startDate && x.End <= endDate);
+
+            List <List<Event>> week = new List<List<Event>>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                var day = events.Where(x => x.Start >= startDate.AddDays(i) && x.End < startDate.AddDays(i + 1)).ToList();
+                week.Add(day);
+            }
+
+            ViewData["week"] = week;
+            return View();
         }
 
         public IActionResult Error()
