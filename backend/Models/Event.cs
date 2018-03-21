@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("events")]
+    [Table("event")]
     public class Event
     {
         [Key]

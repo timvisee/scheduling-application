@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace backend.Models
 {
     [Table("people")]
-    public class People
+    public abstract class People
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PeopleId { get; set; }
+        public int Id { get; set; }
+
+        public ICollection <PeopleGroup> Groups { get; set; }
     }
 }

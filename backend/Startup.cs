@@ -99,34 +99,12 @@ namespace backend
                     .AllowAnyHeader()
             );
 
-
-
-            /* var user = new User(); */
-            /* user.FirstName = "TestUser"; */
-            /* user.FirstName = "TestUser"; */
-            /* context.Users.Add(user); */
+            // TODO: remove this when we're done with it
+            /* // Create a new example group */
+            /* var group = new Group(); */
+            /* group.Name = "My new fancy group"; */
+            /* context.Groups.Add(group); */
             /* context.SaveChanges(); */
-
-            var _event = new Event();
-            _event.Title = "Custom event";
-            _event.Description = "This is some event description";
-            _event.Start = new DateTime();
-            _event.End = new DateTime();
-            context.Events.Add(_event);
-            context.SaveChanges();
-
-            var user = new User();
-            user.FirstName = "First name";
-            user.Infix = "van ";
-            user.LastName = "Last name";
-            user.Locale = "en_US";
-            user.Role = Types.Role.Basic;
-            user.Type = Types.Type.Student;
-            user.Deleted = false;
-            context.Users.Add(user);
-            context.SaveChanges();
-
-
 
             // Define the routes
             app.UseMvc(routes =>
@@ -137,10 +115,10 @@ namespace backend
                 );
             });
 
-
-            // Seed database if not running in production
-            if (Program.AppConfig.DatabaseReset)
-                DbBuilder.Rebuild(context);
+            // TODO: reenable this once the DbBuilder is complete
+            /* // Seed database if not running in production */
+            /* if (Program.AppConfig.DatabaseReset) */
+            /*     DbBuilder.Rebuild(context); */
         }
     }
 }
