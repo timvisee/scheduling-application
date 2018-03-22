@@ -5,7 +5,7 @@
 }
 
 @section Stylesheets {
-    <link rel="stylesheet" href="~/css/crud.css" />
+    <link rel="stylesheet" href="~/css/crud.css"/>
 }
 
 <h2>People Overview</h2>
@@ -16,22 +16,44 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <tr>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TypedDisplayName)</th>
+            <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.GetType().Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.DisplayName)</td>
-                <td>
-                    <a asp-controller="@(item.GetType().Name)s" asp-action="Details" asp-route-id="@item.Id">View</a> |
-                    <a asp-controller="@(item.GetType().Name)s" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="@(item.GetType().Name)s" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <td>@Html.DisplayFor(modelItem => item.TypedDisplayName)</td>
+
+                @if (item.GetType() == typeof(Group))
+                {
+                    <td>
+                        <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DisplayName)
+                        </a>
+
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DisplayName)
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
             </tr>
         }
         </tbody>

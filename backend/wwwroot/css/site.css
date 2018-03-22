@@ -1,6 +1,11 @@
 ﻿body {
     margin-top: 85px;
     background-color: gainsboro;
+    font-family: Ubuntu, serif, Arial;
+}
+
+.font-weight-medium {
+    font-weight: 500;
 }
 
 .card-date{
