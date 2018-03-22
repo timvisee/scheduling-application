@@ -49,7 +49,7 @@ namespace backend.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewBag.SelectPeople = new MultiSelectList(_context.Peoples, "Id", "TypedDisplayName");
+            ViewBag.SelectPeople = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
 
             return View();
         }
@@ -86,10 +86,10 @@ namespace backend.Controllers
             }
 
             ViewBag.SelectPeople = new MultiSelectList(
-                _context.Peoples,
+                _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Peoples
+                @event.People
             );
 
             return View(@event);

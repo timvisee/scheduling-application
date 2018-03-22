@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,6 +10,7 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
+        public ICollection <EventPeople> Events { get; set; }
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters

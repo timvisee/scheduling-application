@@ -16,6 +16,10 @@
     background-color: white;
 }
 
+.manage-container {
+    padding: 15px;
+}
+
 .card-info{
     position: absolute;
     bottom: 5px;

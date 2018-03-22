@@ -106,6 +106,21 @@ namespace backend.Migrations
                     b.ToTable("event_location");
                 });
 
+            modelBuilder.Entity("backend.Models.EventPeople", b =>
+                {
+                    b.Property<int>("EventId");
+
+                    b.Property<int>("PeopleId");
+
+                    b.Property<int>("Id");
+
+                    b.HasKey("EventId", "PeopleId");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("event_people");
+                });
+
             modelBuilder.Entity("backend.Models.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -132,11 +147,7 @@ namespace backend.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<int?>("People");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("People");
 
                     b.ToTable("people");
 
@@ -313,17 +324,23 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("backend.Models.People", b =>
+            modelBuilder.Entity("backend.Models.EventPeople", b =>
                 {
-                    b.HasOne("backend.Models.Event")
-                        .WithMany("Peoples")
-                        .HasForeignKey("People");
+                    b.HasOne("backend.Models.Event", "Event")
+                        .WithMany("People")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.People", "People")
+                        .WithMany("Events")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("backend.Models.PeopleGroup", b =>
                 {
                     b.HasOne("backend.Models.Group", "Group")
-                        .WithMany("Peoples")
+                        .WithMany("People")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -22,7 +22,7 @@ namespace backend.Controllers
         // GET: People
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Peoples.ToListAsync());
+            return View(await _context.People.ToListAsync());
         }
 
         // GET: People/Details/5
@@ -33,7 +33,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var people = await _context.People
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
@@ -50,7 +50,7 @@ namespace backend.Controllers
         }
 
         // POST: People/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,7 +73,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
+            var people = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
                 return NotFound();
@@ -82,7 +82,7 @@ namespace backend.Controllers
         }
 
         // POST: People/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -124,7 +124,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            var people = await _context.Peoples
+            var people = await _context.People
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (people == null)
             {
@@ -139,15 +139,15 @@ namespace backend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var people = await _context.Peoples.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Peoples.Remove(people);
+            var people = await _context.People.SingleOrDefaultAsync(m => m.Id == id);
+            _context.People.Remove(people);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PeopleExists(int id)
         {
-            return _context.Peoples.Any(e => e.Id == id);
+            return _context.People.Any(e => e.Id == id);
         }
     }
 }
