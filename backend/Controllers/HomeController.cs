@@ -21,15 +21,21 @@ namespace backend.Controllers
             _context = context;
         }
 
+        /**
+         * Landing page for users after login
+         */
         public IActionResult Index()
         {
             DateTime startDate = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
             DateTime endDate = startDate.AddDays(6).AddHours(23).AddMinutes(59);
 
+            //TODO still needs to be filtered on users/groups
             var events = _context.Events.Where(x => x.Start >= startDate && x.End <= endDate);
 
             List <List<Event>> week = new List<List<Event>>();
 
+            //TODO This does not work with weekends yet
+            //Add all events to separate lists based on date.
             for (int i = 0; i < 5; i++)
             {
                 var day = events.Where(x => x.Start >= startDate.AddDays(i) && x.End < startDate.AddDays(i + 1)).ToList();
