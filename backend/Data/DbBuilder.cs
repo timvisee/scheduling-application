@@ -6,6 +6,8 @@ using backend.Models;
 using backend.Types;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Rewrite.Internal.ApacheModRewrite;
+using Type = backend.Types.Type;
 
 namespace backend.Data
 {
@@ -54,7 +56,129 @@ namespace backend.Data
 
             LogUtils.Log("Generating seed data", ConsoleColor.Green);
 
-            // TODO SEED DB
+
+            /**
+             * USERS
+             */
+
+            var us = new User
+            {
+                FirstName = "Bem ",
+                Infix = "",
+                LastName = "Test",
+                Locale = "NL",
+                Role = Role.Basic,
+                Type = Type.Student
+            };
+            context.Users.Add(us);
+
+            var us3 = new User
+            {
+                FirstName = "Bem ",
+                Infix = "",
+                LastName = "Test",
+                Locale = "NL",
+                Role = Role.Basic,
+                Type = Type.Student
+            };
+            context.Users.Add(us3);
+
+            var us4 = new User
+            {
+                FirstName = "Bem ",
+                Infix = "",
+                LastName = "Test",
+                Locale = "NL",
+                Role = Role.Basic,
+                Type = Type.Student
+            };
+            context.Users.Add(us4);
+
+            var us5 = new User
+            {
+                FirstName = "Bem ",
+                Infix = "",
+                LastName = "Test",
+                Locale = "NL",
+                Role = Role.Basic,
+                Type = Type.Student
+            };
+            context.Users.Add(us5);
+
+            var us6 = new User
+            {
+                FirstName = "Bem ",
+                Infix = "",
+                LastName = "Test",
+                Locale = "NL",
+                Role = Role.Basic,
+                Type = Type.Student
+            };
+            context.Users.Add(us6);
+
+            context.SaveChanges();
+
+            List<People> userList = new List<People>();
+            List<People> userList2 = new List<People>();
+
+            userList.Add(us);
+            userList.Add(us3);
+            userList.Add(us4);
+            userList.Add(us5);
+            userList.Add(us6);
+
+            userList2.Add(us);
+            userList2.Add(us3);
+            userList2.Add(us6);
+
+            /**
+             * EVENTS
+             */
+            var ev = new Event
+            {
+                Start = new DateTime(2018, 3, 19, 8, 0, 0, 0),
+                End = new DateTime(2018, 3, 19, 9, 0, 0, 0),
+                Description = "",
+                Title = "Title of Event",
+                Peoples = userList
+            };
+            context.Events.Add(ev);
+
+
+            var ev2 = new Event
+            {
+                Start = new DateTime(2018, 3, 19, 11, 0, 0, 0),
+                End = new DateTime(2018, 3, 19, 12, 0, 0, 0),
+                Description = "",
+                Title = "Title of Event",
+                Peoples = userList2
+            };
+            context.Events.Add(ev2);
+
+            var ev3 = new Event
+            {
+                Start = new DateTime(2018, 3, 19, 12, 0, 0, 0),
+                End = new DateTime(2018, 3, 19, 13, 0, 0, 0),
+                Description = "",
+                Title = "Title of Event",
+                Peoples = userList
+            };
+            context.Events.Add(ev3);
+
+            var ev4 = new Event
+            {
+                Start = new DateTime(2018, 3, 20, 8, 0, 0, 0),
+                End = new DateTime(2018, 3, 20, 9, 0, 0, 0),
+                Description = "",
+                Title = "Title of Event",
+                Peoples = userList2
+            };
+            context.Events.Add(ev4);
+            context.SaveChanges();
+
+
+
+
 
             // Show a success message
             LogUtils.Success("Database built!");
