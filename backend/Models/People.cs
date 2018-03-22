@@ -15,5 +15,6 @@ namespace backend.Models
 
         // Some generic getters
         public abstract string DisplayName { get; }
+        public abstract string TypedDisplayName { get; }
     }
 }
