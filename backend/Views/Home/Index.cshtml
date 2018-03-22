@@ -26,8 +26,6 @@
 }
 
 <div class="row sc-body p-5">
-    <div class="col-lg-2">
-    </div>
 
     @for(var i = 0; i < 7; i++)
     {
@@ -44,12 +42,8 @@
                         <hr>
                         <p>@item.Start.TimeOfDay</p>
                     </div>
-                    <a asp-controller="Events" asp-action="Details"
-                        asp-route-id="@item.Id"
-                        class="card-info">
-                        <i class="fa fa-question-circle"></i>
-                    </a>
-                    <i class="fa fa-question-circle card-info eventRequest" data-id="@(eve.Id)" data-toggle="modal" data-target="#detailModal"></i>
+
+                    <i class="fa fa-question-circle card-info eventRequest" data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal"></i>
                 </div>
             }
 
