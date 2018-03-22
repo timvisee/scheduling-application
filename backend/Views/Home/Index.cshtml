@@ -5,35 +5,58 @@
 @{
     ViewData["Title"] = "Home";
 
-    string [] colors =  new string[]{"text-success", "text-danger", "text-info", "text-primary", "text-warning"};
+    string[] ColorNames =  new string[]{
+        "text-success",
+        "text-danger",
+        "text-info",
+        "text-primary",
+        "text-warning",
+        "text-success",
+        "text-success"
+    };
+    string[] DayNames =  new string[]{
+        "Monday",
+        "Dinsdag",
+        "Woens",
+        "Bliksemdag",
+        "VRIJ",
+        "Zaterdag",
+        "Regendag"
+    };
 }
 
 <div class="row sc-body p-5">
     <div class="col-lg-2">
     </div>
 
-    @{
-        var count = 0;
-    }
-    @foreach (var day in ViewData["week"] as List<List<Event>>)
+    @for(var i = 0; i < 7; i++)
     {
         <div class="col-lg-2">
             <div class="col-lg-12">
-                <h4 class="text-center @colors[count]">@day[0].Start.DayOfWeek</h4>
+                <h4 class="text-center @ColorNames[i]">@DayNames[i]</h4>
             </div>
 
-            @foreach (var eve in day)
+            @foreach(var item in ViewBag.Days[i])
             {
                 <div class="card card-date m-1">
                     <div class="card-body">
-                        <h6>@eve.Title</h6>
+                        <h6>@item.Title</h6>
                         <hr>
-                        <p>@eve.Start.TimeOfDay</p>
+                        <p>@item.Start.TimeOfDay</p>
                     </div>
-                    <a asp-controller="Events" asp-action="Details" asp-route-id="@eve.Id" class="card-info"><i class="fa fa-question-circle"></i></a>
+                    <a asp-controller="Events" asp-action="Details"
+                        asp-route-id="@item.Id"
+                        class="card-info">
+                        <i class="fa fa-question-circle"></i>
+                    </a>
                 </div>
             }
-            @{count++;}
+
+            @if(ViewBag.Days[i].Count == 0) {
+                <div class="card card-date m-1">
+                    <i>NOPE</i>
+                </div>
+            }
         </div>
     }
 </div>

@@ -23,20 +23,22 @@ namespace backend.Controllers
 
         public IActionResult Index()
         {
-            DateTime startDate = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
-            DateTime endDate = startDate.AddDays(6).AddHours(23).AddMinutes(59);
+            // Get the start and end dates for the current date range
+            DateTime start = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
+            DateTime end = start.AddDays(6).AddHours(23).AddMinutes(59);
 
-            var events = _context.Events.Where(x => x.Start >= startDate && x.End <= endDate);
+            // Fetch all relevant events
+            var events = _context.Events.Where(x => x.Start >= start && x.End <= end);
 
-            List <List<Event>> week = new List<List<Event>>();
+            // Build a list of days, containing a list of events on that day
+            ViewBag.Days = Enumerable.Range(0, 7)
+                .Select(
+                    day => events.Where(
+                        x => x.Start >= start.AddDays(day)
+                            && x.End < start.AddDays(day + 1)
+                    ).ToList()
+                ).ToList();
 
-            for (int i = 0; i < 5; i++)
-            {
-                var day = events.Where(x => x.Start >= startDate.AddDays(i) && x.End < startDate.AddDays(i + 1)).ToList();
-                week.Add(day);
-            }
-
-            ViewData["week"] = week;
             return View();
         }
 
