@@ -89,7 +89,7 @@ namespace backend.Controllers
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.People
+                @event.Attendees
             );
 
             return View(@event);

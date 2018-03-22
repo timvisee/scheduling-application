@@ -10,7 +10,8 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
-        public ICollection <EventPeople> Events { get; set; }
+        public ICollection <EventOwner> EventsOwn { get; set; }
+        public ICollection <EventAttendee> EventsAttend { get; set; }
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters

@@ -91,6 +91,21 @@ namespace backend.Migrations
                     b.ToTable("event");
                 });
 
+            modelBuilder.Entity("backend.Models.EventAttendee", b =>
+                {
+                    b.Property<int>("EventId");
+
+                    b.Property<int>("PeopleId");
+
+                    b.Property<int>("Id");
+
+                    b.HasKey("EventId", "PeopleId");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("event_attendee");
+                });
+
             modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
                     b.Property<int>("EventId");
@@ -106,7 +121,7 @@ namespace backend.Migrations
                     b.ToTable("event_location");
                 });
 
-            modelBuilder.Entity("backend.Models.EventPeople", b =>
+            modelBuilder.Entity("backend.Models.EventOwner", b =>
                 {
                     b.Property<int>("EventId");
 
@@ -118,7 +133,7 @@ namespace backend.Migrations
 
                     b.HasIndex("Id");
 
-                    b.ToTable("event_people");
+                    b.ToTable("event_owner");
                 });
 
             modelBuilder.Entity("backend.Models.Location", b =>
@@ -311,6 +326,19 @@ namespace backend.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
+            modelBuilder.Entity("backend.Models.EventAttendee", b =>
+                {
+                    b.HasOne("backend.Models.Event", "Event")
+                        .WithMany("Attendees")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.People", "People")
+                        .WithMany("EventsAttend")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("backend.Models.EventLocation", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
@@ -324,15 +352,15 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("backend.Models.EventPeople", b =>
+            modelBuilder.Entity("backend.Models.EventOwner", b =>
                 {
                     b.HasOne("backend.Models.Event", "Event")
-                        .WithMany("People")
+                        .WithMany("Owners")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.People", "People")
-                        .WithMany("Events")
+                        .WithMany("EventsOwn")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

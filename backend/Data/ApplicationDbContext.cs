@@ -33,16 +33,28 @@ namespace backend.Data
                 .WithMany(e => e.Locations)
                 .HasForeignKey("Id");
 
-            // Event couplings
-            builder.Entity<EventPeople>()
+            // Event owner couplings
+            builder.Entity<EventOwner>()
                 .HasKey(el => new { el.EventId, el.PeopleId});
-            builder.Entity<EventPeople>()
+            builder.Entity<EventOwner>()
                 .HasOne(el => el.People)
-                .WithMany(e => e.Events)
+                .WithMany(e => e.EventsOwn)
                 .HasForeignKey("Id");
-            builder.Entity<EventPeople>()
+            builder.Entity<EventOwner>()
                 .HasOne(el => el.Event)
-                .WithMany(e => e.People)
+                .WithMany(e => e.Owners)
+                .HasForeignKey("Id");
+
+            // Event attendee couplings
+            builder.Entity<EventAttendee>()
+                .HasKey(el => new { el.EventId, el.PeopleId});
+            builder.Entity<EventAttendee>()
+                .HasOne(el => el.People)
+                .WithMany(e => e.EventsAttend)
+                .HasForeignKey("Id");
+            builder.Entity<EventAttendee>()
+                .HasOne(el => el.Event)
+                .WithMany(e => e.Attendees)
                 .HasForeignKey("Id");
 
             // People group couplings

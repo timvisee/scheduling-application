@@ -15,7 +15,8 @@ namespace backend.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
-        public ICollection <EventPeople> People { get; set; }
+        public ICollection <EventOwner> Owners { get; set; }
+        public ICollection <EventAttendee> Attendees { get; set; }
         public ICollection <EventLocation> Locations { get; set; }
     }
 }
