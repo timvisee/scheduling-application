@@ -6,6 +6,7 @@
     <title>Scheduling Application | @ViewData["Title"]</title>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -47,11 +48,13 @@
         <script src="~/js/jquery.min.js"></script>
         <script src="~/js/popper.min.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/site.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/jquery.min.js"></script>
         <script src="~/js/popper.min.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/site.js"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

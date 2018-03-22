@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -178,7 +179,7 @@ namespace backend.Controllers
 
                     Start = new DateTime(2018, 3, day, 8 + i, 0, 0, 0),
                     End = new DateTime(2018, 3, day, 9 + i, 0, 0, 0),
-                    Description = "",
+                    Description = "This is a description where we describe with a describing description",
                     Title = "Title of Event",
                 };
                 _context.Events.Add(ev);
@@ -201,6 +202,12 @@ namespace backend.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public JsonResult JsonDetails(int id)
+        {
+            return Json(_context.Events.Find(id));
         }
     }
 }
