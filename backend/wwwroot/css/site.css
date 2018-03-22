@@ -1,6 +1,11 @@
 ﻿body {
     background-color: gainsboro;
+    font-family: Ubuntu, serif, Arial;
     margin-top: 85px;
+}
+
+.font-weight-medium {
+    font-weight: 500;
 }
 
 .card p {

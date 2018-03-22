@@ -117,8 +117,8 @@ namespace backend
 
             // TODO: reenable this once the DbBuilder is complete
             // Seed database if not running in production
-//            if (Program.AppConfig.DatabaseReset)
-//                DbBuilder.Rebuild(context);
+            if (Program.AppConfig.DatabaseReset)
+                DbBuilder.Rebuild(context);
         }
     }
 }
