@@ -10,8 +10,13 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name="Titel")]
         public ICollection <EventOwner> EventsOwn { get; set; }
+
+        [Display(Name="Titel")]
         public ICollection <EventAttendee> EventsAttend { get; set; }
+
+        [Display(Name="Groepen")]
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters

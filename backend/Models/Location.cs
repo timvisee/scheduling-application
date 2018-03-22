@@ -9,11 +9,19 @@ namespace backend.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name="Naam")]
         public string Name { get; set; }
+
+        [Display(Name="Beschrijving")]
         public string Description { get; set; }
+
+        [Display(Name="Latitude")]
         public double Latitude { get; set; }
+
+        [Display(Name="Longitude")]
         public double Longitude { get; set; }
-        
+
         public ICollection <EventLocation> Events { get; set; }
     }
 }
