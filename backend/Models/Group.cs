@@ -7,15 +7,12 @@ namespace backend.Models
     [Table("group")]
     public class Group : People
     {
+        [Display(Name = "Naam")]
         public string Name { get; set; }
 
         public ICollection <PeopleGroup> Peoples { get; set; }
 
-        public override string DisplayName { get { return Name; } }
-        public override string TypedDisplayName {
-            get {
-                return "Group: " + DisplayName;
-            }
-        }
+        public override string DisplayName => Name;
+        public override string TypedDisplayName => "Group: " + Name;
     }
 }

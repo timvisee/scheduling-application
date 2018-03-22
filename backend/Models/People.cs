@@ -14,7 +14,10 @@ namespace backend.Models
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters
+        [Display(Name = "Naam")]
         public abstract string DisplayName { get; }
+
+        [Display(Name = "Type")]
         public abstract string TypedDisplayName { get; }
     }
 }

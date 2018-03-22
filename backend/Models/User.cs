@@ -19,21 +19,18 @@ namespace backend.Models
 
         /// Full name property
         public string FullName {
-            get {
+            get
+            {
                 if(string.IsNullOrEmpty(Infix)) {
                     return FirstName + " " + LastName;
-                } else {
-                    return FirstName + " " + Infix + " " + LastName;
                 }
+
+                return FirstName + " " + Infix + " " + LastName;
             }
         }
 
         // Override abstract getters
-        public override string DisplayName { get { return FullName; } }
-        public override string TypedDisplayName {
-            get {
-                return "User: " + DisplayName;
-            }
-        }
+        public override string DisplayName => FullName;
+        public override string TypedDisplayName => "User: " + FullName;
     }
 }
