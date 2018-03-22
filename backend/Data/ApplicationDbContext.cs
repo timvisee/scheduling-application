@@ -13,7 +13,7 @@ namespace backend.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<People> Peoples { get; set; }
+        public DbSet<People> People { get; set; }
         public DbSet<Location> Locations { get; set; }
 
         public DbSet<EventLocation> EventLocations { get; set; }
@@ -33,6 +33,18 @@ namespace backend.Data
                 .WithMany(e => e.Locations)
                 .HasForeignKey("Id");
 
+            // Event couplings
+            builder.Entity<EventPeople>()
+                .HasKey(el => new { el.EventId, el.PeopleId});
+            builder.Entity<EventPeople>()
+                .HasOne(el => el.People)
+                .WithMany(e => e.Events)
+                .HasForeignKey("Id");
+            builder.Entity<EventPeople>()
+                .HasOne(el => el.Event)
+                .WithMany(e => e.People)
+                .HasForeignKey("Id");
+
             // People group couplings
             builder.Entity<PeopleGroup>()
                 .HasKey(el => new { el.GroupId, el.PeopleId});
@@ -42,7 +54,7 @@ namespace backend.Data
                 .HasForeignKey("Id");
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.Group)
-                .WithMany(e => e.Peoples)
+                .WithMany(e => e.People)
                 .HasForeignKey("Id");
 
             base.OnModelCreating(builder);

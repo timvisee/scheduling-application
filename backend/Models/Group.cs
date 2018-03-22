@@ -10,7 +10,7 @@ namespace backend.Models
         [Display(Name = "Naam")]
         public string Name { get; set; }
 
-        public ICollection <PeopleGroup> Peoples { get; set; }
+        public ICollection <PeopleGroup> People { get; set; }
 
         public override string DisplayName => Name;
         public override string TypedDisplayName => "Group: " + Name;
