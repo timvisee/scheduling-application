@@ -21,6 +21,9 @@ namespace backend.Controllers
             _context = context;
         }
 
+        /**
+         * Landing page for users after login
+         */
         public IActionResult Index()
         {
             // Get the start and end dates for the current date range
