@@ -1,23 +1,26 @@
 ﻿body {
-    margin-top: 85px;
     background-color: gainsboro;
     font-family: Ubuntu, serif, Arial;
+    margin-top: 85px;
 }
 
 .font-weight-medium {
     font-weight: 500;
 }
 
-.card-date{
+.card p {
+    margin: 0;
+    text-align: center;
 }
 
-.sc-body{
-    border-radius: 5px;
-    background-color: white;
-}
-
-.card-info{
+.card-info {
     position: absolute;
     bottom: 5px;
     right: 5px;
 }
+
+.sc-body {
+    border-radius: 5px;
+    background-color: white;
+}
+
