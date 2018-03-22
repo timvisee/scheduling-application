@@ -1,18 +1,21 @@
 ﻿body {
-    margin-top: 85px;
     background-color: gainsboro;
+    margin-top: 85px;
 }
 
-.card-date{
+.card p {
+    margin: 0;
+    text-align: center;
 }
 
-.sc-body{
-    border-radius: 5px;
-    background-color: white;
-}
-
-.card-info{
+.card-info {
     position: absolute;
     bottom: 0px;
     right: 5px;
 }
+
+.sc-body {
+    border-radius: 5px;
+    background-color: white;
+}
+
