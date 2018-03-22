@@ -29,9 +29,10 @@ namespace backend.Models
         }
 
         // Override abstract getters
-        public override string DisplayName {
+        public override string DisplayName { get { return FullName; } }
+        public override string TypedDisplayName {
             get {
-                return FullName;
+                return "User: " + DisplayName;
             }
         }
     }

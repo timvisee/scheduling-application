@@ -48,7 +48,7 @@ namespace backend.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["AllPeople"] = _context.Peoples.Select(r => new SelectListItem { Text = r.Id.ToString(), Value = r.Id.ToString() });
+            ViewBag.SelectPeople = new MultiSelectList(_context.Peoples, "Id", "TypedDisplayName");
 
             return View();
         }
@@ -66,6 +66,7 @@ namespace backend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(@event);
         }
 
@@ -82,6 +83,14 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.SelectPeople = new MultiSelectList(
+                _context.Peoples,
+                "Id",
+                "TypedDisplayName",
+                @event.Peoples
+            );
+
             return View(@event);
         }
 
