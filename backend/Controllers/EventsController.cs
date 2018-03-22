@@ -168,19 +168,24 @@ namespace backend.Controllers
         */
         public async Task<IActionResult> Seed()
         {
-            var eventCount = 10;
+            var eventCount = 15;
+            var day = 19;
 
             for (int i = 0; i < eventCount; i++)
             {
                 var ev = new Event
                 {
 
-                    Start = new DateTime(2018, 1, 1, 8 + i, 0, 0, 0),
-                    End = new DateTime(2018, 1, 1, 9 + i, 0, 0, 0),
+                    Start = new DateTime(2018, 3, day, 8 + i, 0, 0, 0),
+                    End = new DateTime(2018, 3, day, 9 + i, 0, 0, 0),
                     Description = "",
                     Title = "Title of Event",
                 };
                 _context.Events.Add(ev);
+                if (i % 3 == 0)
+                {
+                    day++;
+                }
             }
             _context.SaveChanges();
 
