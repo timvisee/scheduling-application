@@ -49,7 +49,8 @@ namespace backend.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewBag.SelectPeople = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
+            ViewBag.Owners = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
+            ViewBag.Attendees = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
 
             return View();
         }
@@ -85,7 +86,13 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            ViewBag.SelectPeople = new MultiSelectList(
+            ViewBag.Owners = new MultiSelectList(
+                _context.People,
+                "Id",
+                "TypedDisplayName",
+                @event.Owners
+            );
+            ViewBag.Attendees = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",

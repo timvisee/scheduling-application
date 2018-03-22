@@ -34,9 +34,16 @@
                 <span asp-validation-for="End" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="People" class="control-label"></label>
-                <select asp-for="People"
-                    asp-items="@ViewBag.SelectPeople"
+                <label asp-for="Owners" class="control-label"></label>
+                <select asp-for="Owners"
+                    asp-items="@ViewBag.Owners"
+                    class="form-control">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Attendees" class="control-label"></label>
+                <select asp-for="Attendees"
+                    asp-items="@ViewBag.Attendees"
                     class="form-control">
                 </select>
             </div>
