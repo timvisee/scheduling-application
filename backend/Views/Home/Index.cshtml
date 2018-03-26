@@ -74,19 +74,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="detail-title" class="modal-title"></h5>
+                <h5 id="detail-title" class="modal-title text-danger"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p id="detail-start-date"></p>
+                <p class="text-success" id="detail-start-date"></p>
+                <div class="border p-1 mb-1">
                 <h5>Description</h5>
-                <p id="detail-description"></p>
+                    <p id="detail-description"></p>
+                </div>
+                <div class="border p-1">
                 <h5>Details</h5>
-                <p>
-                    Event duration: <u><span id="detail-timeDuration"/></u>
-                </p>
+                    <p>
+                        Event duration: <u><span id="detail-timeDuration"/></u>
+                    </p>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
