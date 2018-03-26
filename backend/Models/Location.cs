@@ -10,10 +10,11 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Name="Naam")]
+        [Required]
+        [Display(Name="Name")]
         public string Name { get; set; }
 
-        [Display(Name="Beschrijving")]
+        [Display(Name="Description")]
         public string Description { get; set; }
 
         [Display(Name="Latitude")]

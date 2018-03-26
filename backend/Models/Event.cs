@@ -11,25 +11,28 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Name="Titel")]
+        [Required]
+        [Display(Name="Title")]
         public string Title { get; set; }
 
-        [Display(Name="Beschrijving")]
+        [Display(Name="Description")]
         public string Description { get; set; }
 
-        [Display(Name="Begin")]
+        [Required]
+        [Display(Name="Start")]
         public DateTime Start { get; set; }
 
-        [Display(Name="Eind")]
+        [Display(Name="End")]
         public DateTime End { get; set; }
 
-        [Display(Name="Eigenaren")]
+        [Required]
+        [Display(Name="Owners")]
         public ICollection <EventOwner> Owners { get; set; }
 
-        [Display(Name="Deelnemers")]
+        [Display(Name="Attendees")]
         public ICollection <EventAttendee> Attendees { get; set; }
 
-        [Display(Name="Locaties")]
+        [Display(Name="Locations")]
         public ICollection <EventLocation> Locations { get; set; }
     }
 }

@@ -10,17 +10,19 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Name="Titel")]
+        [Required]
+        [Display(Name="Owners")]
         public ICollection <EventOwner> EventsOwn { get; set; }
 
-        [Display(Name="Titel")]
+        [Required]
+        [Display(Name="Attendees")]
         public ICollection <EventAttendee> EventsAttend { get; set; }
 
-        [Display(Name="Groepen")]
+        [Display(Name="Groups")]
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters
-        [Display(Name = "Naam")]
+        [Display(Name = "Name")]
         public abstract string DisplayName { get; }
 
         [Display(Name = "Type")]
