@@ -107,8 +107,12 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Start,End")] Event @event)
-        {
+        public async Task<IActionResult> Edit(
+                int id,
+                List<int> owners,
+                List<int> attendees,
+                [Bind("Id,Title,Description,Start,End,Owners,Attendees")] Event @event
+        ) {
             if (id != @event.Id)
             {
                 return NotFound();
@@ -119,6 +123,37 @@ namespace backend.Controllers
                 try
                 {
                     _context.Update(@event);
+
+                    // Remove all previous couplings
+                    _context.RemoveRange(
+                        _context.EventOwners.Where(e => e.EventId == id)
+                    );
+                    _context.RemoveRange(
+                        _context.EventAttendees.Where(e => e.EventId == id)
+                    );
+                    _context.SaveChanges();
+
+                    // Add the new couplings
+                    foreach (var peopleId in owners)
+                    {
+                        @event.Owners.Add(
+                            new EventOwner {
+                                PeopleId = peopleId,
+                                EventId = @event.Id
+                            }
+                        );
+                    }
+                    foreach (var peopleId in attendees)
+                    {
+                        @event.Attendees.Add(
+                            new EventAttendee {
+                                PeopleId = peopleId,
+                                EventId = @event.Id
+                            }
+                        );
+                    }
+                    _context.SaveChanges();
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
