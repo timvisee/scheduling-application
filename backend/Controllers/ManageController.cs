@@ -110,11 +110,6 @@ namespace backend.Controllers
             }
 
             var saUser = model.User;
-
-            Console.WriteLine(saUser.FirstName);
-            Console.WriteLine(saUser.LastName);
-            Console.WriteLine(saUser.Id);
-
             if (ModelState.IsValid)
             {
                 try
