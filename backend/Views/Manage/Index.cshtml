@@ -1,4 +1,10 @@
-﻿@model IndexViewModel
+﻿@using backend.Migrations
+@using Type = backend.Types.Type
+@using Role = backend.Types.Role
+
+@model IndexViewModel
+
+
 @{
     ViewData["Title"] = "Profile";
     ViewData.AddActivePage(ManageNavPages.Index);
@@ -7,33 +13,73 @@
 <h4>@ViewData["Title"]</h4>
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
+                <input asp-for="Username" class="form-control" disabled/>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="User.FirstName" class="control-label"></label>
+                    <input asp-for="User.FirstName" required class="form-control"/>
+                    <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="User.Infix" class="control-label"></label>
+                    <input asp-for="User.Infix" class="form-control"/>
+                    <span asp-validation-for="User.Infix" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label asp-for="User.LastName" class="control-label"></label>
+                    <input asp-for="User.LastName" required class="form-control"/>
+                    <span asp-validation-for="User.LastName" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
                 @if (Model.IsEmailConfirmed)
                 {
                     <div class="input-group">
-                        <input asp-for="Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                        <input asp-for="Email" class="form-control"/>
+                        <span class="input-group-addon" aria-hidden="true">
+                            <span class="glyphicon glyphicon-ok text-success"></span>
+                        </span>
                     </div>
                 }
                 else
                 {
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control"/>
                     <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
                 }
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control"/>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Locale" class="control-label"></label>
+                <input asp-for="User.Locale" class="form-control"/>
+                <span asp-validation-for="User.Locale" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="User.Type" class="control-label"></label>
+                    <select asp-for="User.Type" asp-items="Html.GetEnumSelectList<Type>()" class="form-control"></select>
+                    <span asp-validation-for="User.Type" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="User.Role" class="control-label"></label>
+                    <select asp-for="User.Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>
+                    <span asp-validation-for="User.Role" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input asp-for="User.Id" class="form-control" type="hidden"/>
+                <span asp-validation-for="User.Id" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-default">Save</button>
         </form>

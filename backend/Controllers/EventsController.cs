@@ -231,23 +231,22 @@ namespace backend.Controllers
         */
         public async Task<IActionResult> Seed()
         {
-            var eventCount = 15;
-            var day = 19;
+            DateTime start = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
 
-            for (int i = 0; i < eventCount; i++)
+            for (int i = 1; i < 15; i++)
             {
                 var ev = new Event
                 {
-
-                    Start = new DateTime(2018, 3, day, 8 + i, 0, 0, 0),
-                    End = new DateTime(2018, 3, day, 9 + i, 0, 0, 0),
+                    Start = new DateTime(2018, start.Month, start.Day, 8 + i, 0, 0, 0),
+                    End = new DateTime(2018, start.Month, start.Day, 9 + i, 0, 0, 0),
                     Description = "This is a description where we describe with a describing description",
                     Title = "Title of Event",
                 };
                 _context.Events.Add(ev);
-                if (i % 3 == 0)
+                if (i % 3 == 0 && i > 0)
                 {
-                    day++;
+                    start = start.AddDays(1);
+
                 }
             }
             _context.SaveChanges();
@@ -269,7 +268,9 @@ namespace backend.Controllers
         [HttpGet]
         public JsonResult JsonDetails(int id)
         {
-            return Json(_context.Events.Find(id));
+            var eve = _context.Events.Find(id);
+
+            return Json(new EventInformation(eve));
         }
     }
 }

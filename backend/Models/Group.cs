@@ -7,7 +7,8 @@ namespace backend.Models
     [Table("group")]
     public class Group : People
     {
-        [Display(Name = "Naam")]
+        [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         public ICollection <PeopleGroup> People { get; set; }

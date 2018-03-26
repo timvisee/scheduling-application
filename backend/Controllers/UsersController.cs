@@ -47,6 +47,13 @@ namespace backend.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+
+            ViewBag.ApplicationUsers = new MultiSelectList(
+                _context.ApplicationUsers,
+                "Id",
+                "Email"
+            );
+
             return View();
         }
 
