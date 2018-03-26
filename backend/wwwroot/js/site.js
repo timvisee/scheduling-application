@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     $('body').on('click', '.eventRequest', function () {
         axios.get('/events/jsondetails/' + $(this).data('id'))
         .then(function (response) {

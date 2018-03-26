@@ -21,27 +21,23 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Start" class="control-label"></label>
-                <input asp-for="Start" required class="form-control" />
+                <label asp-for="Start" class="control-label">Start date</label>
+                <input asp-for="Start" class="form-control datetimepicker" />
                 <span asp-validation-for="Start" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="End" class="control-label"></label>
-                <input asp-for="End" required class="form-control" />
+                <label asp-for="End" class="control-label">End date</label>
+                <input asp-for="End" class="form-control datetimepicker" />
                 <span asp-validation-for="End" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Owners" class="control-label"></label>
-                <select asp-for="Owners"
-                    asp-items="@ViewBag.Owners"
-                    class="form-control">
+                <select asp-for="Owners" asp-items="@ViewBag.Owners" class="form-control">
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="Attendees" class="control-label"></label>
-                <select asp-for="Attendees"
-                    asp-items="@ViewBag.Attendees"
-                    class="form-control">
+                <select asp-for="Attendees" asp-items="@ViewBag.Attendees" class="form-control">
                 </select>
             </div>
             <div class="form-group">
@@ -53,5 +49,6 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/datetimepicker.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
