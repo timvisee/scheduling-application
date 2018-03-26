@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using backend.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Models.ManageViewModels;
 using backend.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -25,6 +27,7 @@ namespace backend.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +37,15 @@ namespace backend.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -61,7 +66,8 @@ namespace backend.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                User = _context.Users.FirstOrDefault(u => u.ApplicationUser == user)
             };
 
             return View(model);
@@ -75,6 +81,7 @@ namespace backend.Controllers
             {
                 return View(model);
             }
+
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -102,8 +109,34 @@ namespace backend.Controllers
                 }
             }
 
+            var saUser = model.User;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(saUser);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(saUser.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(e => e.Id == id);
         }
 
         [HttpPost]

@@ -21,5 +21,7 @@ namespace backend.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+
+        public User User { get; set; }
     }
 }
