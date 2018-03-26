@@ -1,4 +1,6 @@
-$( function() {
-    $( "#datepicker-start" ).datepicker();
-    $( "#datepicker-end" ).datepicker();
-} );
+$(document).ready(function() {
+    $(".datetimepicker").datetimepicker();
+    $(".datetimepicker").datetimepicker({
+        format: 'm/d/Y H:i',
+    });
+});
