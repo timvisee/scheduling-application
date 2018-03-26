@@ -25,7 +25,7 @@ namespace backend.Models
         [Display(Name="Type")]
         public Type Type { get; set; }
 
-        [Display(Name="Rol")]
+        [Display(Name="Role")]
         public Role Role { get; set; }
 
         [Display(Name="Remove?")]
