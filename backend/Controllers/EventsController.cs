@@ -213,7 +213,9 @@ namespace backend.Controllers
         [HttpGet]
         public JsonResult JsonDetails(int id)
         {
-            return Json(_context.Events.Find(id));
+            var eve = _context.Events.Find(id);
+
+            return Json(new EventInformation(eve));
         }
     }
 }
