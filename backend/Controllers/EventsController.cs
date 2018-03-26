@@ -60,11 +60,32 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Start,End")] Event @event)
+        public async Task<IActionResult> Create(List<int> owners, List<int> attendees, [Bind("Id,Title,Description,Start,End,Owners,Attendees")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
+
+                // Add the new couplings
+                foreach (var peopleId in owners)
+                {
+                    @event.Owners.Add(
+                        new EventOwner {
+                            PeopleId = peopleId,
+                            EventId = @event.Id
+                        }
+                    );
+                }
+                foreach (var peopleId in attendees)
+                {
+                    @event.Attendees.Add(
+                        new EventAttendee {
+                            PeopleId = peopleId,
+                            EventId = @event.Id
+                        }
+                    );
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -152,7 +173,6 @@ namespace backend.Controllers
                             }
                         );
                     }
-                    _context.SaveChanges();
 
                     await _context.SaveChangesAsync();
                 }
