@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
 
-    $('.eventRequest').on('click', function () {
-
+    $('body').on('click', '.eventRequest', function () {
         axios.get('/events/jsondetails/' + $(this).data('id'))
         .then(function (response) {
             $("#detail-title").text(response.data.title);
