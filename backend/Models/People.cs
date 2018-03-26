@@ -10,11 +10,9 @@ namespace backend.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [Display(Name="Owners")]
         public ICollection <EventOwner> EventsOwn { get; set; }
 
-        [Required]
         [Display(Name="Attendees")]
         public ICollection <EventAttendee> EventsAttend { get; set; }
 

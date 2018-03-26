@@ -22,10 +22,10 @@ namespace backend.Models
         [Display(Name="Start")]
         public DateTime Start { get; set; }
 
+        [Required]
         [Display(Name="End")]
         public DateTime End { get; set; }
 
-        [Required]
         [Display(Name="Owners")]
         public ICollection <EventOwner> Owners { get; set; }
 
