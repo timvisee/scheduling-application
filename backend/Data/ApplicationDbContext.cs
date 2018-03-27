@@ -17,6 +17,8 @@ namespace backend.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+        public DbSet<EventOwner> EventOwners { get; set; }
+        public DbSet<EventAttendee> EventAttendees { get; set; }
         public DbSet<EventLocation> EventLocations { get; set; }
         public DbSet<PeopleGroup> PeopleGroups { get; set; }
 
