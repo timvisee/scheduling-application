@@ -66,6 +66,10 @@ namespace backend.Controllers
             {
                 _context.Add(@event);
 
+                await _context.SaveChangesAsync();
+
+                _context.Update(@event);
+
                 // Add the new couplings
                 foreach (var peopleId in owners)
                 {
