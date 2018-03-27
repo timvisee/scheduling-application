@@ -219,7 +219,7 @@ namespace backend.Controllers
                     foreach (var locationId in locations)
                     {
                         @event.Locations.Add(
-                            new EventLocations {
+                            new EventLocation {
                                 EventId = @event.Id,
                                 LocationId = locationId
                             }
