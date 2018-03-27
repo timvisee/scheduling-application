@@ -5,36 +5,42 @@
 @{
     ViewData["Title"] = "Home";
 
-    string[] ColorNames = new string[] {
+    string[] colors = new string[] {
         "text-success",
         "text-danger",
         "text-info",
         "text-primary",
         "text-warning",
+        "text-secondary",
     };
 
-    string[] DayNames = new string[] {
+    string[] days = new string[] {
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
+        "Weekend",
     };
 }
 
-<div class="row p-3 pt-4">
-    @for (var i = 0; i < DayNames.Length; i++) {
-        <div class="col-xs-12 col-sm-12 col-lg-2 pb-3">
-            <h4 class="text-center @ColorNames[i]">@DayNames[i]</h4>
+<div class="row">
+    @for (var i = 0; i < days.Length; i++) {
+        <div class="col-lg-2 pt-3 pb-3">
+            <h4 class="text-center @colors[i]">@days[i]</h4>
 
             @foreach (var item in ViewBag.Days[i]) {
-                    <div class="card card-date m-1 eventRequest " data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal">
-                        <div class="card-body">
-                            <h6>@item.Title</h6>
-                            <hr>
-                            <p>@item.Start.TimeOfDay</p>
-                        </div>
+                <div class="card card-date event-request mb-3" data-id="@(item.Id)" data-toggle="modal" data-target="#details">
+                    <div class="card-body">
+                        <h6>@item.Title</h6>
+                        <hr>
+                        <!-- Start time of day in H:i only, not H:i:s -->
+                        <p>
+                            <i class="far fa-clock"></i>
+                            @item.Start.TimeOfDay
+                        </p>
                     </div>
+                </div>
             }
 
             @if (ViewBag.Days[i].Count == 0) {
@@ -42,27 +48,9 @@
             }
         </div>
     }
-
-    <div class="col-xs-12 col-sm-12 col-lg-2 pb-3">
-        <h4 class="text-center text-secondary">Weekend</h4>
-
-        @foreach (var item in ViewBag.Weekend) {
-            <div class="card card-date m-1 eventRequest" data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal">
-                <div class="card-body">
-                    <h6>@item.Title</h6>
-                    <hr>
-                    <p>@item.Start.TimeOfDay</p>
-                </div>
-            </div>
-        }
-
-        @if (ViewBag.Weekend.Count == 0) {
-            <p class="text-center"><b>No events today</b></p>
-        }
-    </div>
 </div>
 
-<div class="modal" id="detailModal" tabindex="-1" role="dialog">
+<div class="modal" id="details" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,17 +60,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p class="text-success" id="detail-start-date"></p>
-                <div class="border p-1 mb-1">
                 <h5>Description</h5>
-                    <p id="detail-description"></p>
-                </div>
-                <div class="border p-1">
+                <p id="detail-description"></p>
                 <h5>Details</h5>
-                    <p>
-                        Event duration: <u><span id="detail-timeDuration"/></u>
-                    </p>
-                </div>
+                <p><i class="far fa-clock"></i> <span id="detail-time-duration"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
