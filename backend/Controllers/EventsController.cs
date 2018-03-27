@@ -64,13 +64,12 @@ namespace backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Add the event, and save the changes
                 _context.Add(@event);
-
                 await _context.SaveChangesAsync();
-
                 _context.Update(@event);
 
-                // Add the new couplings
+                // Add the new couplings and save them
                 foreach (var peopleId in owners)
                 {
                     @event.Owners.Add(
@@ -89,8 +88,8 @@ namespace backend.Controllers
                         }
                     );
                 }
-
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,17 +110,35 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Eager load owners and attendees
+            _context.Entry(@event)
+                .Collection(e => e.Owners)
+                .Load();
+            _context.Entry(@event)
+                .Collection(e => e.Attendees)
+                .Load();
+
+            // Get owner and attendee IDs
+            var ownerIds = @event.Owners?.Select(e => e.PeopleId).ToList();
+            var attendeeIds = @event.Attendees?.Select(e => e.PeopleId).ToList();
+            /* var ownerIds = _context.People.Select(e => e.Id).ToList(); */
+
+            // Debug what owner IDs we have
+            foreach (var item in ownerIds)
+                Console.WriteLine("Selected owner people ID: " + item);
+
+            // Build the select lists
             ViewBag.Owners = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Owners
+                ownerIds
             );
             ViewBag.Attendees = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Attendees
+                _context.People.Where(e => attendeeIds.Contains(e.Id)).ToList()
             );
 
             return View(@event);
