@@ -12,7 +12,7 @@ namespace backend.Data
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
         public DbSet<People> People { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
