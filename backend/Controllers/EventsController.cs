@@ -111,17 +111,28 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Get the owner and attendee IDs
+            var ownerIds = _context.EventOwners
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+            var attendeeIds = _context.EventAttendees
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+
+            // Build the multi select lists
             ViewBag.Owners = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Owners
+                ownerIds
             );
             ViewBag.Attendees = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Attendees
+                attendeeIds
             );
 
             return View(@event);
