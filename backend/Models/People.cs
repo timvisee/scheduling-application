@@ -29,13 +29,57 @@ namespace backend.Models
         public abstract string TypedDisplayName { get; }
 
         /// <summary>
-        /// Get a list of all users that are part of this people instance.
-        /// If this instance is a user, a list with a single user is returned.
-        /// If this instance is a group, a list of all users in this group is
-        /// returned. People are indexed recursively, the result list may be
-        /// empty.
+        /// Get a set of users that are part of this people.
+        /// If this instance is a user, a list with a single user will be
+        /// returned.
+        /// If this instance is a group, a list with all the users that are part
+        /// of the groups is returned. It is possible the list is empty.
+        /// This method fetches all users from groups in a recursive manner.
+        /// The list doesn't contains duplicates.
         /// </summary>
         [NotMapped]
-        public abstract List<User> Users { get; }
+        /* [Display(Name = "Piemols")] */
+        public HashSet<User> AllUsers {
+            get {
+                // Create a user and group set
+                HashSet<User> users = new HashSet<User>();
+                HashSet<Group> groups = new HashSet<Group>();
+
+                // Fetch the users and groups
+                BuildUserAndGroupSets(ref users, ref groups);
+
+                // Return the users
+                return users;
+            }
+        }
+
+        /// <summary>
+        /// Get a set of groups that are part of this people.
+        /// If this instance is a user, an empty list is returned.
+        /// This method fetches all groups from parent groups in a recursive manner.
+        /// The list doesn't contains duplicates.
+        /// </summary>
+        [NotMapped]
+        public HashSet<Group> AllGroups {
+            get {
+                // Create a user and group set
+                HashSet<User> users = new HashSet<User>();
+                HashSet<Group> groups = new HashSet<Group>();
+
+                // Fetch the users and groups
+                BuildUserAndGroupSets(ref users, ref groups);
+
+                // Return the users
+                return groups;
+            }
+        }
+
+        /// <summary>
+        /// This method fetches a list of all users and groups that are part of
+        /// this people.
+        /// This method fetches everything in a recursive manner.
+        /// No duplicates are returned.
+        /// </summary>
+        protected internal abstract void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups);
     }
 }

@@ -111,7 +111,7 @@ namespace backend.Controllers
                 _context.People.Where(x => x.Id != id).ToList(),
                 "Id", "TypedDisplayName",
                 _context.People.Where(x => connections.Contains(x.Id)).ToList().Select(x => x.Id)
-                );
+            );
 
 
             return View(@group);

@@ -49,6 +49,8 @@ namespace backend.Models
 
         public override string TypedDisplayName => "User: " + FullName;
 
-        public override List<User> Users => new List<User> { this };
+        protected internal override void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups) {
+            users.Add(this);
+        }
     }
 }
