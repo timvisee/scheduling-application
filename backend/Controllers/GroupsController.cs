@@ -41,6 +41,11 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Load the list of people for the group
+            _context.Entry(@group)
+                .Collection(e => e.People)
+                .Load();
+
             return View(@group);
         }
 
