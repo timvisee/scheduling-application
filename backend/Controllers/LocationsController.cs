@@ -21,9 +21,12 @@ namespace backend.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            var locations = from e in _context.Locations select e;
+            locations = locations.OrderBy(e => e.Name);
+
+            return View(locations);
         }
 
         // GET: Locations/Details/5
@@ -154,7 +157,7 @@ namespace backend.Controllers
         /**
         * Seeds database with Location objects
         */
-        public async Task<IActionResult> Seed()
+        public IActionResult Seed()
         {
             var locations = 5;
 
@@ -179,7 +182,7 @@ namespace backend.Controllers
         /**
          * Delete all Location entries
          */
-        public async Task<IActionResult> DeleteAll()
+        public IActionResult DeleteAll()
         {
             _context.Locations.Clear();
             _context.SaveChanges();

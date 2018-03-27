@@ -23,9 +23,12 @@ namespace backend.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Events.ToListAsync());
+            var events = from e in _context.Events select e;
+            events = events.OrderBy(e => e.Start);
+
+            return View(events);
         }
 
         // GET: Events/Details/5
@@ -51,6 +54,7 @@ namespace backend.Controllers
         {
             ViewBag.Owners = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             ViewBag.Attendees = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
+            ViewBag.Locations = new MultiSelectList(_context.Locations, "Id", "Name");
 
             return View();
         }
@@ -60,11 +64,49 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Start,End")] Event @event)
-        {
+        public async Task<IActionResult> Create(
+                List<int> owners,
+                List<int> attendees,
+                List<int> locations,
+                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
+        ) {
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
+
+                await _context.SaveChangesAsync();
+
+                _context.Update(@event);
+
+                // Add the new couplings
+                foreach (var peopleId in owners)
+                {
+                    @event.Owners.Add(
+                        new EventOwner {
+                            EventId = @event.Id,
+                            PeopleId = peopleId
+                        }
+                    );
+                }
+                foreach (var peopleId in attendees)
+                {
+                    @event.Attendees.Add(
+                        new EventAttendee {
+                            EventId = @event.Id,
+                            PeopleId = peopleId
+                        }
+                    );
+                }
+                foreach (var locationId in locations)
+                {
+                    @event.Locations.Add(
+                        new EventLocation {
+                            EventId = @event.Id,
+                            LocationId = locationId
+                        }
+                    );
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -86,17 +128,38 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            // Get the owner and attendee IDs
+            var ownerIds = _context.EventOwners
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+            var attendeeIds = _context.EventAttendees
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+            var locationIds = _context.EventLocations
+                .Where(e => e.EventId == id)
+                .Select(e => e.LocationId)
+                .ToList();
+
+            // Build the multi select lists
             ViewBag.Owners = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Owners
+                ownerIds
             );
             ViewBag.Attendees = new MultiSelectList(
                 _context.People,
                 "Id",
                 "TypedDisplayName",
-                @event.Attendees
+                attendeeIds
+            );
+            ViewBag.Locations = new MultiSelectList(
+                _context.Locations,
+                "Id",
+                "Name",
+                locationIds
             );
 
             return View(@event);
@@ -107,8 +170,13 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Start,End")] Event @event)
-        {
+        public async Task<IActionResult> Edit(
+                int id,
+                List<int> owners,
+                List<int> attendees,
+                List<int> locations,
+                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
+        ) {
             if (id != @event.Id)
             {
                 return NotFound();
@@ -119,6 +187,48 @@ namespace backend.Controllers
                 try
                 {
                     _context.Update(@event);
+
+                    // Remove all previous couplings
+                    _context.RemoveRange(
+                        _context.EventOwners.Where(e => e.EventId == id)
+                    );
+                    _context.RemoveRange(
+                        _context.EventAttendees.Where(e => e.EventId == id)
+                    );
+                    _context.RemoveRange(
+                        _context.EventLocations.Where(e => e.EventId == id)
+                    );
+                    _context.SaveChanges();
+
+                    // Add the new couplings
+                    foreach (var peopleId in owners)
+                    {
+                        @event.Owners.Add(
+                            new EventOwner {
+                                EventId = @event.Id,
+                                PeopleId = peopleId
+                            }
+                        );
+                    }
+                    foreach (var peopleId in attendees)
+                    {
+                        @event.Attendees.Add(
+                            new EventAttendee {
+                                EventId = @event.Id,
+                                PeopleId = peopleId
+                            }
+                        );
+                    }
+                    foreach (var locationId in locations)
+                    {
+                        @event.Locations.Add(
+                            new EventLocation {
+                                EventId = @event.Id,
+                                LocationId = locationId
+                            }
+                        );
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -174,7 +284,7 @@ namespace backend.Controllers
         /**
         * Seeds database with Event objects
         */
-        public async Task<IActionResult> Seed()
+        public IActionResult Seed()
         {
             DateTime start = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
 
@@ -202,7 +312,7 @@ namespace backend.Controllers
         /**
          * Delete all Event entries
          */
-        public async Task<IActionResult> DeleteAll()
+        public IActionResult DeleteAll()
         {
             _context.Events.Clear();
             _context.SaveChanges();

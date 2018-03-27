@@ -28,14 +28,13 @@
             <h4 class="text-center @ColorNames[i]">@DayNames[i]</h4>
 
             @foreach (var item in ViewBag.Days[i]) {
-                <div class="card card-date m-1">
-                    <div class="card-body">
-                        <h6>@item.Title</h6>
-                        <hr>
-                        <p>@item.Start.TimeOfDay</p>
+                    <div class="card card-date m-1 eventRequest " data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal">
+                        <div class="card-body">
+                            <h6>@item.Title</h6>
+                            <hr>
+                            <p>@item.Start.TimeOfDay</p>
+                        </div>
                     </div>
-                    <i class="fa fa-question-circle card-info eventRequest" data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal"></i>
-                </div>
             }
 
             @if (ViewBag.Days[i].Count == 0) {
@@ -48,13 +47,12 @@
         <h4 class="text-center text-secondary">Weekend</h4>
 
         @foreach (var item in ViewBag.Weekend) {
-            <div class="card card-date m-1">
+            <div class="card card-date m-1 eventRequest" data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal">
                 <div class="card-body">
                     <h6>@item.Title</h6>
                     <hr>
                     <p>@item.Start.TimeOfDay</p>
                 </div>
-                <i class="fa fa-question-circle card-info eventRequest" data-id="@(item.Id)" data-toggle="modal" data-target="#detailModal"></i>
             </div>
         }
 
