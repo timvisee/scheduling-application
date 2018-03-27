@@ -33,12 +33,12 @@ namespace backend.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
-          IEmailSender emailSender,
-          ILogger<ManageController> logger,
-          UrlEncoder urlEncoder,
-          ApplicationDbContext context)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            ILogger<ManageController> logger,
+            UrlEncoder urlEncoder,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -48,8 +48,7 @@ namespace backend.Controllers
             _context = context;
         }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        [TempData] public string StatusMessage { get; set; }
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -95,7 +94,8 @@ namespace backend.Controllers
                 var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    throw new ApplicationException(
+                        $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
             }
 
@@ -105,16 +105,27 @@ namespace backend.Controllers
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    throw new ApplicationException(
+                        $"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
             }
 
             var saUser = model.User;
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(saUser);
+                    if (saUser.Id == 0)
+                    {
+                        saUser.ApplicationUser = user;
+                        _context.Add(saUser);
+                    }
+                    else
+                    {
+                        _context.Update(saUser);
+                    }
+
                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -178,7 +189,7 @@ namespace backend.Controllers
                 return RedirectToAction(nameof(SetPassword));
             }
 
-            var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
+            var model = new ChangePasswordViewModel {StatusMessage = StatusMessage};
             return View(model);
         }
 
@@ -197,7 +208,8 @@ namespace backend.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            var changePasswordResult =
+                await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 AddErrors(changePasswordResult);
@@ -227,7 +239,7 @@ namespace backend.Controllers
                 return RedirectToAction(nameof(ChangePassword));
             }
 
-            var model = new SetPasswordViewModel { StatusMessage = StatusMessage };
+            var model = new SetPasswordViewModel {StatusMessage = StatusMessage};
             return View(model);
         }
 
@@ -268,7 +280,7 @@ namespace backend.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new ExternalLoginsViewModel { CurrentLogins = await _userManager.GetLoginsAsync(user) };
+            var model = new ExternalLoginsViewModel {CurrentLogins = await _userManager.GetLoginsAsync(user)};
             model.OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => model.CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
                 .ToList();
@@ -287,7 +299,9 @@ namespace backend.Controllers
 
             // Request a redirect to the external login provider to link a login for the current user
             var redirectUrl = Url.Action(nameof(LinkLoginCallback));
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+            var properties =
+                _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl,
+                    _userManager.GetUserId(User));
             return new ChallengeResult(provider, properties);
         }
 
@@ -303,13 +317,15 @@ namespace backend.Controllers
             var info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
             if (info == null)
             {
-                throw new ApplicationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
+                throw new ApplicationException(
+                    $"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
             }
 
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                throw new ApplicationException($"Unexpected error occurred adding external login for user with ID '{user.Id}'.");
+                throw new ApplicationException(
+                    $"Unexpected error occurred adding external login for user with ID '{user.Id}'.");
             }
 
             // Clear the existing external cookie to ensure a clean login process
@@ -332,7 +348,8 @@ namespace backend.Controllers
             var result = await _userManager.RemoveLoginAsync(user, model.LoginProvider, model.ProviderKey);
             if (!result.Succeeded)
             {
-                throw new ApplicationException($"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
+                throw new ApplicationException(
+                    $"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
@@ -451,13 +468,13 @@ namespace backend.Controllers
         [HttpGet]
         public IActionResult ShowRecoveryCodes()
         {
-            var recoveryCodes = (string[])TempData[RecoveryCodesKey];
+            var recoveryCodes = (string[]) TempData[RecoveryCodesKey];
             if (recoveryCodes == null)
             {
                 return RedirectToAction(nameof(TwoFactorAuthentication));
             }
 
-            var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes };
+            var model = new ShowRecoveryCodesViewModel {RecoveryCodes = recoveryCodes};
             return View(model);
         }
 
@@ -495,7 +512,8 @@ namespace backend.Controllers
 
             if (!user.TwoFactorEnabled)
             {
-                throw new ApplicationException($"Cannot generate recovery codes for user with ID '{user.Id}' because they do not have 2FA enabled.");
+                throw new ApplicationException(
+                    $"Cannot generate recovery codes for user with ID '{user.Id}' because they do not have 2FA enabled.");
             }
 
             return View(nameof(GenerateRecoveryCodes));
@@ -513,13 +531,14 @@ namespace backend.Controllers
 
             if (!user.TwoFactorEnabled)
             {
-                throw new ApplicationException($"Cannot generate recovery codes for user with ID '{user.Id}' as they do not have 2FA enabled.");
+                throw new ApplicationException(
+                    $"Cannot generate recovery codes for user with ID '{user.Id}' as they do not have 2FA enabled.");
             }
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
             _logger.LogInformation("User with ID {UserId} has generated new 2FA recovery codes.", user.Id);
 
-            var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
+            var model = new ShowRecoveryCodesViewModel {RecoveryCodes = recoveryCodes.ToArray()};
 
             return View(nameof(ShowRecoveryCodes), model);
         }
@@ -543,6 +562,7 @@ namespace backend.Controllers
                 result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
                 currentPosition += 4;
             }
+
             if (currentPosition < unformattedKey.Length)
             {
                 result.Append(unformattedKey.Substring(currentPosition));
