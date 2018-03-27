@@ -13,48 +13,53 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" required class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Infix" class="control-label"></label>
-                <input asp-for="Infix" class="form-control" />
-                <span asp-validation-for="Infix" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" required class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Locale" class="control-label"></label>
-                <input asp-for="Locale" class="form-control" />
-                <span asp-validation-for="Locale" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" asp-items="Html.GetEnumSelectList<Type>()" class="form-control"></select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Deleted" /> @Html.DisplayNameFor(model => model.Deleted)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <p style="background-color: #f00; color: #fff; padding: 10px;">
+                Should we edit users from this screen or do they need to edit their account on their own?
+                <br />
+                <a style="color: #fff; text-decoration: underline" asp-controller="Manage" asp-action="Index">Edit/create account</a>
+            </p>
+@*            <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+@*            <input type="hidden" asp-for="Id" />*@
+@*            <div class="form-group">*@
+@*                <label asp-for="FirstName" class="control-label"></label>*@
+@*                <input asp-for="FirstName" required class="form-control" />*@
+@*                <span asp-validation-for="FirstName" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <label asp-for="Infix" class="control-label"></label>*@
+@*                <input asp-for="Infix" class="form-control" />*@
+@*                <span asp-validation-for="Infix" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <label asp-for="LastName" class="control-label"></label>*@
+@*                <input asp-for="LastName" required class="form-control" />*@
+@*                <span asp-validation-for="LastName" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <label asp-for="Locale" class="control-label"></label>*@
+@*                <input asp-for="Locale" class="form-control" />*@
+@*                <span asp-validation-for="Locale" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <label asp-for="Type" class="control-label"></label>*@
+@*                <select asp-for="Type" asp-items="Html.GetEnumSelectList<Type>()" class="form-control"></select>*@
+@*                <span asp-validation-for="Type" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <label asp-for="Role" class="control-label"></label>*@
+@*                <select asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>*@
+@*                <span asp-validation-for="Role" class="text-danger"></span>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <div class="checkbox">*@
+@*                    <label>*@
+@*                        <input asp-for="Deleted" /> @Html.DisplayNameFor(model => model.Deleted)*@
+@*                    </label>*@
+@*                </div>*@
+@*            </div>*@
+@*            <div class="form-group">*@
+@*                <input type="submit" value="Save" class="btn btn-default" />*@
+@*            </div>*@
         </form>
     </div>
 </div>
