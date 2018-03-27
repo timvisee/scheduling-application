@@ -27,5 +27,15 @@ namespace backend.Models
         [NotMapped]
         [Display(Name = "Type")]
         public abstract string TypedDisplayName { get; }
+
+        /// <summary>
+        /// Get a list of all users that are part of this people instance.
+        /// If this instance is a user, a list with a single user is returned.
+        /// If this instance is a group, a list of all users in this group is
+        /// returned. People are indexed recursively, the result list may be
+        /// empty.
+        /// </summary>
+        [NotMapped]
+        public abstract List<User> Users { get; }
     }
 }

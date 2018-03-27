@@ -45,8 +45,10 @@ namespace backend.Models
             }
         }
 
-        // Override abstract getters
         public override string DisplayName => FullName;
+
         public override string TypedDisplayName => "User: " + FullName;
+
+        public override List<User> Users => new List<User> { this };
     }
 }
