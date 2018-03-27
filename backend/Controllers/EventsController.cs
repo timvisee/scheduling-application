@@ -23,9 +23,12 @@ namespace backend.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Events.ToListAsync());
+            var events = from e in _context.Events select e;
+            events = events.OrderBy(e => e.Start);
+
+            return View(events);
         }
 
         // GET: Events/Details/5
