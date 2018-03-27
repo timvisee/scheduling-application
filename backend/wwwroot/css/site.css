@@ -6,7 +6,14 @@
 
 .card p {
     margin: 0;
-    text-align: center;
+}
+
+.card.card-date {
+    cursor: pointer;
+}
+
+.card.card-date:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .card-info {
@@ -15,15 +22,17 @@
     right: 5px;
 }
 
-.sc-body {
+.table-responsive {
     background-color: #FFFFFF;
     border-radius: 5px;
 }
 
-.eventRequest {
-    cursor: pointer;
+.modal {
+    margin-top: 56px;
 }
 
-.eventRequest:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+.modal .modal-body h5 {
+    color: #6C757D;
+    margin-bottom: 0;
 }
+
