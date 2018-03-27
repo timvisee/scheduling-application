@@ -284,7 +284,7 @@ namespace backend.Controllers
         /**
         * Seeds database with Event objects
         */
-        public async Task<IActionResult> Seed()
+        public IActionResult Seed()
         {
             DateTime start = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
 
@@ -312,7 +312,7 @@ namespace backend.Controllers
         /**
          * Delete all Event entries
          */
-        public async Task<IActionResult> DeleteAll()
+        public IActionResult DeleteAll()
         {
             _context.Events.Clear();
             _context.SaveChanges();
