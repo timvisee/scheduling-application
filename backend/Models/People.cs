@@ -20,9 +20,11 @@ namespace backend.Models
         public ICollection <PeopleGroup> Groups { get; set; }
 
         // Some generic getters
+        [NotMapped]
         [Display(Name = "Name")]
         public abstract string DisplayName { get; }
 
+        [NotMapped]
         [Display(Name = "Type")]
         public abstract string TypedDisplayName { get; }
     }
