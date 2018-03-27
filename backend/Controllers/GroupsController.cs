@@ -133,8 +133,20 @@ namespace backend.Controllers
             {
                 try
                 {
-                    _context.Update(@group);
+                    _context.RemoveRange(_context.PeopleGroups.Where(e => e.GroupId == id));
+                    _context.Update(group);
+                    _context.SaveChanges();
+
+                    foreach (var PeopleId in People)
+                    {
+                        @group.People.Add(
+                            new PeopleGroup {
+                                GroupId = @group.Id,
+                                PeopleId = PeopleId
+                            });
+                    }
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", nameof(People));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
