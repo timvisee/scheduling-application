@@ -11,51 +11,72 @@
 <h2>People Overview</h2>
 
 <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-success">New Group</a>
-<a asp-action="Create" asp-controller="Users" class="btn btn-outline-success">New User</a>
+<a asp-action="Create" asp-controller="Users" class="btn btn-outline-info">New User</a>
 
-<div class="table-responsive sc-body">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.TypedDisplayName)</th>
-            <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.TypedDisplayName)</td>
-
-                @if (item.GetType() == typeof(Group))
+<div class="row">
+    <div class="col-md-6">
+        <div class="table-responsive sc-body">
+            <h2 class="text-center">Groups</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
                 {
-                    <td>
-                        <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.DisplayName)
-                        </a>
+                    if (item.GetType() == typeof(Group))
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.DisplayName)
+                                </a>
 
-                    </td>
-
-                    <td>
-                        <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
                 }
-                else
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="table-responsive sc-body">
+            <h2 class="text-center">Users</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
                 {
-                    <td>
-                        <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.DisplayName)
-                        </a>
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    if (item.GetType() == typeof(User))
+                    {
+                         <tr>
+                             <td>
+                                 <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                                     @Html.DisplayFor(modelItem => item.DisplayName)
+                                 </a>
+                             </td>
+                             <td>
+                                 <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id">Edit</a> |
+                                 <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id">Delete</a>
+                             </td>
+                         </tr>
+                    }
                 }
-            </tr>
-        }
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
