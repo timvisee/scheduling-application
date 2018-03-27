@@ -51,6 +51,7 @@ namespace backend.Controllers
         {
             ViewBag.Owners = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             ViewBag.Attendees = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
+            ViewBag.Locations = new MultiSelectList(_context.Locations, "Id", "Name");
 
             return View();
         }
@@ -60,8 +61,12 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(List<int> owners, List<int> attendees, [Bind("Id,Title,Description,Start,End,Owners,Attendees")] Event @event)
-        {
+        public async Task<IActionResult> Create(
+                List<int> owners,
+                List<int> attendees,
+                List<int> locations,
+                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
+        ) {
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
@@ -75,8 +80,8 @@ namespace backend.Controllers
                 {
                     @event.Owners.Add(
                         new EventOwner {
-                            PeopleId = peopleId,
-                            EventId = @event.Id
+                            EventId = @event.Id,
+                            PeopleId = peopleId
                         }
                     );
                 }
@@ -84,8 +89,17 @@ namespace backend.Controllers
                 {
                     @event.Attendees.Add(
                         new EventAttendee {
-                            PeopleId = peopleId,
-                            EventId = @event.Id
+                            EventId = @event.Id,
+                            PeopleId = peopleId
+                        }
+                    );
+                }
+                foreach (var locationId in locations)
+                {
+                    @event.Locations.Add(
+                        new EventLocation {
+                            EventId = @event.Id,
+                            LocationId = locationId
                         }
                     );
                 }
@@ -120,6 +134,10 @@ namespace backend.Controllers
                 .Where(e => e.EventId == id)
                 .Select(e => e.PeopleId)
                 .ToList();
+            var locationIds = _context.EventLocations
+                .Where(e => e.EventId == id)
+                .Select(e => e.LocationId)
+                .ToList();
 
             // Build the multi select lists
             ViewBag.Owners = new MultiSelectList(
@@ -134,6 +152,12 @@ namespace backend.Controllers
                 "TypedDisplayName",
                 attendeeIds
             );
+            ViewBag.Locations = new MultiSelectList(
+                _context.Locations,
+                "Id",
+                "Name",
+                locationIds
+            );
 
             return View(@event);
         }
@@ -147,7 +171,8 @@ namespace backend.Controllers
                 int id,
                 List<int> owners,
                 List<int> attendees,
-                [Bind("Id,Title,Description,Start,End,Owners,Attendees")] Event @event
+                List<int> locations,
+                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
         ) {
             if (id != @event.Id)
             {
@@ -167,6 +192,9 @@ namespace backend.Controllers
                     _context.RemoveRange(
                         _context.EventAttendees.Where(e => e.EventId == id)
                     );
+                    _context.RemoveRange(
+                        _context.EventLocations.Where(e => e.EventId == id)
+                    );
                     _context.SaveChanges();
 
                     // Add the new couplings
@@ -174,8 +202,8 @@ namespace backend.Controllers
                     {
                         @event.Owners.Add(
                             new EventOwner {
-                                PeopleId = peopleId,
-                                EventId = @event.Id
+                                EventId = @event.Id,
+                                PeopleId = peopleId
                             }
                         );
                     }
@@ -183,8 +211,17 @@ namespace backend.Controllers
                     {
                         @event.Attendees.Add(
                             new EventAttendee {
-                                PeopleId = peopleId,
-                                EventId = @event.Id
+                                EventId = @event.Id,
+                                PeopleId = peopleId
+                            }
+                        );
+                    }
+                    foreach (var locationId in locations)
+                    {
+                        @event.Locations.Add(
+                            new EventLocations {
+                                EventId = @event.Id,
+                                LocationId = locationId
                             }
                         );
                     }
