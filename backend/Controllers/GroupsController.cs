@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,7 @@ namespace backend.Controllers
         // GET: Groups/Create
         public IActionResult Create()
         {
+            ViewBag.People = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             return View();
         }
 
@@ -54,11 +56,28 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Group @group)
+        public async Task<IActionResult> Create(List<int> People, [Bind("Id,Name,People")] Group @group)
         {
             if (ModelState.IsValid)
             {
+                _context.RemoveRange(
+                    _context.PeopleGroups.Where(e => e.GroupId == group.Id)
+                );
+
+                _context.SaveChanges();
+
                 _context.Add(@group);
+
+                _context.SaveChanges();
+
+                foreach (var PeopleId in People)
+                {
+                    @group.People.Add(
+                        new PeopleGroup {
+                        GroupId = @group.Id,
+                        PeopleId = PeopleId
+                    });
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", nameof(People));
             }
@@ -78,6 +97,18 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            //get all UserGroup connections linked to this group
+            var connections = _context.PeopleGroups.Where(x => x.GroupId == id).Select(x => x.PeopleId);
+
+            //get all groups + linked ones to this group
+            ViewBag.ConnectedPeople = new MultiSelectList(
+                _context.People.Where(x => x.Id != id).ToList(),
+                "Id", "TypedDisplayName",
+                _context.People.Where(x => connections.Contains(x.Id)).ToList().Select(x => x.Id)
+                );
+
+
             return View(@group);
         }
 
@@ -86,7 +117,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Group @group)
+        public async Task<IActionResult> Edit(int id, List <int> People, [Bind("Id,Name,People")] Group @group)
         {
             if (id != @group.Id)
             {
