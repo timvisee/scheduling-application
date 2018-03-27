@@ -20,9 +20,12 @@ namespace backend.Controllers
         }
 
         // GET: People
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.People.ToListAsync());
+            var people = from e in _context.People select e;
+            people = people.OrderBy(e => e.DisplayName);
+
+            return View(people);
         }
 
         // GET: People/Details/5

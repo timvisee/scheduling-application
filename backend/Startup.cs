@@ -41,7 +41,15 @@ namespace backend
             var dbConnection = new AppConfig().GenerateDbConnectionString();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnection));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+                {
+                    // configure identity options
+                    o.Password.RequireDigit = false;
+                    o.Password.RequireLowercase = false;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequireNonAlphanumeric = false;
+                    o.Password.RequiredLength = 3;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -115,10 +123,10 @@ namespace backend
                 );
             });
 
-            /* // TODO: reenable this once the DbBuilder is complete */
-            /* // Seed database if not running in production */
-            /* if (Program.AppConfig.DatabaseReset) */
-            /*     DbBuilder.Rebuild(context); */
+            // TODO: reenable this once the DbBuilder is complete
+            // Seed database if not running in production
+            if (Program.AppConfig.DatabaseReset)
+                DbBuilder.Rebuild(context);
         }
     }
 }

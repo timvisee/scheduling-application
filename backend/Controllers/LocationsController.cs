@@ -21,9 +21,12 @@ namespace backend.Controllers
         }
 
         // GET: Locations
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            var locations = from e in _context.Locations select e;
+            locations = locations.OrderBy(e => e.Name);
+
+            return View(locations);
         }
 
         // GET: Locations/Details/5
