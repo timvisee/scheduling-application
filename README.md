@@ -1,6 +1,6 @@
 # Scheduling Application
 An open source, web-based scheduling application created by students from 
-Russia, Spain, Estonia and The Netherlands.
+Russia, Estonia and The Netherlands.
 
 ## Usage
 ```bash
