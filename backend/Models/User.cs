@@ -28,7 +28,7 @@ namespace backend.Models
         [Display(Name="Role")]
         public Role Role { get; set; }
 
-        [Display(Name="Remove?")]
+        [Display(Name="Deleted")]
         public bool Deleted { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,13 +12,13 @@ namespace backend.Models
         public int Id { get; set; }
 
         [Display(Name="Owners")]
-        public ICollection <EventOwner> EventsOwn { get; set; }
+        public ICollection<EventOwner> EventsOwn { get; set; }
 
         [Display(Name="Attendees")]
-        public ICollection <EventAttendee> EventsAttend { get; set; }
+        public ICollection<EventAttendee> EventsAttend { get; set; }
 
         [Display(Name="Groups")]
-        public ICollection <PeopleGroup> Groups { get; set; }
+        public ICollection<PeopleGroup> Groups { get; set; }
 
         // Some generic getters
         [NotMapped]
@@ -38,7 +39,7 @@ namespace backend.Models
         /// The list doesn't contains duplicates.
         /// </summary>
         [NotMapped]
-        /* [Display(Name = "Piemols")] */
+        [Display(Name = "Has users")]
         public HashSet<User> AllUsers {
             get {
                 // Create a user and group set
@@ -47,6 +48,9 @@ namespace backend.Models
 
                 // Fetch the users and groups
                 BuildUserAndGroupSets(ref users, ref groups);
+
+                // TODO: remove after debugging
+                Console.WriteLine("Got user count: " + users.Count);
 
                 // Return the users
                 return users;
@@ -60,6 +64,7 @@ namespace backend.Models
         /// The list doesn't contains duplicates.
         /// </summary>
         [NotMapped]
+        [Display(Name = "Has groups")]
         public HashSet<Group> AllGroups {
             get {
                 // Create a user and group set
@@ -68,6 +73,9 @@ namespace backend.Models
 
                 // Fetch the users and groups
                 BuildUserAndGroupSets(ref users, ref groups);
+
+                // TODO: remove after debugging
+                Console.WriteLine("Got group count: " + groups.Count);
 
                 // Return the users
                 return groups;
