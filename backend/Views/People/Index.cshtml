@@ -9,15 +9,17 @@
 }
 
 <h2>People Overview</h2>
-
-<a asp-action="Create" asp-controller="Groups" class="btn btn-outline-success">New Group</a>
-<a asp-action="Create" asp-controller="Users" class="btn btn-outline-info">New User</a>
-
 <div class="row">
     <div class="col-md-6">
-        <div class="table-responsive">
-            <h2 class="text-center">Groups</h2>
-            <table class="table">
+        <div class="table-responsive sc-body">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-users"></i>
+                    &nbsp;Groups
+                    <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
+                <table class="table">
                 <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
@@ -37,8 +39,8 @@
 
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id">Delete</a>
+                                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a> |
+                                <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
                             </td>
                         </tr>
                     }
@@ -48,8 +50,14 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="table-responsive">
-            <h2 class="text-center">Users</h2>
+        <div class="table-responsive sc-body">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-user"></i>
+                    &nbsp;Users
+                    <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -69,8 +77,8 @@
                                  </a>
                              </td>
                              <td>
-                                 <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id">Edit</a> |
-                                 <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id">Delete</a>
+                                 <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                                 <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
                              </td>
                          </tr>
                     }
