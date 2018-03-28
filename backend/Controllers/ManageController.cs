@@ -14,7 +14,10 @@ using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Models.ManageViewModels;
 using backend.Services;
+using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
+using Remotion.Linq.Clauses;
 
 namespace backend.Controllers
 {
@@ -54,6 +57,12 @@ namespace backend.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+
+            // workaround
+            var usernummertwee = _context.ApplicationUsers.FirstOrDefault(u => u.Id == user.Id);
+            var usernummerdrie = _context.Users.FirstOrDefault(u => u.Id == usernummertwee.UserID) ?? new User();
+
+
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -66,7 +75,7 @@ namespace backend.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
-                User = _context.Users.FirstOrDefault(u => u.ApplicationUser == user)
+                User = usernummerdrie
             };
 
             return View(model);
@@ -118,7 +127,7 @@ namespace backend.Controllers
                 {
                     if (saUser.Id == 0)
                     {
-                        saUser.ApplicationUser = user;
+                        saUser = user.User;
                         _context.Add(saUser);
                     }
                     else

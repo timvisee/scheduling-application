@@ -13,9 +13,10 @@ using System;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327125900_change_user")]
+    partial class change_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,10 +58,10 @@ namespace backend.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("UserID");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<int?>("saUserId");
 
                     b.HasKey("Id");
 
@@ -72,7 +73,7 @@ namespace backend.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("saUserId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -337,10 +338,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("backend.Models.User", "User")
+                    b.HasOne("backend.Models.User", "saUser")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("saUserId");
                 });
 
             modelBuilder.Entity("backend.Models.EventAttendee", b =>
