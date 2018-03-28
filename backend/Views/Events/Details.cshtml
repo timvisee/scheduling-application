@@ -4,37 +4,89 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Start)
-        </dt>
-        <dd>
+<h2><span class="badge badge-info">@Html.DisplayFor(model => model.Title)</span></h2>
+<div class="row">
+    <div class="col-md-12 event-details">
+        <h5>
+            <span class="badge badge-success">
+                Event description
+            </span>
+        </h5>
+            <h6>
+                @Html.DisplayFor(model => model.Description)
+            </h6>
+        <h5>
+            <span class="badge badge-success">
+                Event start-time
+            </span>
+        </h5>
+        <h6>
             @Html.DisplayFor(model => model.Start)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.End)
-        </dt>
-        <dd>
+        </h6>
+        <h5>
+            <span class="badge badge-success">
+                Event end-time
+            </span>
+        </h5>
+        <h6>
             @Html.DisplayFor(model => model.End)
-        </dd>
-    </dl>
+        </h6>
+        <hr></hr>
+        <div>
+            <h5><span class="badge badge-success">Owners</span></h5>
+            @if (ViewBag.Owners != null)
+            {
+                foreach (People owner in ViewBag.Owners)
+                {
+                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">
+                        <h6>
+                            @owner.DisplayName
+                        </h6>
+                    </a>
+                }
+            }
+            else
+            {
+                <h6>There are no owners added.</h6>
+            }
+        </div>
+        <div>
+            <h5><span class="badge badge-success">Attendees</span></h5>
+            @if (ViewBag.Attendees != null)
+            {
+                foreach (People attendee in ViewBag.Attendees)
+                 {
+                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">
+                         <h6>
+                             @attendee.DisplayName
+                         </h6>
+                     </a>
+                 }
+            }
+            else
+            {
+                <h6>There are no attendees added.</h6>
+            }
+        </div>
+        <div>
+            <h5><span class="badge badge-success">Groups</span></h5>
+            @if (ViewBag.Groups != null)
+            {
+                foreach (People group in ViewBag.Groups)
+                {
+                    <a asp-controller="Groups" asp-action="Details" asp-route-id="@(group.Id)">
+                        <h6>
+                            @group.DisplayName
+                        </h6>
+                    </a>
+                }
+            }
+            else
+            {
+                <h6>There are no groups added.</h6>
+            }
+        </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
