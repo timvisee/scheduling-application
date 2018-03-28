@@ -228,7 +228,7 @@ namespace backend.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var saUser = CreateSaUser(user);
-                user.saUser = saUser;
+                user.User = saUser;
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -329,7 +329,7 @@ namespace backend.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var saUser = CreateSaUser(user);
-                user.saUser = saUser;
+                user.User = saUser;
                 var result = await _userManager.CreateAsync(user);
 
                 if (result.Succeeded)

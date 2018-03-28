@@ -57,12 +57,11 @@ namespace backend.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            var usernummertwee = _context.ApplicationUsers.FirstOrDefault(u => u.Id == user.Id);
 
-            Console.WriteLine(user.Id);
-            Console.WriteLine(usernummertwee.Id);
-            Console.WriteLine(usernummertwee.saUser);
-            Console.WriteLine(usernummertwee.saUser);
+            // workaround
+            var usernummertwee = _context.ApplicationUsers.FirstOrDefault(u => u.Id == user.Id);
+            var usernummerdrie = _context.Users.FirstOrDefault(u => u.Id == usernummertwee.UserID) ?? new User();
+
 
             if (user == null)
             {
@@ -76,7 +75,7 @@ namespace backend.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
-                User = usernummertwee.saUser
+                User = usernummerdrie
             };
 
             return View(model);
@@ -128,7 +127,7 @@ namespace backend.Controllers
                 {
                     if (saUser.Id == 0)
                     {
-                        saUser = user.saUser;
+                        saUser = user.User;
                         _context.Add(saUser);
                     }
                     else
