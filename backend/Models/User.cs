@@ -31,8 +31,6 @@ namespace backend.Models
         [Display(Name="Deleted")]
         public bool Deleted { get; set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
-
         /// Full name property
         public string FullName {
             get
