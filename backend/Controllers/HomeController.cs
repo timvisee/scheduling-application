@@ -34,18 +34,13 @@ namespace backend.Controllers
             var events = _context.Events.Where(x => x.Start >= start && x.End <= end);
 
             // Build a list of days, containing a list of events on that day
-            ViewBag.Days = Enumerable.Range(0, 5)
+            ViewBag.Days = Enumerable.Range(0, 6)
                 .Select(
                     day => events.Where(
                         x => x.Start >= start.AddDays(day)
-                            && x.End < start.AddDays(day + 1)
+                            && x.End < start.AddDays(day + (day == 5 ? 2 : 1))
                     ).ToList()
                 ).ToList();
-
-            ViewBag.Weekend = _context.Events.Where(
-                    x => x.Start >= start.AddDays(5) &&
-                    x.End < end
-            ).ToList();
 
             return View();
         }
