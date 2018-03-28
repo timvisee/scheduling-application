@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "People Overview";
+    List<User> removedUsers = new List<User>();
 }
 
 @section Stylesheets {
@@ -70,18 +71,57 @@
                 {
                     if (item.GetType() == typeof(User))
                     {
-                         <tr>
-                             <td>
-                                 <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                                     @Html.DisplayFor(modelItem => item.DisplayName)
-                                 </a>
-                             </td>
-                             <td>
-                                 <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                 <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                             </td>
-                         </tr>
+                        // First cast to user to use the deleted attribute
+                        var item2 = (User) item;
+                        if (item2.Deleted == false)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.DisplayName)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            removedUsers.Add(item2);
+                        }
                     }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="table-responsive sc-body">
+            <h2 class="text-center">Removed users</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var removedUser in removedUsers)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
+                                @Html.DisplayFor(modelItem => removedUser.DisplayName)
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
+                        </td>
+                    </tr>
                 }
                 </tbody>
             </table>
