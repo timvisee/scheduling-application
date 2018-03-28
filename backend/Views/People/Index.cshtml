@@ -15,7 +15,7 @@
         <div class="table-responsive sc-body">
             <div class="bg-dark">
                 <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users small"></i>
                     &nbsp;Groups
                     <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
                 </h2>
@@ -54,7 +54,7 @@
         <div class="table-responsive sc-body">
             <div class="bg-dark">
                 <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user small"></i>
                     &nbsp;Users
                     <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary mr-3 float-right">New</a>
                 </h2>
@@ -100,8 +100,12 @@
 
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <div class="table-responsive sc-body">
-            <h2 class="text-center">Removed users</h2>
+        <div class="table-responsive sc-body"> <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-trash small"></i>
+                    &nbsp;Removed Users
+                </h2>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
