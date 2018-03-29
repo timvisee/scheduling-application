@@ -6,32 +6,43 @@
 
 <h2>Create Event</h2>
 <hr>
-
-<div class="row">
-    <div class="col-xs-12">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-row">
-                <div class="form-group col-xs-12 col-md-11">
-                    <input asp-for="Title" class="form-control" placeholder="Title" required />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <input asp-for="Description" class="form-control" placeholder="Description" required />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group col-xs-6 col-md-12">
-                    <input asp-for="Start" class="form-control" placeholder="Start date" datetimepicker required />
-                    <span asp-validation-for="Start" class="text-danger"></span>
-                </div>
-                <div class="form-group col-xs-6 col-md-12">
-                    <input asp-for="End" class="form-control" placeholder="End date" datetimepicker required />
-                    <span asp-validation-for="End" class="text-danger"></span>
-                </div>
-            </div>
-        </form>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <input asp-for="Title" class="form-control" placeholder="Title" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <input asp-for="Description" class="form-control" placeholder="Description" required />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+            <input asp-for="Start" class="form-control datetimepicker" placeholder="Start date" required />
+            <span asp-validation-for="Start" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+            <input asp-for="End" class="form-control datetimepicker" placeholder="End date" required />
+            <span asp-validation-for="End" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Owners" class="control-label"></label>
+            <select asp-for="Owners" asp-items="@ViewBag.Owners" class="form-control"></select>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Attendees" class="control-label"></label>
+            <select asp-for="Attendees" asp-items="@ViewBag.Attendees" class="form-control"></select>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Locations" class="control-label"></label>
+            <select asp-for="Locations" asp-items="@ViewBag.Locations" class="form-control"></select>
+        </div>
+        <div class="form-group col-12">
+            <input type="submit" value="Create" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-light">Cancel</a>
+        </div>
     </div>
-</div>
+</form>
 
 @section Scripts {
     <script src="~/js/datetimepicker.js"></script>
