@@ -33,9 +33,9 @@
                 <td>@Html.DisplayFor(modelItem => item.Start)</td>
                 <td>@Html.DisplayFor(modelItem => item.End)</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">View</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">View</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }
