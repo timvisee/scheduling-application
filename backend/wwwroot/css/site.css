@@ -36,3 +36,11 @@
     margin-bottom: 0;
 }
 
+.event-details{
+        padding: 15px;
+    border-radius: 15px;
+}
+ .detail-item {
+     background: white;
+     border-radius: 10px;
+ }

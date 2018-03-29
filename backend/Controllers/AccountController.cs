@@ -227,12 +227,14 @@ namespace backend.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var saUser = CreateSaUser(user);
+                user.User = saUser;
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    CreateSaUser(user);
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
@@ -326,6 +328,8 @@ namespace backend.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var saUser = CreateSaUser(user);
+                user.User = saUser;
                 var result = await _userManager.CreateAsync(user);
 
                 if (result.Succeeded)
@@ -333,7 +337,6 @@ namespace backend.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        CreateSaUser(user);
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
@@ -476,7 +479,7 @@ namespace backend.Controllers
             }
         }
 
-        private void CreateSaUser(ApplicationUser user)
+        private User CreateSaUser(ApplicationUser user)
         {
             User saUser = new User
             {
@@ -485,12 +488,13 @@ namespace backend.Controllers
                 Infix = "",
                 Role = Role.Basic,
                 Type = Types.Type.Student,
-                ApplicationUser = user,
                 Deleted = false,
                 Locale = "nl_NL"
             };
             _context.Users.Add(saUser);
             _context.SaveChanges();
+
+            return saUser;
         }
 
         #endregion
