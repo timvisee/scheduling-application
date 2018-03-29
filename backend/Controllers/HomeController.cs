@@ -33,6 +33,10 @@ namespace backend.Controllers
             // Fetch all relevant events
             var events = _context.Events.Where(x => x.Start >= start && x.End <= end);
 
+            if (!events.Any())
+            {
+                return View();
+            }
             // Build a list of days, containing a list of events on that day
             ViewBag.Days = Enumerable.Range(0, 6)
                 .Select(

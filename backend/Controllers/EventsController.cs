@@ -93,8 +93,6 @@ namespace backend.Controllers
 
                 await _context.SaveChangesAsync();
 
-                _context.Update(@event);
-
                 // Add the new couplings
                 foreach (var peopleId in owners)
                 {
@@ -332,6 +330,9 @@ namespace backend.Controllers
         public IActionResult DeleteAll()
         {
             _context.Events.Clear();
+            _context.EventAttendees.Clear();
+            _context.EventOwners.Clear();
+            _context.EventLocations.Clear();
             _context.SaveChanges();
 
             return RedirectToAction("Index");
