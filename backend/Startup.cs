@@ -53,11 +53,11 @@ namespace backend
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-//            services.AddAuthentication().AddGoogle(googleOptions =>
-//            {
-//                googleOptions.ClientId = new AppConfig().GetProperty("Web.ClientId");
-//                googleOptions.ClientSecret = new AppConfig().GetProperty("Web.ClientSecret");
-//            });
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = new AppConfig().GetProperty("Web.ClientId");
+                googleOptions.ClientSecret = new AppConfig().GetProperty("Web.ClientSecret");
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
