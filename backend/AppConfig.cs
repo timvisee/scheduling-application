@@ -62,12 +62,18 @@ namespace backend
             // Get the property from an environment variable
             String envVar = Environment.GetEnvironmentVariable(envKey);
             if (envVar != null)
+            {
+                Console.WriteLine("Using envVar " + envKey + ": " + envVar);
                 return envVar;
+            }
 
             // Get the key from the configuration
             String configVar = this.config[configKey];
             if (configVar != null)
+            {
+                Console.WriteLine("Using configVar " + configKey + ": " + configVar);
                 return this.config[configKey];
+            }
 
             // No property was found, throw an error
             throw new Exception("Missing configuration key '" + key + "'");
@@ -80,11 +86,11 @@ namespace backend
         {
             // Generate a connection string
             return "Data Source=" + this.GetProperty("Database.Host") + ";"
-                + "Initial Catalog=" + this.GetProperty("Database.Database") + ";"
-                + "Integrated Security=False;User ID=" + this.GetProperty("Database.User") + ";"
-                + "Password=" + this.GetProperty("Database.Password") + ";"
-                + "Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;"
-                + "ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                   + "Initial Catalog=" + this.GetProperty("Database.Database") + ";"
+                   + "Integrated Security=False;User ID=" + this.GetProperty("Database.User") + ";"
+                   + "Password=" + this.GetProperty("Database.Password") + ";"
+                   + "Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;"
+                   + "ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         }
 
         /// <summary>
