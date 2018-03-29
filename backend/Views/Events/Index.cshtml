@@ -8,37 +8,39 @@
     <link rel="stylesheet" href="~/css/crud.css" />
 }
 
-<h2>Event Overview</h2>
-
-<a asp-action="Create" class="btn btn-outline-success">New Event</a>
-<a asp-action="Seed" class="btn btn-outline-info">Seed Events</a>
-<a asp-action="DeleteAll" class="btn btn-outline-danger">Drop Events</a>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Title)</th>
-                <th>@Html.DisplayNameFor(model => model.Description)</th>
-                <th>@Html.DisplayNameFor(model => model.Start) Date</th>
-                <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.DisplayFor(modelItem => item.Start)</td>
-                <td>@Html.DisplayFor(modelItem => item.End)</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">View</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-12">
+        <div class="table-header">
+            <h2><i class="far fa-calendar-alt"></i> Events</h2>
+            <a asp-action="Create" class="btn btn-outline-success">New Event</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Start) Date</th>
+                        <th>@Html.DisplayNameFor(model => model.End) Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Start)</td>
+                        <td>@Html.DisplayFor(modelItem => item.End)</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                            <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
