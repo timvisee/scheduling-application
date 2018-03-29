@@ -1,42 +1,23 @@
 ﻿@model backend.Models.Location
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Location Details";
 }
 
-<h2>Details</h2>
+<h2>Location Details</h2>
+<hr/>
 
-<div>
-    <h4>Location</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Latitude)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Longitude)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<b>@Html.DisplayNameFor(model => model.Name)</b>
+<p>@Html.DisplayFor(model => model.Name)</p>
+
+<b>@Html.DisplayNameFor(model => model.Description)</b>
+<p>@Html.DisplayFor(model => model.Description)</p>
+
+<b>@Html.DisplayNameFor(model => model.Latitude)</b>
+<p>@Html.DisplayFor(model => model.Latitude)</p>
+
+<b>@Html.DisplayNameFor(model => model.Longitude)</b>
+<p>@Html.DisplayFor(model => model.Longitude)</p>
+
+<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a class="btn btn-light" asp-action="Index">Back to List</a>
