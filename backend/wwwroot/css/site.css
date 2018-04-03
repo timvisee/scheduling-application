@@ -67,3 +67,7 @@
 
 .table-header h2 { margin: 0; }
 .table-header a { float: right; }
+
+#leafmap {
+    min-height: 300px;
+}
