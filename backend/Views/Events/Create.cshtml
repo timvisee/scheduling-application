@@ -5,53 +5,44 @@
 }
 
 <h2>Create Event</h2>
-<hr>
-<div class="row">
-    <div class="col-lg-12">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" required class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Start" class="control-label">Start date</label>
-                <input asp-for="Start" class="form-control datetimepicker" />
-                <span asp-validation-for="Start" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="End" class="control-label">End date</label>
-                <input asp-for="End" class="form-control datetimepicker" />
-                <span asp-validation-for="End" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Owners" class="control-label"></label>
-                <select asp-for="Owners" asp-items="@ViewBag.Owners" class="form-control">
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Attendees" class="control-label"></label>
-                <select asp-for="Attendees" asp-items="@ViewBag.Attendees" class="form-control">
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Locations" class="control-label"></label>
-                <select asp-for="Locations" asp-items="@ViewBag.Locations" class="form-control">
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-outline-success" />
-                <a asp-action="Index" class="btn btn-light">Cancel</a>
-            </div>
-        </form>
+<hr/>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <input asp-for="Title" class="form-control" placeholder="Title" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <input asp-for="Description" class="form-control" placeholder="Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+            <input asp-for="Start" class="form-control datetimepicker" placeholder="Start date" required />
+            <span asp-validation-for="Start" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+            <input asp-for="End" class="form-control datetimepicker" placeholder="End date" required />
+            <span asp-validation-for="End" class="text-danger"></span>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Owners" class="control-label"></label>
+            <select asp-for="Owners" asp-items="@ViewBag.Owners" class="form-control"></select>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Attendees" class="control-label"></label>
+            <select asp-for="Attendees" asp-items="@ViewBag.Attendees" class="form-control"></select>
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+            <label asp-for="Locations" class="control-label"></label>
+            <select asp-for="Locations" asp-items="@ViewBag.Locations" class="form-control"></select>
+        </div>
+        <div class="form-group col-12">
+            <input type="submit" value="Create" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-light">Cancel</a>
+        </div>
     </div>
-</div>
+</form>
 
 @section Scripts {
     <script src="~/js/datetimepicker.js"></script>

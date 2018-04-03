@@ -36,11 +36,29 @@
     margin-bottom: 0;
 }
 
-.event-details{
-        padding: 15px;
+.event-details {
     border-radius: 15px;
+    padding: 15px;
 }
- .detail-item {
-     background: white;
-     border-radius: 10px;
- }
+
+.detail-item {
+    background: white;
+    border-radius: 10px;
+}
+
+.table-header {
+    background-color: #343A40;
+    border-radius: 4px 4px 0px 0px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+}
+
+.table-header + .table-responsive {
+    border-radius: 0px 0px 4px 4px;
+    margin: 0;
+}
+
+.table-header h2 { margin: 0; }
+.table-header a { float: right; }
