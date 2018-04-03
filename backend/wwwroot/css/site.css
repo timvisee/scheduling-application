@@ -22,9 +22,14 @@
     right: 5px;
 }
 
+.calendar-responsive,
 .table-responsive {
     background-color: #FFFFFF;
     border-radius: 5px;
+}
+
+.calendar-responsive {
+    padding: 15px;
 }
 
 .modal {

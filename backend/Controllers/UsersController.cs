@@ -21,9 +21,9 @@ namespace backend.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return Redirect("/People");
         }
 
         // GET: Users/Details/5
@@ -123,6 +123,31 @@ namespace backend.Controllers
                 return RedirectToAction("Index", nameof(People));
             }
             return View(user);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var @user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Users.Remove(@user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", nameof(People));
         }
 
         private bool UserExists(int id)
