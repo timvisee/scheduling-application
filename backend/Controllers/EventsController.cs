@@ -345,5 +345,17 @@ namespace backend.Controllers
 
             return Json(new EventInformation(eve));
         }
+
+
+        [HttpGet]
+        public JsonResult JsonList()
+        {
+            var events = from e in _context.Events select e;
+            events = events.OrderBy(e => e.Start);
+
+            // Return events with the following keys
+            // https://fullcalendar.io/docs/event-object
+            return Json(events);
+        }
     }
 }
