@@ -1,4 +1,4 @@
-﻿@model IEnumerable<backend.Models.People>
+﻿﻿@model IEnumerable<backend.Models.People>
 
 @{
     ViewData["Title"] = "People Overview";
@@ -9,48 +9,104 @@
     <link rel="stylesheet" href="~/css/crud.css"/>
 }
 
+<h2>People Overview</h2>
+<hr/>
 <div class="row">
-    <div class="col-xs-12 col-md-6 mb-3">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Groups</h2>
-            <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary">New</a>
-        </div>
+    <div class="col-md-6">
         <div class="table-responsive">
-            <table class="table">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-users small"></i>
+                    &nbsp;Groups
+                    <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
+                <table class="table">
                 <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                @foreach (var item in Model)
+                {
+                    if (item.GetType() == typeof(Group))
                     {
-                        if (item.GetType() == typeof(Group))
-                        {
-                            <tr>
-                                <td>
-                                    <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
-                                        @Html.DisplayFor(modelItem => item.DisplayName)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                    <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.DisplayName)
+                                </a>
+
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                                <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
+                            </td>
+                        </tr>
                     }
+                }
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="col-xs-12 col-md-6 mb-3">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Users</h2>
-            <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary">New</a>
+    <div class="col-md-6">
+        <div class="table-responsive sc-body">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-user small"></i>
+                    &nbsp;Users
+                    <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.GetType() == typeof(User))
+                    {
+                        // First cast to user to use the deleted attribute
+                        var item2 = (User) item;
+                        if (item2.Deleted == false)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.DisplayName)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            removedUsers.Add(item2);
+                        }
+                    }
+                }
+                </tbody>
+            </table>
         </div>
-        <div class="table-responsive">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="table-responsive sc-body"> <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-trash small"></i>
+                    &nbsp;Removed Users
+                </h2>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -59,32 +115,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        if (item.GetType() == typeof(User))
-                        {
-                            // First cast to user to use the deleted attribute
-                            var item2 = (User) item;
-                            if (item2.Deleted == false)
-                            {
-                                <tr>
-                                    <td>
-                                        <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                                            @Html.DisplayFor(modelItem => item.DisplayName)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                        <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                removedUsers.Add(item2);
-                            }
-                        }
-                    }
+                @foreach (var removedUser in removedUsers)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
+                                @Html.DisplayFor(modelItem => removedUser.DisplayName)
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
