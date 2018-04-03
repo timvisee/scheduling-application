@@ -22,9 +22,14 @@
     right: 5px;
 }
 
+.calendar-responsive,
 .table-responsive {
     background-color: #FFFFFF;
     border-radius: 5px;
+}
+
+.calendar-responsive {
+    padding: 15px;
 }
 
 .modal {
@@ -62,3 +67,7 @@
 
 .table-header h2 { margin: 0; }
 .table-header a { float: right; }
+
+#leafmap {
+    min-height: 300px;
+}

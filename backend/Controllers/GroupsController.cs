@@ -21,9 +21,9 @@ namespace backend.Controllers
         }
 
         // GET: Groups
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Groups.ToListAsync());
+            return Redirect("/People");
         }
 
         // GET: Groups/Details/5

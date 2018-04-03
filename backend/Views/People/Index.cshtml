@@ -8,7 +8,6 @@
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/crud.css"/>
 }
-
 <h2>People Overview</h2>
 <hr/>
 <div class="row">
@@ -21,7 +20,7 @@
                     <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
                 </h2>
             </div>
-                <table class="table">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
@@ -92,41 +91,6 @@
                             removedUsers.Add(item2);
                         }
                     }
-                }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <div class="table-responsive sc-body"> <div class="bg-dark">
-                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
-                    <i class="fas fa-trash small"></i>
-                    &nbsp;Removed Users
-                </h2>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var removedUser in removedUsers)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
-                                @Html.DisplayFor(modelItem => removedUser.DisplayName)
-                            </a>
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
-                        </td>
-                    </tr>
                 }
                 </tbody>
             </table>
