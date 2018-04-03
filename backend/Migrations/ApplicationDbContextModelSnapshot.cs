@@ -102,11 +102,9 @@ namespace backend.Migrations
 
                     b.Property<int>("PeopleId");
 
-                    b.Property<int>("Id");
-
                     b.HasKey("EventId", "PeopleId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("PeopleId");
 
                     b.ToTable("event_attendee");
                 });
@@ -117,11 +115,9 @@ namespace backend.Migrations
 
                     b.Property<int>("LocationId");
 
-                    b.Property<int>("Id");
-
                     b.HasKey("EventId", "LocationId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("event_location");
                 });
@@ -132,11 +128,9 @@ namespace backend.Migrations
 
                     b.Property<int>("PeopleId");
 
-                    b.Property<int>("Id");
-
                     b.HasKey("EventId", "PeopleId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("PeopleId");
 
                     b.ToTable("event_owner");
                 });
@@ -181,11 +175,9 @@ namespace backend.Migrations
 
                     b.Property<int>("PeopleId");
 
-                    b.Property<int>("Id");
-
                     b.HasKey("GroupId", "PeopleId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("PeopleId");
 
                     b.ToTable("people_group");
                 });
@@ -347,12 +339,12 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Event", "Event")
                         .WithMany("Attendees")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.People", "People")
                         .WithMany("EventsAttend")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("PeopleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -360,12 +352,12 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Event", "Event")
                         .WithMany("Locations")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.Location", "Location")
                         .WithMany("Events")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -373,12 +365,12 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Event", "Event")
                         .WithMany("Owners")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.People", "People")
                         .WithMany("EventsOwn")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("PeopleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -386,13 +378,13 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Group", "Group")
                         .WithMany("People")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("backend.Models.People", "People")
                         .WithMany("Groups")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PeopleId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
