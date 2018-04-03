@@ -32,11 +32,6 @@ namespace backend.Models
             // Add the current group
             groups.Add(this);
 
-            // Get all people
-            var people = People.Select(p => p.People).ToList();
-            foreach (var item in people)
-                Console.WriteLine("- People type: " + item.GetType().Name);
-
             // Loop through all people
             foreach(var p in people)
             {

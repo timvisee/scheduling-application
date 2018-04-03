@@ -27,7 +27,7 @@
                 {
                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
                         <h6>
-                            Some user
+                            @item.DisplayName
                         </h6>
                     </a>
                 }
@@ -48,7 +48,7 @@
                 {
                     <a asp-controller="Groups" asp-action="Details" asp-route-id="@(item.Id)">
                         <h6>
-                            Some group
+                            @item.DisplayName
                         </h6>
                     </a>
                 }
