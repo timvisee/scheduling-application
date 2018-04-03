@@ -17,16 +17,46 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AllUsers)
+            Contains users (deep)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AllUsers)
+            <div>
+                <h5><span class="badge badge-success">Users</span></h5>
+                @{var AllUsers = Model.AllUsers();}
+                @foreach(User item in AllUsers)
+                {
+                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                        <h6>
+                            Some user
+                        </h6>
+                    </a>
+                }
+
+                @if(AllUsers.Count == 0) {
+                    <h6>Empty</h6>
+                }
+            </div>
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AllGroups)
+            Contains groups (deep)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AllGroups)
+            <div>
+                <h5><span class="badge badge-success">Groups</span></h5>
+                @{var AllGroups = Model.AllGroups();}
+                @foreach(Group item in AllGroups)
+                {
+                    <a asp-controller="Groups" asp-action="Details" asp-route-id="@(item.Id)">
+                        <h6>
+                            Some group
+                        </h6>
+                    </a>
+                }
+
+                @if(AllGroups.Count == 0) {
+                    <h6>Empty</h6>
+                }
+            </div>
         </dd>
     </dl>
 </div>

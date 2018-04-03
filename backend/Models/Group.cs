@@ -32,19 +32,17 @@ namespace backend.Models
             // Add the current group
             groups.Add(this);
 
-            // Loop through all people
-            foreach(var p in People.Select(p => p.People))
-            {
-                // TODO: remove after debugging
-                System.Console.WriteLine("Processing type: " + p);
+            // Get all people
+            var people = People.Select(p => p.People).ToList();
+            foreach (var item in people)
+                Console.WriteLine("- People type: " + item.GetType().Name);
 
+            // Loop through all people
+            foreach(var p in people)
+            {
                 // The people must be new to the sets
-                if((p is User && users.Contains(p)) || (p is Group && groups.Contains(p)))
-                {
-                    // TODO: remove this message after debugging
-                    Console.WriteLine("Skipped processing item that has already been collected");
+                if(users.Contains(p) || groups.Contains(p))
                     continue;
-                }
 
                 // Get the users and groups from this people
                 p.BuildUserAndGroupSets(ref users, ref groups);

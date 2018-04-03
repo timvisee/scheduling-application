@@ -30,6 +30,14 @@ namespace backend.Models
         public abstract string TypedDisplayName { get; }
 
         /// <summary>
+        /// This method fetches a list of all users and groups that are part of
+        /// this people.
+        /// This method fetches everything in a recursive manner.
+        /// No duplicates are returned.
+        /// </summary>
+        protected internal abstract void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups);
+
+        /// <summary>
         /// Get a set of users that are part of this people.
         /// If this instance is a user, a list with a single user will be
         /// returned.
@@ -38,23 +46,24 @@ namespace backend.Models
         /// This method fetches all users from groups in a recursive manner.
         /// The list doesn't contains duplicates.
         /// </summary>
-        [NotMapped]
-        [Display(Name = "Has users")]
-        public HashSet<User> AllUsers {
-            get {
-                // Create a user and group set
-                HashSet<User> users = new HashSet<User>();
-                HashSet<Group> groups = new HashSet<Group>();
+        [Display(Name = "Has users (test, deep)")]
+        public HashSet<User> AllUsers() {
+            // Create a user and group set
+            HashSet<User> users = new HashSet<User>();
+            HashSet<Group> groups = new HashSet<Group>();
 
-                // Fetch the users and groups
-                BuildUserAndGroupSets(ref users, ref groups);
+            // Fetch the users and groups
+            BuildUserAndGroupSets(ref users, ref groups);
 
-                // TODO: remove after debugging
-                Console.WriteLine("Got user count: " + users.Count);
+            // Remove itself
+            if(this is User)
+                users.Remove((User) this);
 
-                // Return the users
-                return users;
-            }
+            // TODO: remove after debugging
+            Console.WriteLine("Got user count: " + users.Count);
+
+            // Return the users
+            return users;
         }
 
         /// <summary>
@@ -63,31 +72,24 @@ namespace backend.Models
         /// This method fetches all groups from parent groups in a recursive manner.
         /// The list doesn't contains duplicates.
         /// </summary>
-        [NotMapped]
-        [Display(Name = "Has groups")]
-        public HashSet<Group> AllGroups {
-            get {
-                // Create a user and group set
-                HashSet<User> users = new HashSet<User>();
-                HashSet<Group> groups = new HashSet<Group>();
+        [Display(Name = "Has groups (test, deep)")]
+        public HashSet<Group> AllGroups() {
+            // Create a user and group set
+            HashSet<User> users = new HashSet<User>();
+            HashSet<Group> groups = new HashSet<Group>();
 
-                // Fetch the users and groups
-                BuildUserAndGroupSets(ref users, ref groups);
+            // Fetch the users and groups
+            BuildUserAndGroupSets(ref users, ref groups);
 
-                // TODO: remove after debugging
-                Console.WriteLine("Got group count: " + groups.Count);
+            // TODO: remove after debugging
+            Console.WriteLine("Got group count: " + groups.Count);
 
-                // Return the users
-                return groups;
-            }
+            // Remove itself
+            if(this is Group)
+                groups.Remove((Group) this);
+
+            // Return the users
+            return groups;
         }
-
-        /// <summary>
-        /// This method fetches a list of all users and groups that are part of
-        /// this people.
-        /// This method fetches everything in a recursive manner.
-        /// No duplicates are returned.
-        /// </summary>
-        protected internal abstract void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups);
     }
 }
