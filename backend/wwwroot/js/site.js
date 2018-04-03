@@ -10,12 +10,16 @@
             .then(function (response) {
                 $("#detail-title").text(response.data.eventTitle);
 
-                console.log(response);
-
                 if (response.data.eventDescription !== '') {
                     $("#detail-description").text(response.data.eventDescription);
                 } else {
                     $("#detail-description").text("No description available");
+                }
+
+                if (response.data.locationList !== null) {
+                    $('#detail-locations').html(response.data.locationList.join(', '));
+                } else {
+                    $("#detail-locations").text("No location(s) available");
                 }
 
                 $("#detail-time-duration").text(response.data.timeDuration);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using backend.Models;
 
 namespace backend.Extensions
@@ -16,7 +17,9 @@ namespace backend.Extensions
         public string StartDate { get; }
         public string EndDate { get; }
         public string TimeDuration { get; }
-//        public List<string> AttendeeList { get; }
+        public List<string> AttendeeList { get; set; }
+        public List<string> LocationList { get; set; }
+        public List<string> OwnerList { get; set; }
 
         public EventInformation(Event ev)
         {
@@ -26,13 +29,21 @@ namespace backend.Extensions
             EndDate = ev.End.ToString("MM/dd/yyyy");
             TimeDuration = parseTimeDuration(ev.Start, ev.End);
 
-            // TODO: Add locations (tested with attendees)
-//            if (ev.Attendees != null) {
-//                foreach (var att in ev.Attendees)
-//                {
-//                    AttendeeList.Add(att.People.DisplayName);
-//                }
-//            }
+            var tempAttList = new List<string>();
+            var tempLocList = new List<string>();
+
+            foreach (var att in ev.Attendees.Select(e => e.People))
+            {
+                tempAttList.Add(att.DisplayName);
+            }
+
+            foreach (var loc in ev.Locations.Select(e => e.Location))
+            {
+                tempLocList.Add(loc.Name);
+            }
+
+            AttendeeList = tempAttList;
+            LocationList = tempLocList;
         }
 
 
