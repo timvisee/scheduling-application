@@ -1,10 +1,14 @@
 ﻿@model backend.Models.Group
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Group Details";
 }
 
-<h2>Details</h2>
+<h2>Group Details</h2>
+<hr/>
+
+<b>@Html.DisplayNameFor(model => model.Name)</b>
+<p>@Html.DisplayFor(model => model.Name)</p>
 
 <div>
     <h4>Group</h4>
@@ -61,6 +65,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-controller="People" asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
 </div>
