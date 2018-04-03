@@ -8,11 +8,12 @@
     function showModal(id) {
         axios.get('/events/jsondetails/' + id)
             .then(function (response) {
-                $("#detail-title").text(response.data.event.title);
+                $("#detail-title").text(response.data.eventTitle);
 
+                console.log(response);
 
-                if (response.data.event.description !== null) {
-                    $("#detail-description").text(response.data.event.description);
+                if (response.data.eventDescription !== '') {
+                    $("#detail-description").text(response.data.eventDescription);
                 } else {
                     $("#detail-description").text("No description available");
                 }
@@ -88,7 +89,7 @@
     });
 
 
-    if($('#leafmap').length) {
+    if ($('#leafmap').length) {
         //init map
         var mymap = L.map('leafmap').setView([51.505, -0.09], 2);
 
