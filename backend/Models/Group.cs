@@ -13,7 +13,7 @@ namespace backend.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        public ICollection <PeopleGroup> People { get; set; }
+        public virtual ICollection<PeopleGroup> People { get; set; }
 
         [NotMapped]
         public override string DisplayName => Name;

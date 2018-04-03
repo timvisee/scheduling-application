@@ -27,12 +27,12 @@ namespace backend.Models
         public DateTime End { get; set; }
 
         [Display(Name="Owners")]
-        public ICollection<EventOwner> Owners { get; set; }
+        public virtual ICollection<EventOwner> Owners { get; set; }
 
         [Display(Name="Attendees")]
-        public ICollection<EventAttendee> Attendees { get; set; }
+        public virtual ICollection<EventAttendee> Attendees { get; set; }
 
         [Display(Name="Locations")]
-        public ICollection<EventLocation> Locations { get; set; }
+        public virtual ICollection<EventLocation> Locations { get; set; }
     }
 }

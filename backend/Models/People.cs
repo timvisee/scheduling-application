@@ -12,13 +12,13 @@ namespace backend.Models
         public int Id { get; set; }
 
         [Display(Name="Owners")]
-        public ICollection<EventOwner> EventsOwn { get; set; }
+        public virtual ICollection<EventOwner> EventsOwn { get; set; }
 
         [Display(Name="Attendees")]
-        public ICollection<EventAttendee> EventsAttend { get; set; }
+        public virtual ICollection<EventAttendee> EventsAttend { get; set; }
 
         [Display(Name="Groups")]
-        public ICollection<PeopleGroup> Groups { get; set; }
+        public virtual ICollection<PeopleGroup> Groups { get; set; }
 
         // Some generic getters
         [NotMapped]
@@ -59,9 +59,6 @@ namespace backend.Models
             if(this is User)
                 users.Remove((User) this);
 
-            // TODO: remove after debugging
-            Console.WriteLine("Got user count: " + users.Count);
-
             // Return the users
             return users;
         }
@@ -80,9 +77,6 @@ namespace backend.Models
 
             // Fetch the users and groups
             BuildUserAndGroupSets(ref users, ref groups);
-
-            // TODO: remove after debugging
-            Console.WriteLine("Got group count: " + groups.Count);
 
             // Remove itself
             if(this is Group)

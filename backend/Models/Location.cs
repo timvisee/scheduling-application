@@ -23,6 +23,6 @@ namespace backend.Models
         [Display(Name="Longitude")]
         public double Longitude { get; set; }
 
-        public ICollection <EventLocation> Events { get; set; }
+        public virtual ICollection<EventLocation> Events { get; set; }
     }
 }
