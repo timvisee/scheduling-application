@@ -46,6 +46,23 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            //get all linked attendees
+            var attendeeIds = _context.EventAttendees.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+
+            var attendees = _context.People.Where(x => attendeeIds.Contains(x.Id)).ToList();
+            ViewBag.Attendees = attendees.Count > 0 ? attendees : null;
+
+            //get all linked owners
+            var ownerIds = _context.EventOwners.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+
+            var owners = _context.People.Where(x => ownerIds.Contains(x.Id)).ToList();
+            ViewBag.Owners = owners.Count > 0 ? owners : null;
+
+            //get all linked groups
+            var groupIds = _context.PeopleGroups.Where(x => x.PeopleId == id).Select(x => x.GroupId);
+
+            var groups = _context.People.Where(x => groupIds.Contains(x.Id)).ToList();
+            ViewBag.Groups = groups.Count > 0 ? groups : null;
             return View(@event);
         }
 
@@ -75,8 +92,6 @@ namespace backend.Controllers
                 _context.Add(@event);
 
                 await _context.SaveChangesAsync();
-
-                _context.Update(@event);
 
                 // Add the new couplings
                 foreach (var peopleId in owners)
@@ -315,6 +330,9 @@ namespace backend.Controllers
         public IActionResult DeleteAll()
         {
             _context.Events.Clear();
+            _context.EventAttendees.Clear();
+            _context.EventOwners.Clear();
+            _context.EventLocations.Clear();
             _context.SaveChanges();
 
             return RedirectToAction("Index");

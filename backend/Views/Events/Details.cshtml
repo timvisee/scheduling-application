@@ -1,42 +1,50 @@
 ﻿@model backend.Models.Event
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Events Details";
 }
 
-<h2>Details</h2>
+<h2>Event Details</h2>
+<hr/>
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Start)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Start)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.End)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.End)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<b>@Html.DisplayNameFor(model => model.Title)</b>
+<p>@Html.DisplayFor(model => model.Title)</p>
+
+<b>@Html.DisplayNameFor(model => model.Description)</b>
+<p>@Html.DisplayFor(model => model.Description)</p>
+
+<b>@Html.DisplayNameFor(model => model.Start)</b>
+<p>@Html.DisplayFor(model => model.Start)</p>
+
+<b>@Html.DisplayNameFor(model => model.End)</b>
+<p>@Html.DisplayFor(model => model.End)</p>
+
+<b>Owners</b>
+@if (ViewBag.Owners != null) {
+    foreach (People owner in ViewBag.Owners) {
+        <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+    }
+} else {
+    <p>No owners found</p>
+}
+
+<b>Attendees</b>
+@if (ViewBag.Attendees != null) {
+    foreach (People attendee in ViewBag.Attendees) {
+        <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+    }
+} else {
+    <p>No attendees found</p>
+}
+
+<b>Groups</b>
+@if (ViewBag.Groups != null) {
+    foreach (People group in ViewBag.Groups) {
+        <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(group.Id)">@group.DisplayName</a></p>
+    }
+} else {
+    <p>No groups found</p>
+}
+
+<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+<a class="btn btn-light" asp-action="Index">Back to List</a>
