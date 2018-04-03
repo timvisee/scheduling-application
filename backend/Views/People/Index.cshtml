@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "People Overview";
-    List<User> removedUsers = new List<User>();
 }
 
 @section Stylesheets {
@@ -10,17 +9,13 @@
 }
 
 <div class="row">
-<<<<<<< HEAD
-    <div class="col-md-6">
+    <div class="col-xs-12 col-md-6 mb-3">
+        <div class="table-header">
+            <h2><i class="far fa-calendar-alt"></i> Groups</h2>
+            <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary">New</a>
+        </div>
         <div class="table-responsive">
-            <div class="bg-dark">
-                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
-                    <i class="fas fa-users"></i>
-                    &nbsp;Groups
-                    <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
-                </h2>
-            </div>
-                <table class="table">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
@@ -45,64 +40,6 @@
                 }
                 </tbody>
             </table>
-=======
-    <div class="col-xs-12 col-md-6 mb-3">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Groups</h2>
-            <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary">New</a>
->>>>>>> origin/master
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-<<<<<<< HEAD
-                @foreach (var item in Model.Where(e => e.IsUser()))
-                {
-                    // First cast to user to use the deleted attribute
-                    var item2 = (User) item;
-                    if (item2.Deleted == false)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                                    @Html.DisplayFor(modelItem => item.DisplayName)
-                                </a>
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        removedUsers.Add(item2);
-=======
-                    @foreach (var item in Model)
-                    {
-                        if (item.GetType() == typeof(Group))
-                        {
-                            <tr>
-                                <td>
-                                    <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
-                                        @Html.DisplayFor(modelItem => item.DisplayName)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                    <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                                </td>
-                            </tr>
-                        }
->>>>>>> origin/master
-                    }
-                </tbody>
-            </table>
         </div>
     </div>
     <div class="col-xs-12 col-md-6 mb-3">
@@ -119,30 +56,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Where(e => e.IsUser()))
                     {
-                        if (item.GetType() == typeof(User))
+                        var user = (User) item;
+                        if (!user.Deleted)
                         {
-                            // First cast to user to use the deleted attribute
-                            var item2 = (User) item;
-                            if (item2.Deleted == false)
-                            {
-                                <tr>
-                                    <td>
-                                        <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                                            @Html.DisplayFor(modelItem => item.DisplayName)
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                        <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                removedUsers.Add(item2);
-                            }
+                            <tr>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.DisplayName)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                                    <a asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
