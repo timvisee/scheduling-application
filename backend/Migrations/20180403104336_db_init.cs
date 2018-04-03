@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace backend.Migrations
 {
-    public partial class init : Migration
+    public partial class db_init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,31 +24,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "event",
                 columns: table => new
                 {
@@ -57,7 +32,7 @@ namespace backend.Migrations
                     Description = table.Column<string>(nullable: true),
                     End = table.Column<DateTime>(nullable: false),
                     Start = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +48,7 @@ namespace backend.Migrations
                     Description = table.Column<string>(nullable: true),
                     Latitude = table.Column<double>(nullable: false),
                     Longitude = table.Column<double>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,6 +95,134 @@ namespace backend.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "event_location",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false),
+                    LocationId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_event_location", x => new { x.EventId, x.LocationId });
+                    table.ForeignKey(
+                        name: "FK_event_location_event_EventId",
+                        column: x => x.EventId,
+                        principalTable: "event",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_event_location_locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UserID = table.Column<int>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_people_UserID",
+                        column: x => x.UserID,
+                        principalTable: "people",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "event_attendee",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false),
+                    PeopleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_event_attendee", x => new { x.EventId, x.PeopleId });
+                    table.ForeignKey(
+                        name: "FK_event_attendee_event_EventId",
+                        column: x => x.EventId,
+                        principalTable: "event",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_event_attendee_people_PeopleId",
+                        column: x => x.PeopleId,
+                        principalTable: "people",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "event_owner",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false),
+                    PeopleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_event_owner", x => new { x.EventId, x.PeopleId });
+                    table.ForeignKey(
+                        name: "FK_event_owner_event_EventId",
+                        column: x => x.EventId,
+                        principalTable: "event",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_event_owner_people_PeopleId",
+                        column: x => x.PeopleId,
+                        principalTable: "people",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "people_group",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(nullable: false),
+                    PeopleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_people_group", x => new { x.GroupId, x.PeopleId });
+                    table.ForeignKey(
+                        name: "FK_people_group_people_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "people",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_people_group_people_PeopleId",
+                        column: x => x.PeopleId,
+                        principalTable: "people",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,100 +310,6 @@ namespace backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "event_location",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_event_location", x => new { x.EventId, x.LocationId });
-                    table.ForeignKey(
-                        name: "FK_event_location_event_Id",
-                        column: x => x.Id,
-                        principalTable: "event",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_event_location_locations_Id",
-                        column: x => x.Id,
-                        principalTable: "locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "event_attendee",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false),
-                    PeopleId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_event_attendee", x => new { x.EventId, x.PeopleId });
-                    table.ForeignKey(
-                        name: "FK_event_attendee_event_Id",
-                        column: x => x.Id,
-                        principalTable: "event",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_event_attendee_people_Id",
-                        column: x => x.Id,
-                        principalTable: "people",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "event_owner",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false),
-                    PeopleId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_event_owner", x => new { x.EventId, x.PeopleId });
-                    table.ForeignKey(
-                        name: "FK_event_owner_event_Id",
-                        column: x => x.Id,
-                        principalTable: "event",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_event_owner_people_Id",
-                        column: x => x.Id,
-                        principalTable: "people",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "people_group",
-                columns: table => new
-                {
-                    GroupId = table.Column<int>(nullable: false),
-                    PeopleId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_people_group", x => new { x.GroupId, x.PeopleId });
-                    table.ForeignKey(
-                        name: "FK_people_group_people_Id",
-                        column: x => x.Id,
-                        principalTable: "people",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -341,24 +350,29 @@ namespace backend.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_event_attendee_Id",
+                name: "IX_AspNetUsers_UserID",
+                table: "AspNetUsers",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_event_attendee_PeopleId",
                 table: "event_attendee",
-                column: "Id");
+                column: "PeopleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_event_location_Id",
+                name: "IX_event_location_LocationId",
                 table: "event_location",
-                column: "Id");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_event_owner_Id",
+                name: "IX_event_owner_PeopleId",
                 table: "event_owner",
-                column: "Id");
+                column: "PeopleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_people_group_Id",
+                name: "IX_people_group_PeopleId",
                 table: "people_group",
-                column: "Id");
+                column: "PeopleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

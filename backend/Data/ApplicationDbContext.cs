@@ -24,29 +24,30 @@ namespace backend.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             // Event couplings
             builder.Entity<EventLocation>()
-                .HasKey(el => new { el.EventId, el.LocationId});
+                .HasKey(x => new {x.EventId, x.LocationId});
             builder.Entity<EventLocation>()
-                .HasOne(el => el.Location)
-                .WithMany(e => e.Events)
-                .HasForeignKey("Id");
+                .HasOne(pt => pt.Event)
+                .WithMany(p => p.Locations)
+                .HasForeignKey(pt => pt.EventId);
             builder.Entity<EventLocation>()
-                .HasOne(el => el.Event)
-                .WithMany(e => e.Locations)
-                .HasForeignKey("Id");
+                .HasOne(pt => pt.Location)
+                .WithMany(t => t.Events)
+                .HasForeignKey(pt => pt.LocationId);
 
             // Event owner couplings
             builder.Entity<EventOwner>()
                 .HasKey(el => new { el.EventId, el.PeopleId});
             builder.Entity<EventOwner>()
-                .HasOne(el => el.People)
-                .WithMany(e => e.EventsOwn)
-                .HasForeignKey("Id");
+                .HasOne(pt => pt.People)
+                .WithMany(p => p.EventsOwn)
+                .HasForeignKey(pt => pt.PeopleId);
             builder.Entity<EventOwner>()
-                .HasOne(el => el.Event)
-                .WithMany(e => e.Owners)
-                .HasForeignKey("Id");
+                .HasOne(pt => pt.Event)
+                .WithMany(t => t.Owners)
+                .HasForeignKey(pt => pt.EventId);
 
             // Event attendee couplings
             builder.Entity<EventAttendee>()
@@ -54,24 +55,26 @@ namespace backend.Data
             builder.Entity<EventAttendee>()
                 .HasOne(el => el.People)
                 .WithMany(e => e.EventsAttend)
-                .HasForeignKey("Id");
+                .HasForeignKey(x => x.PeopleId);
             builder.Entity<EventAttendee>()
                 .HasOne(el => el.Event)
                 .WithMany(e => e.Attendees)
-                .HasForeignKey("Id");
+                .HasForeignKey(x => x.EventId);
 
             // People group couplings
             builder.Entity<PeopleGroup>()
                 .HasKey(el => new { el.GroupId, el.PeopleId});
+
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.People)
                 .WithMany(e => e.Groups)
-                .HasForeignKey("Id");
+                .HasForeignKey(x => x.PeopleId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.Group)
                 .WithMany(e => e.People)
-                .HasForeignKey("Id");
-
+                .HasForeignKey(x => x.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(builder);
         }
     }
