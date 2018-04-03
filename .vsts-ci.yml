@@ -8,6 +8,13 @@ steps:
   - script: dotnet build
     displayName: "backend: build"
 
+  - task: PublishBuildArtifacts@1
+    displayName: "Build Artifacts"
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: drop
+      publishLocation: Container
+
     # # Docker container builds
     # - script: './clean'
     #   workingDirectory: "docker"
