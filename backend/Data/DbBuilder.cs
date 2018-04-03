@@ -69,7 +69,6 @@ namespace backend.Data
                 Role = Role.Basic,
                 Type = Type.Student
             };
-            context.Users.Add(us);
 
             var us3 = new User
             {
@@ -80,7 +79,6 @@ namespace backend.Data
                 Role = Role.Basic,
                 Type = Type.Student
             };
-            context.Users.Add(us3);
 
             var us4 = new User
             {
@@ -91,7 +89,6 @@ namespace backend.Data
                 Role = Role.Basic,
                 Type = Type.Student
             };
-            context.Users.Add(us4);
 
             var us5 = new User
             {
@@ -102,7 +99,6 @@ namespace backend.Data
                 Role = Role.Basic,
                 Type = Type.Student
             };
-            context.Users.Add(us5);
 
             var us6 = new User
             {
@@ -113,6 +109,10 @@ namespace backend.Data
                 Role = Role.Basic,
                 Type = Type.Student
             };
+            context.Users.Add(us);
+            context.Users.Add(us3);
+            context.Users.Add(us4);
+            context.Users.Add(us5);
             context.Users.Add(us6);
             context.SaveChanges();
 
@@ -166,7 +166,6 @@ namespace backend.Data
                 Description = "",
                 Title = "Programming in PHP"
             };
-            context.Events.Add(ev);
 
             var ev2 = new Event
             {
@@ -175,7 +174,6 @@ namespace backend.Data
                 Description = "",
                 Title = "Object Oriented programming"
             };
-            context.Events.Add(ev2);
 
             var ev3 = new Event
             {
@@ -184,7 +182,6 @@ namespace backend.Data
                 Description = "",
                 Title = "Databases"
             };
-            context.Events.Add(ev3);
 
             var ev4 = new Event
             {
@@ -193,7 +190,6 @@ namespace backend.Data
                 Description = "",
                 Title = "How to deal with ASP.NET"
             };
-            context.Events.Add(ev4);
 
             var ev5 = new Event
             {
@@ -202,7 +198,6 @@ namespace backend.Data
                 Description = "",
                 Title = "DevOps"
             };
-            context.Events.Add(ev5);
 
             var ev6 = new Event
             {
@@ -211,7 +206,6 @@ namespace backend.Data
                 Description = "",
                 Title = "Rust for beginners"
             };
-            context.Events.Add(ev6);
 
             var ev7 = new Event
             {
@@ -220,60 +214,51 @@ namespace backend.Data
                 Description = "",
                 Title = "Rust - Advanced course"
             };
+
+
+            context.Events.Add(ev);
+            context.Events.Add(ev2);
+            context.Events.Add(ev3);
+            context.Events.Add(ev4);
+            context.Events.Add(ev5);
+            context.Events.Add(ev6);
             context.Events.Add(ev7);
 
             context.SaveChanges();
 
-            var el = new EventLocation
-            {
-                Event = ev,
-                Location = loc
-            };
-            var el1 = new EventLocation
-            {
-                Event = ev,
-                Location = loc1
-            };
-            var el2 = new EventLocation
-            {
-                Event = ev,
-                Location = loc2
-            };
-            var el3 = new EventLocation
-            {
-                Event = ev2,
-                Location = loc2
-            };
-            var el4 = new EventLocation
-            {
-                Event = ev3,
-                Location = loc3
-            };
-            var el5 = new EventLocation
-            {
-                Event = ev3,
-                Location = loc
-            };
-            var el6 = new EventLocation
-            {
-                Event = ev4,
-                Location = loc1
-            };
-            var el7 = new EventLocation
-            {
-                Event = ev5,
-                Location = loc
-            };
-            var el8 = new EventLocation
-            {
-                Event = ev6,
-                Location = loc
-            };
-            var el9 = new EventLocation
-            {
-                Event = ev7,
-                Location = loc1
-            };
+            /**
+             * GROUP
+             */
+            var gr = new Group {Name = "Beun IT"};
+            context.Groups.Add(gr);
+            context.SaveChanges();
+
+            var pg = new PeopleGroup {People = us, Group = gr};
+            var pg1 = new PeopleGroup {People = us3, Group = gr};
+            var pg2 = new PeopleGroup {People = us4, Group = gr};
+            var pg3 = new PeopleGroup {People = us5, Group = gr};
+            var pg4 = new PeopleGroup {People = us6, Group = gr};
+
+            context.PeopleGroups.Add(pg);
+            context.PeopleGroups.Add(pg1);
+            context.PeopleGroups.Add(pg2);
+            context.PeopleGroups.Add(pg3);
+            context.PeopleGroups.Add(pg4);
+            context.SaveChanges();
+
+            /**
+             * EVENTLOCATIONS
+             */
+            var el = new EventLocation {Event = ev, Location = loc};
+            var el1 = new EventLocation {Event = ev, Location = loc1};
+            var el2 = new EventLocation {Event = ev, Location = loc2};
+            var el3 = new EventLocation {Event = ev2, Location = loc2};
+            var el4 = new EventLocation {Event = ev3, Location = loc3};
+            var el5 = new EventLocation {Event = ev3, Location = loc};
+            var el6 = new EventLocation {Event = ev4, Location = loc1};
+            var el7 = new EventLocation {Event = ev5, Location = loc};
+            var el8 = new EventLocation {Event = ev6, Location = loc};
+            var el9 = new EventLocation {Event = ev7, Location = loc1};
 
             context.EventLocations.Add(el);
             context.EventLocations.Add(el1);
@@ -288,25 +273,32 @@ namespace backend.Data
 
             context.SaveChanges();
 
-            var ea = new EventAttendee
-            {
-                Event = ev,
-                People = us
-            };
-            var ea1 = new EventAttendee
-            {
-                Event = ev,
-                People = us3
-            };
-            var ea2 = new EventAttendee
-            {
-                Event = ev,
-                People = us4
-            };
+            /**
+             * EVENTATTENDEES
+             */
+            var ea = new EventAttendee {Event = ev, People = us};
+            var ea1 = new EventAttendee {Event = ev, People = us3};
+            var ea2 = new EventAttendee {Event = ev, People = us4};
+            var ea3 = new EventAttendee {Event = ev2, People = us6};
+            var ea4 = new EventAttendee {Event = ev2, People = us4};
+            var ea5 = new EventAttendee {Event = ev3, People = us6};
+            var ea6 = new EventAttendee {Event = ev3, People = gr};
+            var ea7 = new EventAttendee {Event = ev4, People = us6};
+            var ea8 = new EventAttendee {Event = ev5, People = gr};
+            var ea9 = new EventAttendee {Event = ev6, People = us5};
+            var ea10 = new EventAttendee {Event = ev6, People = us};
 
             context.EventAttendees.Add(ea);
             context.EventAttendees.Add(ea1);
             context.EventAttendees.Add(ea2);
+            context.EventAttendees.Add(ea3);
+            context.EventAttendees.Add(ea4);
+            context.EventAttendees.Add(ea5);
+            context.EventAttendees.Add(ea6);
+            context.EventAttendees.Add(ea7);
+            context.EventAttendees.Add(ea8);
+            context.EventAttendees.Add(ea9);
+            context.EventAttendees.Add(ea10);
 
             context.SaveChanges();
 
