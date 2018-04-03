@@ -82,11 +82,13 @@ namespace backend.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-                List<int> owners,
-                List<int> attendees,
-                List<int> locations,
-                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
-        ) {
+            List<int> owners,
+            List<int> attendees,
+            List<int> locations,
+            [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")]
+            Event @event
+        )
+        {
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
@@ -97,25 +99,30 @@ namespace backend.Controllers
                 foreach (var peopleId in owners)
                 {
                     @event.Owners.Add(
-                        new EventOwner {
+                        new EventOwner
+                        {
                             EventId = @event.Id,
                             PeopleId = peopleId
                         }
                     );
                 }
+
                 foreach (var peopleId in attendees)
                 {
                     @event.Attendees.Add(
-                        new EventAttendee {
+                        new EventAttendee
+                        {
                             EventId = @event.Id,
                             PeopleId = peopleId
                         }
                     );
                 }
+
                 foreach (var locationId in locations)
                 {
                     @event.Locations.Add(
-                        new EventLocation {
+                        new EventLocation
+                        {
                             EventId = @event.Id,
                             LocationId = locationId
                         }
@@ -186,12 +193,14 @@ namespace backend.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-                int id,
-                List<int> owners,
-                List<int> attendees,
-                List<int> locations,
-                [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")] Event @event
-        ) {
+            int id,
+            List<int> owners,
+            List<int> attendees,
+            List<int> locations,
+            [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")]
+            Event @event
+        )
+        {
             if (id != @event.Id)
             {
                 return NotFound();
@@ -219,25 +228,30 @@ namespace backend.Controllers
                     foreach (var peopleId in owners)
                     {
                         @event.Owners.Add(
-                            new EventOwner {
+                            new EventOwner
+                            {
                                 EventId = @event.Id,
                                 PeopleId = peopleId
                             }
                         );
                     }
+
                     foreach (var peopleId in attendees)
                     {
                         @event.Attendees.Add(
-                            new EventAttendee {
+                            new EventAttendee
+                            {
                                 EventId = @event.Id,
                                 PeopleId = peopleId
                             }
                         );
                     }
+
                     foreach (var locationId in locations)
                     {
                         @event.Locations.Add(
-                            new EventLocation {
+                            new EventLocation
+                            {
                                 EventId = @event.Id,
                                 LocationId = locationId
                             }
@@ -257,8 +271,10 @@ namespace backend.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(@event);
         }
 
@@ -316,9 +332,9 @@ namespace backend.Controllers
                 if (i % 3 == 0 && i > 0)
                 {
                     start = start.AddDays(1);
-
                 }
             }
+
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -355,7 +371,15 @@ namespace backend.Controllers
 
             // Return events with the following keys
             // https://fullcalendar.io/docs/event-object
-            return Json(events);
+            //
+            // Parse the events to CalendarEvents
+            List<CalendarEvent> ce = new List<CalendarEvent>();
+            foreach (var ev in events)
+            {
+                ce.Add(new CalendarEvent(ev));
+            }
+
+            return Json(ce);
         }
     }
 }
