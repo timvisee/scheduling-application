@@ -10,7 +10,7 @@
 }
 
 <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-md-6 mt-3 mb-3">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i> Groups</h2>
             <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary">New</a>
@@ -45,7 +45,7 @@
             </table>
         </div>
     </div>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-md-6 mt-3 mb-3">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i> Users</h2>
             <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary">New</a>
@@ -84,39 +84,6 @@
                                 removedUsers.Add(item2);
                             }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Removed users</h2>
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var removedUser in removedUsers)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
-                                    @Html.DisplayFor(modelItem => removedUser.DisplayName)
-                                </a>
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
-                            </td>
-                        </tr>
                     }
                 </tbody>
             </table>

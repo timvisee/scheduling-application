@@ -1,0 +1,43 @@
+@model IEnumerable<backend.Models.People>
+
+@{
+    ViewData["Title"] = "People Overview";
+    List<User> removedUsers = new List<User>();
+}
+
+@section Stylesheets {
+    <link rel="stylesheet" href="~/css/crud.css"/>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-header">
+            <h2><i class="far fa-calendar-alt"></i> Removed users</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var removedUser in removedUsers)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
+                                    @Html.DisplayFor(modelItem => removedUser.DisplayName)
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
