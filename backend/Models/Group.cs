@@ -33,7 +33,7 @@ namespace backend.Models
             groups.Add(this);
 
             // Loop through all people
-            foreach(var p in people)
+            foreach (var p in People.Select(p => p.People))
             {
                 // The people must be new to the sets
                 if(users.Contains(p) || groups.Contains(p))
