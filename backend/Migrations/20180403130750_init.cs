@@ -40,7 +40,7 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "locations",
+                name: "location",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -52,7 +52,7 @@ namespace backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_locations", x => x.Id);
+                    table.PrimaryKey("PK_location", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,9 +114,9 @@ namespace backend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_event_location_locations_LocationId",
+                        name: "FK_event_location_location_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "locations",
+                        principalTable: "location",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -411,7 +411,7 @@ namespace backend.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "locations");
+                name: "location");
 
             migrationBuilder.DropTable(
                 name: "event");

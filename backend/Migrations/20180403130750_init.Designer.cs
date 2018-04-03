@@ -14,7 +14,7 @@ using backend.Types;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180403130254_init")]
+    [Migration("20180403130750_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,7 +153,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("locations");
+                    b.ToTable("location");
                 });
 
             modelBuilder.Entity("backend.Models.People", b =>

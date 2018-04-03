@@ -152,7 +152,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("locations");
+                    b.ToTable("location");
                 });
 
             modelBuilder.Entity("backend.Models.People", b =>
