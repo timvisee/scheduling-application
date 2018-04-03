@@ -4,92 +4,13 @@
 
 @{
     ViewData["Title"] = "Home";
-
-    string[] colors = new string[] {
-        "text-success",
-        "text-danger",
-        "text-info",
-        "text-primary",
-        "text-warning",
-        "text-secondary",
-    };
-
-    string[] days = new string[] {
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Weekend",
-    };
 }
 
-<div class="row">
-    <div class="col-xs-12 col-md-4 pt-3 pb-3">
-        <div class="card text-center">
-            <h5 class="card-header"><i class="fas fa-users"></i>&nbsp;Groups</h5>
-            <div class="card-body">
-                <h6 class="card-title">Register for a group</h6>
-                <a asp-controller="People" asp-action="Index" class="btn btn-primary">Enroll</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4 pt-3 pb-3">
-        <div class="card text-center">
-            <h5 class="card-header"><i class="far fa-calendar-alt"></i>&nbsp;Events</h5>
-            <div class="card-body">
-                <h6 class="card-title">Register a custom event</h6>
-                <a asp-controller="Events" asp-action="Create" class="btn btn-primary">Add</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4 pt-3 pb-3">
-        <div class="card text-center">
-            <h5 class="card-header"><i class="fas fa-map-marker"></i>&nbsp;Locations</h5>
-            <div class="card-body">
-                <h6 class="card-title">Register a custom location</h6>
-                <a asp-controller="Locations" asp-action="Create" class="btn btn-primary">Add</a>
-            </div>
-        </div>
-    </div>
-</div>
+@*Calendar placeholder*@
+<div id="calendar"></div>
 
-<div class="row">
-    @for (var i = 0; i < days.Length; i++)
-    {
-        <div class="col-lg-2 pt-3 pb-3">
-            <h4 class="text-center @colors[i]">@days[i]</h4>
-
-            @if (ViewBag.Days != null)
-            {
-                foreach (var item in ViewBag.Days[i])
-                {
-                    <div class="card card-date event-request mb-3" data-id="@(item.Id)" data-toggle="modal" data-target="#details">
-                        <div class="card-body">
-                            <h6>@item.Title</h6>
-                            <hr>
-                            <!-- Start time of day in H:i only, not H:i:s -->
-                            <p>
-                                <i class="far fa-clock"></i>
-                                @item.Start.TimeOfDay
-                            </p>
-                        </div>
-                    </div>
-                }
-            }
-            @if (ViewBag.Days == null)
-            {
-                <p class="text-center"><b>No events today</b></p>
-            }
-            else if (ViewBag.Days[i].Count == 0)
-            {
-                <p class="text-center"><b>No events today</b></p>
-            }
-        </div>
-    }
-</div>
-
-<div class="modal" id="details" tabindex="-1" role="dialog">
+@*Details modal, activated on event click*@
+<div class="modal" id="event_details" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
