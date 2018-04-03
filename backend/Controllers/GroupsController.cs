@@ -30,24 +30,13 @@ namespace backend.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var @group = await _context.Groups
-                .Include(e => e.People)
-                .ThenInclude(e => e.People)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (@group == null)
-            {
                 return NotFound();
-            }
-
-            /* // Load the list of people for the group */
-            /* _context.Entry(@group) */
-            /*     .Collection(e => e.People) */
-            /*     .Load(); */
 
             return View(@group);
         }
