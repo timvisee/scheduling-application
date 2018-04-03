@@ -7,14 +7,18 @@
 @section Stylesheets {
     <link rel="stylesheet" href="~/css/crud.css"/>
 }
-
+<h2>People Overview</h2>
+<hr/>
 <div class="row">
-    <div class="col-xs-12 col-md-6 mb-3">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Groups</h2>
-            <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary">New</a>
-        </div>
+    <div class="col-md-6">
         <div class="table-responsive">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-users small"></i>
+                    &nbsp;Groups
+                    <a asp-action="Create" asp-controller="Groups" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -42,18 +46,21 @@
             </table>
         </div>
     </div>
-    <div class="col-xs-12 col-md-6 mb-3">
-        <div class="table-header">
-            <h2><i class="far fa-calendar-alt"></i> Users</h2>
-            <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary">New</a>
-        </div>
-        <div class="table-responsive">
+    <div class="col-md-6">
+        <div class="table-responsive sc-body">
+            <div class="bg-dark">
+                <h2 class="pl-2 pt-2 pb-2 mb-0 text-white">
+                    <i class="fas fa-user small"></i>
+                    &nbsp;Users
+                    <a asp-action="Create" asp-controller="Users" class="btn btn-outline-primary mr-3 float-right">New</a>
+                </h2>
+            </div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Where(e => e.IsUser()))
@@ -74,6 +81,7 @@
                             </tr>
                         }
                     }
+                }
                 </tbody>
             </table>
         </div>
