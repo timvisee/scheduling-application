@@ -1,0 +1,26 @@
+@model backend.Models.User
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<h2>Delete User</h2>
+<hr/>
+
+<b>@Html.DisplayNameFor(model => model.FirstName)</b>
+<p>@Html.DisplayFor(model => model.FirstName)</p>
+
+<b>@Html.DisplayNameFor(model => model.Infix)</b>
+<p>@Html.DisplayFor(model => model.Infix)</p>
+
+<b>@Html.DisplayNameFor(model => model.LastName)</b>
+<p>@Html.DisplayFor(model => model.LastName)</p>
+
+<b>@Html.DisplayNameFor(model => model.Locale)</b>
+<p>@Html.DisplayFor(model => model.Locale)</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-light">Cancel</a>
+</form>
