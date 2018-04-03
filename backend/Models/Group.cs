@@ -15,8 +15,10 @@ namespace backend.Models
 
         public ICollection <PeopleGroup> People { get; set; }
 
+        [NotMapped]
         public override string DisplayName => Name;
 
+        [NotMapped]
         public override string TypedDisplayName => "Group: " + Name;
 
         protected internal override void BuildUserAndGroupSets(

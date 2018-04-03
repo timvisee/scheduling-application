@@ -32,6 +32,7 @@ namespace backend.Models
         public bool Deleted { get; set; }
 
         /// Full name property
+        [NotMapped]
         public string FullName {
             get
             {
@@ -43,8 +44,10 @@ namespace backend.Models
             }
         }
 
+        [NotMapped]
         public override string DisplayName => FullName;
 
+        [NotMapped]
         public override string TypedDisplayName => "User: " + FullName;
 
         protected internal override void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups) {
