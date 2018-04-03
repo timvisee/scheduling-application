@@ -32,7 +32,6 @@
      * Initialize the calendar
      */
     $('#calendar').fullCalendar({
-        header: {center: 'month,agendaWeek,listWeek'}, // Multiple views
         theme: 'bootstrap4',
         height: 650,
         defaultView: 'agendaWeek',
@@ -41,6 +40,8 @@
         scrollTime: '07:00:00',
         columnHeaderFormat: 'dddd',
         nowIndicator: true,
+        eventColor: '#378006',
+        firstDay: 1,
         // businessHours: {
         //     dow: [ 1, 2, 3, 4, 5 ], // Monday - Friday
         //     start: '08:00',
@@ -57,5 +58,32 @@
                 url: '/events/jsonlist/'
             }
         ]
+    });
+
+    /**
+     * Set some settings for the calendar based on the window width
+     */
+    function resizeCalendar() {
+        var cal = $('#calendar');
+
+        if ($(window).width() < 514) {
+            cal.fullCalendar('changeView', 'basicDay');
+            cal.fullCalendar('option', {
+                header: {center: 'basicDay,listWeek'},
+            });
+        } else {
+            cal.fullCalendar('changeView', 'agendaWeek');
+            cal.fullCalendar('option', {
+                header: {center: 'month,agendaWeek,listWeek'}, // Multiple views
+            });
+        }
+    }
+
+    // Initial call
+    resizeCalendar();
+
+    // Change settings when resizing the window
+    $(window).resize(function () {
+        resizeCalendar();
     });
 });
