@@ -21,6 +21,14 @@ namespace backend.Models
         [NotMapped]
         public override string TypedDisplayName => "Group: " + Name;
 
+        public override bool IsUser() {
+            return false;
+        }
+
+        public override bool IsGroup() {
+            return true;
+        }
+
         protected internal override void BuildUserAndGroupSets(
             ref HashSet<User> users,
             ref HashSet<Group> groups

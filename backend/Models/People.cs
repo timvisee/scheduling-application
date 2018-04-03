@@ -30,6 +30,16 @@ namespace backend.Models
         public abstract string TypedDisplayName { get; }
 
         /// <summary>
+        /// Check whether this people is a user.
+        /// </summary>
+        public abstract bool IsUser();
+
+        /// <summary>
+        /// Check whether this people is a group.
+        /// </summary>
+        public abstract bool IsGroup();
+
+        /// <summary>
         /// This method fetches a list of all users and groups that are part of
         /// this people.
         /// This method fetches everything in a recursive manner.

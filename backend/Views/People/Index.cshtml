@@ -29,23 +29,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Where(e => e.IsGroup()))
                 {
-                    if (item.GetType() == typeof(Group))
-                    {
-                        <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
-                                    @Html.DisplayFor(modelItem => item.DisplayName)
-                                </a>
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-controller="Groups" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.DisplayName)
+                            </a>
 
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
-                            </td>
-                        </tr>
-                    }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                            <a asp-action="Delete" asp-controller="Groups" asp-route-id="@item.Id"><span class="badge badge-danger">Delete</span></a>
+                        </td>
+                    </tr>
                 }
                 </tbody>
             </table>
@@ -68,29 +65,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Where(e => e.IsUser()))
                 {
-                    if (item.GetType() == typeof(User))
+                    // First cast to user to use the deleted attribute
+                    var item2 = (User) item;
+                    if (item2.Deleted == false)
                     {
-                        // First cast to user to use the deleted attribute
-                        var item2 = (User) item;
-                        if (item2.Deleted == false)
-                        {
-                            <tr>
-                                <td>
-                                    <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
-                                        @Html.DisplayFor(modelItem => item.DisplayName)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            removedUsers.Add(item2);
-                        }
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
+                                    @Html.DisplayFor(modelItem => item.DisplayName)
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id"><span class="badge badge-info">Edit</span></a>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        removedUsers.Add(item2);
                     }
                 }
                 </tbody>

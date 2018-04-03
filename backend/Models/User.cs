@@ -31,6 +31,14 @@ namespace backend.Models
         [Display(Name="Deleted")]
         public bool Deleted { get; set; }
 
+        public override bool IsUser() {
+            return true;
+        }
+
+        public override bool IsGroup() {
+            return false;
+        }
+
         /// Full name property
         [NotMapped]
         public string FullName {
