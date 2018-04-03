@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("locations")]
+    [Table("location")]
     public class Location
     {
         [Key]
@@ -23,6 +23,6 @@ namespace backend.Models
         [Display(Name="Longitude")]
         public double Longitude { get; set; }
 
-        public ICollection <EventLocation> Events { get; set; }
+        public virtual ICollection<EventLocation> Events { get; set; }
     }
 }

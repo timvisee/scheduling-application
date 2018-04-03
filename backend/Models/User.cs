@@ -28,10 +28,19 @@ namespace backend.Models
         [Display(Name="Role")]
         public Role Role { get; set; }
 
-        [Display(Name="Remove?")]
+        [Display(Name="Deleted")]
         public bool Deleted { get; set; }
 
+        public override bool IsUser() {
+            return true;
+        }
+
+        public override bool IsGroup() {
+            return false;
+        }
+
         /// Full name property
+        [NotMapped]
         public string FullName {
             get
             {
@@ -43,8 +52,14 @@ namespace backend.Models
             }
         }
 
-        // Override abstract getters
+        [NotMapped]
         public override string DisplayName => FullName;
+
+        [NotMapped]
         public override string TypedDisplayName => "User: " + FullName;
+
+        protected internal override void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups) {
+            users.Add(this);
+        }
     }
 }

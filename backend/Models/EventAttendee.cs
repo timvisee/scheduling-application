@@ -6,9 +6,9 @@ namespace backend.Models
     public class EventAttendee
     {
         public int EventId { get; set; }
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
 
         public int PeopleId { get; set; }
-        public People People { get; set; }
+        public virtual People People { get; set; }
     }
 }

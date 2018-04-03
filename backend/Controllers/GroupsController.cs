@@ -30,16 +30,13 @@ namespace backend.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var @group = await _context.Groups
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (@group == null)
-            {
                 return NotFound();
-            }
 
             return View(@group);
         }
@@ -106,7 +103,7 @@ namespace backend.Controllers
                 _context.People.Where(x => x.Id != id).ToList(),
                 "Id", "TypedDisplayName",
                 _context.People.Where(x => connections.Contains(x.Id)).ToList().Select(x => x.Id)
-                );
+            );
 
 
             return View(@group);

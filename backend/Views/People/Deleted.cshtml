@@ -1,8 +1,7 @@
-@model IEnumerable<backend.Models.People>
+@model IEnumerable<backend.Models.User>
 
 @{
-    ViewData["Title"] = "People Overview";
-    List<User> removedUsers = new List<User>();
+    ViewData["Title"] = "Deleted People";
 }
 
 @section Stylesheets {
@@ -23,16 +22,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var removedUser in removedUsers)
+                    @foreach (var user in Model)
                     {
                         <tr>
                             <td>
-                                <a asp-action="Details" asp-controller="Users" asp-route-id="@removedUser.Id">
-                                    @Html.DisplayFor(modelItem => removedUser.DisplayName)
+                                <a asp-action="Details" asp-controller="Users" asp-route-id="@user.Id">
+                                    @Html.DisplayFor(modelItem => user.DisplayName)
                                 </a>
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@removedUser.Id">Edit</a>
+                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@user.Id">Edit</a>
                             </td>
                         </tr>
                     }
