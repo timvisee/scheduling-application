@@ -148,6 +148,11 @@ namespace backend.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Deleted()
+        {
+            return View();
+        }
+
         private bool PeopleExists(int id)
         {
             return _context.People.Any(e => e.Id == id);
