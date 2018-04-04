@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backend", "backend\backend.csproj", "{1F023126-6494-4163-B63F-CD35748706BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend-test", "backend-test\backend-test.csproj", "{902B7877-9054-4C69-8E7C-9BE13E3A7E3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Laptop|Any CPU = Laptop|Any CPU
@@ -12,6 +14,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F023126-6494-4163-B63F-CD35748706BA}.Laptop|Any CPU.Build.0 = Debug|Any CPU
+		{902B7877-9054-4C69-8E7C-9BE13E3A7E3B}.Laptop|Any CPU.ActiveCfg = Debug|Any CPU
+		{902B7877-9054-4C69-8E7C-9BE13E3A7E3B}.Laptop|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

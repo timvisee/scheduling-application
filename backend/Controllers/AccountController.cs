@@ -29,6 +29,10 @@ namespace backend.Controllers
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,

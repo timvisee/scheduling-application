@@ -18,17 +18,17 @@ services:
       - scheduleapp
     deploy:
         replicas: 1
-  db:
-    image: 'microsoft/mssql-server-linux'
+  visualizer:
+    image: dockersamples/visualizer:stable
     ports:
-      - '1433:1433'
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Secret1234!
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
     networks:
       - scheduleapp
-    deploy:
-        replicas: 1
 
 networks:
   scheduleapp:

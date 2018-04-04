@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using backend.Models;
 
 namespace backend.Extensions
@@ -16,23 +17,21 @@ namespace backend.Extensions
         public string StartDate { get; }
         public string EndDate { get; }
         public string TimeDuration { get; }
-//        public List<string> AttendeeList { get; }
+        public List<string> AttendeeList { get; set; }
+        public List<string> LocationList { get; set; }
+        public List<string> OwnerList { get; set; }
 
         public EventInformation(Event ev)
         {
             EventTitle = ev.Title;
             EventDescription = ev.Description;
-            StartDate = ev.Start.ToString("MM/dd/yyyy");
-            EndDate = ev.End.ToString("MM/dd/yyyy");
+            StartDate = ev.Start.ToString("dd/MM/yyyy");
+            EndDate = ev.End.ToString("dd/MM/yyyy");
             TimeDuration = parseTimeDuration(ev.Start, ev.End);
 
-            // TODO: Add locations (tested with attendees)
-//            if (ev.Attendees != null) {
-//                foreach (var att in ev.Attendees)
-//                {
-//                    AttendeeList.Add(att.People.DisplayName);
-//                }
-//            }
+            AttendeeList = ev.Attendees.Select(e => e.People).Select(att => att.DisplayName).ToList();
+            OwnerList = ev.Owners.Select(e => e.People).Select(own => own.DisplayName).ToList();
+            LocationList = ev.Locations.Select(e => e.Location).Select(loc => loc.Name).ToList();
         }
 
 

@@ -1,0 +1,17 @@
+version: "3.2"
+
+services:
+  db:
+    image: 'microsoft/mssql-server-linux'
+    ports:
+      - '1433:1433'
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Secret1234!
+    networks:
+      - scheduleapp
+    deploy:
+        replicas: 1
+
+networks:
+  scheduleapp:

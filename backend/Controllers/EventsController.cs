@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Extensions;
 using backend.Models;
+using backend.Types;
+using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
 {
@@ -17,13 +19,19 @@ namespace backend.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
+
+        public EventsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Events
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var events = from e in _context.Events select e;
             events = events.OrderBy(e => e.Start);
@@ -47,22 +55,23 @@ namespace backend.Controllers
             }
 
             //get all linked attendees
-            var attendeeIds = _context.EventAttendees.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+            var attendeeIds = _context.EventAttendees.Where(x => x.EventId == id).Select(x => x.PeopleId);
 
             var attendees = _context.People.Where(x => attendeeIds.Contains(x.Id)).ToList();
             ViewBag.Attendees = attendees.Count > 0 ? attendees : null;
 
             //get all linked owners
-            var ownerIds = _context.EventOwners.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+            var ownerIds = _context.EventOwners.Where(x => x.EventId == id).Select(x => x.PeopleId);
 
             var owners = _context.People.Where(x => ownerIds.Contains(x.Id)).ToList();
             ViewBag.Owners = owners.Count > 0 ? owners : null;
 
-            //get all linked groups
-            var groupIds = _context.PeopleGroups.Where(x => x.PeopleId == id).Select(x => x.GroupId);
+            //get all linked locations
+            var locationIds = _context.EventLocations.Where(x => x.EventId == id).Select(x => x.LocationId);
 
-            var groups = _context.People.Where(x => groupIds.Contains(x.Id)).ToList();
-            ViewBag.Groups = groups.Count > 0 ? groups : null;
+            var locations = _context.Locations.Where(x => locationIds.Contains(x.Id)).ToList();
+            ViewBag.Locations = locations.Count > 0 ? locations : null;
+
             return View(@event);
         }
 
