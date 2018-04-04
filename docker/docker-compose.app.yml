@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   app:
-    image: 'schedule-app:latest'
+    image: 'timvisee/hhs-p11-schedulingapp:production'
     ports:
       - "80:80"
       - "5000:5000"
