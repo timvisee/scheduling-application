@@ -38,6 +38,12 @@ namespace backend.Controllers
             if (@group == null)
                 return NotFound();
 
+
+            //get all related events
+            var relatedEvents = _context.EventAttendees.Where(x => x.PeopleId == id).Select(x => x.EventId);
+            var CoupledEvents = _context.Events.Where(x => relatedEvents.Contains(x.Id)).ToList();
+
+            ViewBag.CoupledEvents = CoupledEvents.Count > 0 ? CoupledEvents : null;
             return View(@group);
         }
 
