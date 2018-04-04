@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using backend.Models;
 
 namespace backend.Extensions
@@ -9,31 +10,38 @@ namespace backend.Extensions
     public class EventInformation
 
     {
+        public string EventTitle { get; }
+        public string EventDescription { get; }
 
-        public string StartDate { get; set;}
-
-        public string EndDate { get; set;}
-
-        public Event Event { get; set;}
-
-        public string TimeDuration { get; set; }
+        public string StartDate { get; }
+        public string EndDate { get; }
+        public string TimeDuration { get; }
+//        public List<string> AttendeeList { get; }
 
         public EventInformation(Event ev)
         {
-           Event = ev;
-           StartDate = ev.Start.ToString("MM/dd/yyyy");
-           EndDate = ev.End.ToString("MM/dd/yyyy");
-           TimeDuration = parseTimeDuration(ev.Start, ev.End);
+            EventTitle = ev.Title;
+            EventDescription = ev.Description;
+            StartDate = ev.Start.ToString("MM/dd/yyyy");
+            EndDate = ev.End.ToString("MM/dd/yyyy");
+            TimeDuration = parseTimeDuration(ev.Start, ev.End);
+
+            // TODO: Add locations (tested with attendees)
+//            if (ev.Attendees != null) {
+//                foreach (var att in ev.Attendees)
+//                {
+//                    AttendeeList.Add(att.People.DisplayName);
+//                }
+//            }
         }
 
 
         public string parseTimeDuration(DateTime Start, DateTime End)
         {
-            var StartTime = Start.ToShortTimeString();
-            var EndTime = End.ToShortTimeString();
+            var startTime = Start.ToShortTimeString();
+            var endTime = End.ToShortTimeString();
 
-            return StartTime + " - " + EndTime;
+            return startTime + " - " + endTime;
         }
     }
-
 }

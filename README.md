@@ -64,7 +64,7 @@ Environment variable is `Production` by default.
     * `Password`
 
 ## Requirements
-* dotnet core 2.0 or higher
+* dotnet core 2.1 (preview) or higher
 
 ## Other
 Project

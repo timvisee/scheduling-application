@@ -6,9 +6,9 @@ namespace backend.Models
     public class EventLocation
     {
         public int EventId { get; set; }
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
 
         public int LocationId { get; set; }
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

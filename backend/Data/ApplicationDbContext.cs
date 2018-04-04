@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace backend.Data
 {
@@ -22,9 +23,18 @@ namespace backend.Data
         public DbSet<EventLocation> EventLocations { get; set; }
         public DbSet<PeopleGroup> PeopleGroups { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            // Build the app configuration
+            var appConfig = new AppConfig();
+
+            // Enable lazy loading by default
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(appConfig.GenerateDbConnectionString());
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             // Event couplings
             builder.Entity<EventLocation>()
                 .HasKey(x => new {x.EventId, x.LocationId});
@@ -64,7 +74,6 @@ namespace backend.Data
             // People group couplings
             builder.Entity<PeopleGroup>()
                 .HasKey(el => new { el.GroupId, el.PeopleId});
-
             builder.Entity<PeopleGroup>()
                 .HasOne(el => el.People)
                 .WithMany(e => e.Groups)

@@ -11,6 +11,60 @@
 <p>@Html.DisplayFor(model => model.Name)</p>
 
 <div>
+    <h4>Group</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            Contains users (deep)
+        </dt>
+        <dd>
+            <div>
+                <h5><span class="badge badge-success">Users</span></h5>
+                @{var AllUsers = Model.AllUsers();}
+                @foreach(User item in AllUsers)
+                {
+                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                        <h6>
+                            @item.DisplayName
+                        </h6>
+                    </a>
+                }
+
+                @if(AllUsers.Count == 0) {
+                    <h6>Empty</h6>
+                }
+            </div>
+        </dd>
+        <dt>
+            Contains groups (deep)
+        </dt>
+        <dd>
+            <div>
+                <h5><span class="badge badge-success">Groups</span></h5>
+                @{var AllGroups = Model.AllGroups();}
+                @foreach(Group item in AllGroups)
+                {
+                    <a asp-controller="Groups" asp-action="Details" asp-route-id="@(item.Id)">
+                        <h6>
+                            @item.DisplayName
+                        </h6>
+                    </a>
+                }
+
+                @if(AllGroups.Count == 0) {
+                    <h6>Empty</h6>
+                }
+            </div>
+        </dd>
+    </dl>
+</div>
+<div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
     <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
 </div>

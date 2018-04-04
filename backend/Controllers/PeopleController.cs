@@ -150,7 +150,10 @@ namespace backend.Controllers
 
         public IActionResult Deleted()
         {
-            return View();
+            var users = from e in _context.Users select e;
+            users = users.Where(e => e.Deleted).OrderBy(e => e.DisplayName);
+
+            return View(users);
         }
 
         private bool PeopleExists(int id)

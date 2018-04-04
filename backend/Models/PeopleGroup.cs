@@ -6,9 +6,9 @@ namespace backend.Models
     public class PeopleGroup
     {
         public int GroupId { get; set; }
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
 
         public int PeopleId { get; set; }
-        public People People { get; set; }
+        public virtual People People { get; set; }
     }
 }

@@ -8,11 +8,12 @@
     function showModal(id) {
         axios.get('/events/jsondetails/' + id)
             .then(function (response) {
-                $("#detail-title").text(response.data.event.title);
+                $("#detail-title").text(response.data.eventTitle);
 
+                console.log(response);
 
-                if (response.data.event.description !== null) {
-                    $("#detail-description").text(response.data.event.description);
+                if (response.data.eventDescription !== '') {
+                    $("#detail-description").text(response.data.eventDescription);
                 } else {
                     $("#detail-description").text("No description available");
                 }
@@ -87,60 +88,58 @@
         resizeCalendar();
     });
 
-    //init map
-    var mymap = L.map('leafmap').setView([51.505, -0.09], 2);
 
-    // Set up the tile layers
-    L.tileLayer('https://api.mapbox.com/styles/v1/timvisee/cirawmn8f001ch4m27llnb45d/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGltdmlzZWUiLCJhIjoiY2lyZXY5cDhzMDAxM2lsbTNicGViaTZkYyJ9.RqbUkoWLWeh_WZoyoxxt-Q', {
-        attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">timvisee.com</a>'
-    }).addTo(mymap);
+    if ($('#leafmap').length) {
+        //init map
+        var mymap = L.map('leafmap').setView([51.505, -0.09], 2);
 
-    // use one marker instance
-    var marker;
+        // Set up the tile layers
+        L.tileLayer('https://api.mapbox.com/styles/v1/timvisee/cirawmn8f001ch4m27llnb45d/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGltdmlzZWUiLCJhIjoiY2lyZXY5cDhzMDAxM2lsbTNicGViaTZkYyJ9.RqbUkoWLWeh_WZoyoxxt-Q', {
+            attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">timvisee.com</a>'
+        }).addTo(mymap);
 
-    // get lat and long from fields IF filled in
-    var lat = $("#Latitude").val();
-    var long = $("#Longitude").val();
+        // use one marker instance
+        var marker;
 
-    //construct a marker and add to the map
-    if (lat && long){
-        marker = L.marker([lat, long]).addTo(mymap);
-        mymap.setView([lat, long], 15);
-    }
+        // get lat and long from fields IF filled in
+        var lat = $("#Latitude").val();
+        var long = $("#Longitude").val();
 
-    //create new marker and set fields
-    mymap.on('click', function (e) {
+        //construct a marker and add to the map
+        if (lat && long) {
+            marker = L.marker([lat, long]).addTo(mymap);
+            mymap.setView([lat, long], 15);
+        }
 
-        resetMarker(e.latlng);
+        //create new marker and set fields
+        mymap.on('click', function (e) {
 
-        $("#Latitude").val(e.latlng.lat);
-        $("#Longitude").val(e.latlng.lng);
-    });
+            resetMarker(e.latlng);
 
-    $('#Latitude').bind('keyup change', function (e) {
-        lat = $(this).val();
+            $("#Latitude").val(e.latlng.lat);
+            $("#Longitude").val(e.latlng.lng);
+        });
 
-        console.log(lat);
-        console.log(long);
+        $('#Latitude').bind('keyup change', function (e) {
+            lat = $(this).val();
+            long = $("#Longitude").val();
+            if (long)
+                resetMarker([lat, long])
+        });
 
-        long = $("#Longitude").val();
-        if (long)
-            resetMarker([lat, long])
-    });
+        $('#Longitude').bind('keyup change', function (e) {
+            long = $(this).val();
+            lat = $("#Latitude").val();
+            if (lat)
+                resetMarker([lat, long])
+        });
 
-    $('#Longitude').bind('keyup change', function (e) {
-        long = $(this).val();
-
-        lat = $("#Latitude").val();
-        if (lat)
-            resetMarker([lat, long])
-    });
-
-    function resetMarker(latlng) {
-        if (marker == null)
-            marker = L.marker(latlng).addTo(mymap);
-        else
-            marker.setLatLng(latlng);
+        function resetMarker(latlng) {
+            if (marker == null)
+                marker = L.marker(latlng).addTo(mymap);
+            else
+                marker.setLatLng(latlng);
+        }
     }
 });
 
