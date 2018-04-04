@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using backend.Types;
+using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
 {
@@ -15,15 +17,26 @@ namespace backend.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public UsersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
+
+        public UsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Users
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return Redirect("/People");
+            if (GetRole() == Role.Elevated || GetRole() == Role.Admin)
+            {
+                return RedirectToAction("Index", "People");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Users/Details/5
@@ -47,6 +60,10 @@ namespace backend.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            if (GetRole() == Role.ReadOnly || GetRole() == Role.Elevated)
+            {
+                return NotFound();
+            }
 
             ViewBag.ApplicationUsers = new MultiSelectList(
                 _context.ApplicationUsers,
@@ -62,7 +79,8 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,Infix,LastName,Locale,Type,Role")] User user)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,Infix,LastName,Locale,Type,Role")]
+            User user)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +88,7 @@ namespace backend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", nameof(People));
             }
+
             return View(user);
         }
 
@@ -86,6 +105,7 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
             return View(user);
         }
 
@@ -94,7 +114,8 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,Infix,LastName,Locale,Type,Role,Deleted")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,Infix,LastName,Locale,Type,Role,Deleted")]
+            User user)
         {
             if (id != user.Id)
             {
@@ -120,8 +141,10 @@ namespace backend.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction("Index", nameof(People));
             }
+
             return View(user);
         }
 
@@ -137,6 +160,7 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
             return View(user);
         }
 

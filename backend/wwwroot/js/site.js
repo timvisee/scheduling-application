@@ -10,23 +10,40 @@
             .then(function (response) {
                 $("#detail-title").text(response.data.eventTitle);
 
-                console.log(response);
-
-                if (response.data.eventDescription !== '') {
-                    $("#detail-description").text(response.data.eventDescription);
+                if (response.data.eventDescription === null || response.data.eventDescription === '') {
+                    $("#detail-description").html("No description available");
                 } else {
-                    $("#detail-description").text("No description available");
+                    $("#detail-description").html(response.data.eventDescription);
+                }
+
+                if (response.data.locationList.length !== 0) {
+                    $('#detail-locations').html(response.data.locationList.join(', '));
+                } else {
+                    $("#detail-locations").html("No location(s) available");
+                }
+
+                if (response.data.ownerList.length !== 0) {
+                    $('#detail-owners').html(response.data.ownerList.join(', '));
+                } else {
+                    $("#detail-owners").html("No owner(s) available");
+                }
+
+                if (response.data.attendeeList.length !== 0) {
+                    $('#detail-attendees').html(response.data.attendeeList.join(', '));
+                } else {
+                    $("#detail-attendees").html("No attendee(s) available");
                 }
 
                 $("#detail-time-duration").text(response.data.timeDuration);
                 $("#detail-start-date").text(response.data.startDate);
                 $("#detail-end-date").text(response.data.endDate);
+
+                $('#event_details').modal();
             })
             .catch(function (error) {
                 console.log(error);
             });
 
-        $('#event_details').modal();
     }
 
     /**

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Models.ManageViewModels;
 using backend.Services;
+using backend.Types;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlMatches;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,10 @@ namespace backend.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
+
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
