@@ -55,22 +55,23 @@ namespace backend.Controllers
             }
 
             //get all linked attendees
-            var attendeeIds = _context.EventAttendees.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+            var attendeeIds = _context.EventAttendees.Where(x => x.EventId == id).Select(x => x.PeopleId);
 
             var attendees = _context.People.Where(x => attendeeIds.Contains(x.Id)).ToList();
             ViewBag.Attendees = attendees.Count > 0 ? attendees : null;
 
             //get all linked owners
-            var ownerIds = _context.EventOwners.Where(x => x.PeopleId == id).Select(x => x.PeopleId);
+            var ownerIds = _context.EventOwners.Where(x => x.EventId == id).Select(x => x.PeopleId);
 
             var owners = _context.People.Where(x => ownerIds.Contains(x.Id)).ToList();
             ViewBag.Owners = owners.Count > 0 ? owners : null;
 
-            //get all linked groups
-            var groupIds = _context.PeopleGroups.Where(x => x.PeopleId == id).Select(x => x.GroupId);
+            //get all linked locations
+            var locationIds = _context.EventLocations.Where(x => x.EventId == id).Select(x => x.LocationId);
 
-            var groups = _context.People.Where(x => groupIds.Contains(x.Id)).ToList();
-            ViewBag.Groups = groups.Count > 0 ? groups : null;
+            var locations = _context.Locations.Where(x => locationIds.Contains(x.Id)).ToList();
+            ViewBag.Locations = locations.Count > 0 ? locations : null;
+
             return View(@event);
         }
 
