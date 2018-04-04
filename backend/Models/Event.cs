@@ -20,6 +20,7 @@ namespace backend.Models
 
         [Required]
         [Display(Name="Start")]
+        [DateLessThan("End", ErrorMessage = "Start date must be before end date")]
         public DateTime Start { get; set; }
 
         [Required]
@@ -34,5 +35,35 @@ namespace backend.Models
 
         [Display(Name="Locations")]
         public virtual ICollection<EventLocation> Locations { get; set; }
+    }
+
+    // literally copied from stackoverflow lmao
+    // https://stackoverflow.com/questions/41900485/custom-validation-attributes-comparing-two-properties-in-the-same-model
+    public class DateLessThanAttribute : ValidationAttribute
+    {
+        private readonly string _comparisonProperty;
+
+        public DateLessThanAttribute(string comparisonProperty)
+        {
+            _comparisonProperty = comparisonProperty;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            ErrorMessage = ErrorMessageString;
+            var currentValue = (DateTime)value;
+
+            var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
+
+            if (property == null)
+                throw new ArgumentException("Property with this name not found");
+
+            var comparisonValue = (DateTime)property.GetValue(validationContext.ObjectInstance);
+
+            if (currentValue > comparisonValue)
+                return new ValidationResult(ErrorMessage);
+
+            return ValidationResult.Success;
+        }
     }
 }
