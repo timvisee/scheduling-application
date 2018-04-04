@@ -2,6 +2,9 @@ FROM schedule-dotnet:latest
 
 LABEL maintainer="Tim Visee <timvisee@gmail.com>"
 
+# Add the application files
+ADD ./ /app
+
 # Add the initialisation script, run it on start
-ADD ./init /root/init
+ADD ./docker/containers/init /root/init
 CMD ["/root/init"]
