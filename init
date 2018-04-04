@@ -6,13 +6,13 @@ set -e
 # Change into the application directory
 cd ./backend
 
-# Restore dependencies
-echo "Restoring application dependencies..."
-dotnet restore
+# # Restore dependencies
+# echo "Restoring application dependencies..."
+# dotnet restore
 
-# Run database migrations
-echo "Migrating database..."
-dotnet ef database update
+# # Run database migrations
+# echo "Migrating database..."
+# dotnet ef database update
 
 # Run the application
 echo "Starting the application..."

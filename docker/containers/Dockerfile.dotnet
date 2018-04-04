@@ -10,4 +10,4 @@ RUN apt-get update \
  && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg \
  && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/dotnetdev.list' \
  && apt-get update \
- && apt-get install dotnet-sdk-2.1.4 -y
+ && apt-get install dotnet-sdk-2.1.300-preview1-008174 -y
