@@ -91,19 +91,22 @@
 
     if ($('#leafmap').length) {
         //init map
-        var mymap = L.map('leafmap').setView([51.505, -0.09], 2);
+        var mymap = L.map('leafmap').setView([51.505, -0.09], 5);
 
         // Set up the tile layers
         L.tileLayer('https://api.mapbox.com/styles/v1/timvisee/cirawmn8f001ch4m27llnb45d/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGltdmlzZWUiLCJhIjoiY2lyZXY5cDhzMDAxM2lsbTNicGViaTZkYyJ9.RqbUkoWLWeh_WZoyoxxt-Q', {
-            attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">timvisee.com</a>'
+            attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">vimtisee.com</a>'
         }).addTo(mymap);
 
         // use one marker instance
         var marker;
 
         // get lat and long from fields IF filled in
-        var lat = $("#Latitude").val();
-        var long = $("#Longitude").val();
+        var lat = $("#Latitude").val() ? $("#Latitude").val() : $("#Latitude").text() ;
+        var long = $("#Longitude").val() ? $("#Longitude").val() : $("#Longitude").text() ;
+
+        console.log(lat);
+        console.log(long);
 
         //construct a marker and add to the map
         if (lat && long) {
