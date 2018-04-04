@@ -11,9 +11,9 @@ namespace backend.App.Util
         /// <param name="color">Console color to log with.</param>
         public static void Log(string msg, ConsoleColor color)
         {
-//            Console.ForegroundColor = color;
+            Console.ForegroundColor = color;
             Console.WriteLine(msg);
-//            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
         }
 
         /// <summary>

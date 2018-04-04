@@ -33,40 +33,19 @@ namespace backend.Data
             Console.WriteLine("Provisioning new database... (please be patient, this may take up to 60 seconds)");
             context.Database.EnsureCreated();
 
-//            var newuser = new ApplicationUser
-//            {
-//                Email = "beun@beun.it",
-//                NormalizedEmail = "BEUN@BEUN.IT",
-//                UserName = "beun@beun.it",
-//                NormalizedUserName = "BEUN@BEUN.IT",
-//                PhoneNumber = "0612345678",
-//                EmailConfirmed = true,
-//                PhoneNumberConfirmed = true,
-//                SecurityStamp = Guid.NewGuid().ToString("D")
-//            };
-//
-//            var password = new PasswordHasher<ApplicationUser>();
-//            var hashed = password.HashPassword(newuser, "beun");
-//            newuser.PasswordHash = hashed;
-//
-//            var userStore = new UserStore<ApplicationUser>(context);
-//            var result = userStore.CreateAsync(newuser);
-//
-//            // Wait for the actual result
-//            result.Wait();
-
             LogUtils.Log("Generating seed data", ConsoleColor.Green);
 
             /**
              * USERS
              */
+            LogUtils.Info("Creating new users");
             var us = new User
             {
                 FirstName = "Dennis",
                 Infix = "",
                 LastName = "Volkering",
                 Locale = "NL",
-                Role = Role.Basic,
+                Role = Role.Admin,
                 Type = Type.Student
             };
 
@@ -76,7 +55,7 @@ namespace backend.Data
                 Infix = "",
                 LastName = "Visee",
                 Locale = "NL",
-                Role = Role.Basic,
+                Role = Role.Admin,
                 Type = Type.Student
             };
 
@@ -86,7 +65,7 @@ namespace backend.Data
                 Infix = "",
                 LastName = "Haasnoot",
                 Locale = "NL",
-                Role = Role.Basic,
+                Role = Role.Admin,
                 Type = Type.Student
             };
 
@@ -96,7 +75,7 @@ namespace backend.Data
                 Infix = "",
                 LastName = "Bakhuijzen",
                 Locale = "NL",
-                Role = Role.Basic,
+                Role = Role.Admin,
                 Type = Type.Student
             };
 
@@ -106,7 +85,7 @@ namespace backend.Data
                 Infix = "",
                 LastName = "",
                 Locale = "NL",
-                Role = Role.Basic,
+                Role = Role.Admin,
                 Type = Type.Student
             };
             context.Users.Add(us);
@@ -119,36 +98,37 @@ namespace backend.Data
             /**
              * LOCATIONS
              */
+            LogUtils.Info("Creating new Locations");
             var loc = new Location
             {
                 Name = "SL 6.54",
                 Description = "",
-                Latitude = 0.0,
-                Longitude = 0.0
+                Latitude = 52.06689529502207,
+                Longitude = 4.323538541793824
             };
 
             var loc1 = new Location
             {
                 Name = "OV 1.49",
                 Description = "College room",
-                Latitude = 0.0,
-                Longitude = 0.0
+                Latitude = 52.06738995145362,
+                Longitude = 4.325249791145326
             };
 
             var loc2 = new Location
             {
                 Name = "OV 1.51",
                 Description = "College room",
-                Latitude = 0.0,
-                Longitude = 0.0
+                Latitude = 52.06733059297113,
+                Longitude = 4.325287342071534
             };
 
             var loc3 = new Location
             {
                 Name = "Meeting room",
                 Description = "First floor",
-                Latitude = 0.0,
-                Longitude = 0.0
+                Latitude = 52.06713932621309,
+                Longitude = 4.324176907539369
             };
 
             context.Locations.Add(loc);
@@ -159,6 +139,7 @@ namespace backend.Data
             /**
              * EVENTS
              */
+            LogUtils.Info("Creating new Events");
             var ev = new Event
             {
                 Start = new DateTime(2018, 4, 16, 12, 0, 0, 0),
@@ -187,7 +168,7 @@ namespace backend.Data
             {
                 Start = new DateTime(2018, 4, 17, 8, 0, 0, 0),
                 End = new DateTime(2018, 4, 17, 9, 30, 0, 0),
-                Description = "",
+                Description = "Lazy loading, upgrading to version 2.1, etc",
                 Title = "How to deal with ASP.NET"
             };
 
@@ -203,7 +184,7 @@ namespace backend.Data
             {
                 Start = new DateTime(2018, 4, 18, 12, 0, 0, 0),
                 End = new DateTime(2018, 4, 18, 13, 30, 0, 0),
-                Description = "",
+                Description = "The starters course for Rust programming",
                 Title = "Rust for beginners"
             };
 
@@ -211,7 +192,7 @@ namespace backend.Data
             {
                 Start = new DateTime(2018, 4, 19, 15, 50, 0, 0),
                 End = new DateTime(2018, 4, 19, 17, 0, 0, 0),
-                Description = "",
+                Description = "The advanced course of Rust programming",
                 Title = "Rust - Advanced course"
             };
 
@@ -229,6 +210,7 @@ namespace backend.Data
             /**
              * GROUP
              */
+            LogUtils.Info("Creating a new group");
             var gr = new Group {Name = "Beun IT"};
             context.Groups.Add(gr);
             context.SaveChanges();
@@ -249,6 +231,7 @@ namespace backend.Data
             /**
              * EVENTLOCATIONS
              */
+            LogUtils.Info("Creating coupling between Events & Locations");
             var el = new EventLocation {Event = ev, Location = loc};
             var el1 = new EventLocation {Event = ev, Location = loc1};
             var el2 = new EventLocation {Event = ev, Location = loc2};
@@ -276,6 +259,7 @@ namespace backend.Data
             /**
              * EVENTATTENDEES
              */
+            LogUtils.Info("Creating coupling between Events & Attendees");
             var ea = new EventAttendee {Event = ev, People = us};
             var ea1 = new EventAttendee {Event = ev, People = us3};
             var ea2 = new EventAttendee {Event = ev, People = us4};
@@ -285,8 +269,10 @@ namespace backend.Data
             var ea6 = new EventAttendee {Event = ev3, People = gr};
             var ea7 = new EventAttendee {Event = ev4, People = us6};
             var ea8 = new EventAttendee {Event = ev5, People = gr};
-            var ea9 = new EventAttendee {Event = ev6, People = us5};
-            var ea10 = new EventAttendee {Event = ev6, People = us};
+            var ea9 = new EventAttendee {Event = ev6, People = us3};
+            var ea10 = new EventAttendee {Event = ev6, People = us5};
+            var ea11 = new EventAttendee {Event = ev7, People = us};
+            var ea12 = new EventAttendee {Event = ev7, People = us4};
 
             context.EventAttendees.Add(ea);
             context.EventAttendees.Add(ea1);
@@ -299,9 +285,133 @@ namespace backend.Data
             context.EventAttendees.Add(ea8);
             context.EventAttendees.Add(ea9);
             context.EventAttendees.Add(ea10);
+            context.EventAttendees.Add(ea11);
+            context.EventAttendees.Add(ea12);
 
             context.SaveChanges();
 
+            LogUtils.Info("Creating new ApplicationUser");
+            // User 1
+            var newuser = new ApplicationUser
+            {
+                Email = "dennisvolkering@hotmail.com",
+                NormalizedEmail = "dennisvolkering@hotmail.com",
+                UserName = "dennisvolkering@hotmail.com",
+                NormalizedUserName = "dennisvolkering@hotmail.com",
+                PhoneNumber = "0612345678",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                User = us
+            };
+
+            var password = new PasswordHasher<ApplicationUser>();
+            var hashed = password.HashPassword(newuser, "beun");
+            newuser.PasswordHash = hashed;
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var result = userStore.CreateAsync(newuser);
+
+            // Wait for the actual result
+            result.Wait();
+
+            // User 2
+            var newuser2 = new ApplicationUser
+            {
+                Email = "tim@visee.me",
+                NormalizedEmail = "tim@visee.me",
+                UserName = "tim@visee.me",
+                NormalizedUserName = "tim@visee.me",
+                PhoneNumber = "0612345678",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                User = us3
+            };
+
+            var password2 = new PasswordHasher<ApplicationUser>();
+            var hashed2 = password2.HashPassword(newuser2, "beun");
+            newuser2.PasswordHash = hashed2;
+
+            var userStore2 = new UserStore<ApplicationUser>(context);
+            var result2 = userStore2.CreateAsync(newuser2);
+
+            // Wait for the actual result
+            result2.Wait();
+
+
+            // User 3
+            var newuser3 = new ApplicationUser
+            {
+                Email = "simonhaasnoot@hotmail.com",
+                NormalizedEmail = "simonhaasnoot@hotmail.com",
+                UserName = "simonhaasnoot@hotmail.com",
+                NormalizedUserName = "simonhaasnoot@hotmail.com",
+                PhoneNumber = "0612345678",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                User = us4
+            };
+
+            var password3 = new PasswordHasher<ApplicationUser>();
+            var hashed3 = password3.HashPassword(newuser3, "beun");
+            newuser3.PasswordHash = hashed3;
+
+            var userStore3 = new UserStore<ApplicationUser>(context);
+            var result3 = userStore3.CreateAsync(newuser3);
+
+            // Wait for the actual result
+            result3.Wait();
+
+
+            // User 4
+            var newuser4 = new ApplicationUser
+            {
+                Email = "nathanbakhuijzen@gmail.com",
+                NormalizedEmail = "nathanbakhuijzen@gmail.com",
+                UserName = "nathanbakhuijzen@gmail.com",
+                NormalizedUserName = "nathanbakhuijzen@gmail.com",
+                PhoneNumber = "0612445678",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                User = us5
+            };
+
+            var password4 = new PasswordHasher<ApplicationUser>();
+            var hashed4 = password4.HashPassword(newuser4, "beun");
+            newuser4.PasswordHash = hashed4;
+
+            var userStore4 = new UserStore<ApplicationUser>(context);
+            var result4 = userStore4.CreateAsync(newuser4);
+
+            // Wait for the actual result
+            result4.Wait();
+
+            // User 5
+            var newuser5 = new ApplicationUser
+            {
+                Email = "fleurarkesteijn@hotmail.com",
+                NormalizedEmail = "fleurarkesteijn@hotmail.com",
+                UserName = "fleurarkesteijn@hotmail.com",
+                NormalizedUserName = "fleurarkesteijn@hotmail.com",
+                PhoneNumber = "0612555678",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                User = us6
+            };
+
+            var password5 = new PasswordHasher<ApplicationUser>();
+            var hashed5 = password5.HashPassword(newuser5, "beun");
+            newuser5.PasswordHash = hashed5;
+
+            var userStore5 = new UserStore<ApplicationUser>(context);
+            var result5 = userStore5.CreateAsync(newuser5);
+
+            // Wait for the actual result
+            result5.Wait();
 
             // Show a success message
             LogUtils.Success("Database built!");
