@@ -31,7 +31,25 @@ namespace backend.Controllers
         // GET: Groups
         public IActionResult Index()
         {
-            return Redirect("/People");
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
+            if (GetRole() == Role.ReadOnly)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //get all enrolled groups for user
+            var enrolledIds = _context.PeopleGroups.Where(x => x.PeopleId == GetUser().Result.User.Id).Select(x => x.GroupId);
+            ViewBag.EnrolledGroups = _context.Groups.Where(x => enrolledIds.Contains(x.Id)).ToList();
+
+            //get all leftover groups
+            ViewBag.LeftOvers = _context.Groups.Where(x => !enrolledIds.Contains(x.Id)).ToList();
+
+            return View(_context.Groups.ToList());
         }
 
         // GET: Groups/Details/5
@@ -202,6 +220,41 @@ namespace backend.Controllers
         private bool GroupExists(int id)
         {
             return _context.Groups.Any(e => e.Id == id);
+        }
+
+        /**
+         * Leave a group which a user is enrolled for
+         */
+        public IActionResult Leave(int? id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            _context.PeopleGroups.RemoveRange(
+                _context.PeopleGroups.Where(
+                    x => x.GroupId == id &&
+                         x.PeopleId == GetUser().Result.User.Id
+                         ));
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Enroll(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            _context.PeopleGroups.Add(new PeopleGroup
+            {
+                GroupId = id,
+                PeopleId = GetUser().Result.User.Id
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
