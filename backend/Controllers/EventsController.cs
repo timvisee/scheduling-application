@@ -20,7 +20,9 @@ namespace backend.Controllers
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<ApplicationUser> _userManager;
+
         private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+
         // Does not work with a variable, need to be a method
         private Role GetRole() => GetUser().Result.User.Role;
 
@@ -167,41 +169,33 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            var ev = new EventView();
+            ev.Event = @event;
+            ev.SelectedAttendees = _context.EventAttendees
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+
             // Get the owner and attendee IDs
-            var ownerIds = _context.EventOwners
+            ev.SelectedOwners = _context.EventOwners
                 .Where(e => e.EventId == id)
                 .Select(e => e.PeopleId)
                 .ToList();
-            var attendeeIds = _context.EventAttendees
-                .Where(e => e.EventId == id)
-                .Select(e => e.PeopleId)
-                .ToList();
-            var locationIds = _context.EventLocations
+
+            ev.SelectedLocations = _context.EventLocations
                 .Where(e => e.EventId == id)
                 .Select(e => e.LocationId)
                 .ToList();
 
-            // Build the multi select lists
-            ViewBag.Owners = new MultiSelectList(
-                _context.People,
-                "Id",
-                "TypedDisplayName",
-                ownerIds
-            );
-            ViewBag.Attendees = new MultiSelectList(
-                _context.People,
-                "Id",
-                "TypedDisplayName",
-                attendeeIds
-            );
-            ViewBag.Locations = new MultiSelectList(
-                _context.Locations,
-                "Id",
-                "Name",
-                locationIds
-            );
+            ev.Attendees = _context.People.ToList();
+            ev.Owners = _context.People.ToList();
+            ev.Locations = _context.Locations.ToList();
 
-            return View(@event);
+            ev.AttendeeList = new SelectList(_context.People, "Id", "TypedDisplayName");
+            ev.OwnerList = new SelectList(_context.People, "Id", "TypedDisplayName");
+            ev.LocationList = new SelectList(_context.Locations, "Id", "Name");
+
+            return View(ev);
         }
 
         // POST: Events/Edit/5
