@@ -25,25 +25,13 @@ namespace backend.Extensions
         {
             EventTitle = ev.Title;
             EventDescription = ev.Description;
-            StartDate = ev.Start.ToString("MM/dd/yyyy");
-            EndDate = ev.End.ToString("MM/dd/yyyy");
+            StartDate = ev.Start.ToString("dd/MM/yyyy");
+            EndDate = ev.End.ToString("dd/MM/yyyy");
             TimeDuration = parseTimeDuration(ev.Start, ev.End);
 
-            var tempAttList = new List<string>();
-            var tempLocList = new List<string>();
-
-            foreach (var att in ev.Attendees.Select(e => e.People))
-            {
-                tempAttList.Add(att.DisplayName);
-            }
-
-            foreach (var loc in ev.Locations.Select(e => e.Location))
-            {
-                tempLocList.Add(loc.Name);
-            }
-
-            AttendeeList = tempAttList;
-            LocationList = tempLocList;
+            AttendeeList = ev.Attendees.Select(e => e.People).Select(att => att.DisplayName).ToList();
+            OwnerList = ev.Owners.Select(e => e.People).Select(own => own.DisplayName).ToList();
+            LocationList = ev.Locations.Select(e => e.Location).Select(loc => loc.Name).ToList();
         }
 
 

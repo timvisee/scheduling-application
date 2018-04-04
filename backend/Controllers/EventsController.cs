@@ -36,15 +36,6 @@ namespace backend.Controllers
             var events = from e in _context.Events select e;
             events = events.OrderBy(e => e.Start);
 
-
-            if (GetRole() == Role.Elevated || GetRole() == Role.Admin)
-            {
-                Console.WriteLine("Role is not readonly");
-            }
-            else
-            {
-                Console.WriteLine("Role is readonly");
-            }
             return View(events);
         }
 
