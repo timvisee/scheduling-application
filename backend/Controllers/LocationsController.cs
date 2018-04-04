@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Extensions;
 using backend.Models;
+using backend.Types;
+using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
 {
@@ -15,9 +17,15 @@ namespace backend.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public LocationsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
+
+        public LocationsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Locations

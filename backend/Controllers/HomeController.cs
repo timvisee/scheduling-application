@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +17,16 @@ namespace backend.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public HomeController(ApplicationDbContext context)
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+        // Does not work with a variable, need to be a method
+        private Role GetRole() => GetUser().Result.User.Role;
+
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         /**
