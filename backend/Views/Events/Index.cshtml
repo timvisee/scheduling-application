@@ -4,10 +4,6 @@
     ViewData["Title"] = "Event Overview";
 }
 
-@section Stylesheets {
-    <link rel="stylesheet" href="~/css/crud.css" />
-}
-
 <div class="row">
     <div class="col-12">
         <div class="table-header">
@@ -29,7 +25,7 @@
                 @foreach (var item in Model) {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
                         <td>

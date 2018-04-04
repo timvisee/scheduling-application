@@ -1,54 +1,16 @@
 ﻿body {
     background-color: gainsboro;
-    font-family: Ubuntu, serif, Arial;
-    margin-top: 56px;
+    font-family: Ubuntu, Serif, Arial;
 }
 
-.card p {
-    margin: 0;
-}
-
-.card.card-date {
-    cursor: pointer;
-}
-
-.card.card-date:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.card-info {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-}
-
-.calendar-responsive,
-.table-responsive {
+.calendar-responsive, .table-responsive {
     background-color: #FFFFFF;
     border-radius: 5px;
+    margin-top: 15px;
 }
 
 .calendar-responsive {
     padding: 15px;
-}
-
-.modal {
-    margin-top: 56px;
-}
-
-.modal .modal-body h5 {
-    color: #6C757D;
-    margin-bottom: 0;
-}
-
-.event-details {
-    border-radius: 15px;
-    padding: 15px;
-}
-
-.detail-item {
-    background: white;
-    border-radius: 10px;
 }
 
 .table-header {
@@ -65,9 +27,30 @@
     margin: 0;
 }
 
-.table-header h2 { margin: 0; }
-.table-header a { float: right; }
+.table-header a {
+    float: right;
+}
+
+.table-header h2 {
+    margin: 0;
+}
+
+.table-responsive td {
+    white-space: nowrap;
+}
+
+.table-responsive td.wrap {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.modal .modal-body h5 {
+    color: #6C757D;
+    margin-bottom: 0;
+}
 
 #leafmap {
     min-height: 300px;
 }
+
