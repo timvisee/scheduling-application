@@ -13,6 +13,44 @@
     padding: 15px;
 }
 
+.fc-toolbar h2 {
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .fc-toolbar h2 {
+        display: block;
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .fc-toolbar h2 {
+        font-size: 1.5rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .fc-toolbar h2 {
+        font-size: 1.5rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 992px) {
+    .fc-toolbar h2 {
+        font-size: 2rem;
+        margin-top: 0;
+    }
+}
+
+.fc-day-header {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .table-header {
     background-color: #343A40;
     border-radius: 4px 4px 0px 0px;
@@ -44,6 +82,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
 
 .modal .modal-body h5 {
     color: #6C757D;
