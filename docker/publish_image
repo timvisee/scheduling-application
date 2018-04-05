@@ -24,6 +24,10 @@ echo "Update service to use new image..."
 CMD_UPDATE="docker service update app_app --image $IMAGE_NAME"
 sudo apt-get install sshpass -yq
 echo "Run command: $CMD_UPDATE"
-sshpass -p $SERVER_LOGIN_PASSWORD ssh $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
+SSHPASS=$SERVER_LOGIN_PASSWORD
+export SSHPASS
+sshpass -e ssh -o PreferredAuthentications=keyboard-interactive -o PubkeyAuthentication=no $SERVER_LOGIN_USER@schedulingapp.visee.me "echo Test worked!"
+sshpass -e ssh -o PreferredAuthentications=keyboard-interactive -o PubkeyAuthentication=no $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
+unset SSHPASS
 
 echo "Done"
