@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Immediately stop the script if an error occurred
+set -e
+
+# Build the docker image
+echo "Starting image build process..."
+./build
+
+# Create an image artifact
+docker save scheduling-app:snapshot -o image-artifact.tar.gz
+
+echo "Done"

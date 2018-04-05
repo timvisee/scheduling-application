@@ -3,9 +3,9 @@
 # Immediately stop the script if an error occurred
 set -e
 
-# Build the docker image
-echo "Starting image build process..."
-./build
+# Load the image artifact
+echo "Load image artifact..."
+docker load image-artifact.tar.gz
 
 # Retag the image
 echo "Retagging production image..."
