@@ -24,8 +24,8 @@ docker save schedule-app:snapshot -o ../artifact/image-artifact.tar.gz
 echo "Artifact publishing script..."
 cp ./publish_image ../artifact
 
-echo "Remove built snapshot images..."
-! docker rmi schedule-dotnet:snapshot schedule-app:snapshot
+echo "Remove built snapshot image..."
+! docker rmi schedule-app:snapshot
 
 echo "Remove dangling images..."
 ! docker rmi $(docker image ls -f dangling=true -q)
