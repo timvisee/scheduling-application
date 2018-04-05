@@ -40,10 +40,13 @@ namespace backend.Controllers
 
             ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
 
-            var events = from e in _context.Events select e;
-            events = events.OrderBy(e => e.Start);
+            var enrolledEvents = GetAllEnrolledEvents(GetUser().Result.User.Id);
+            ViewBag.EnrolledEvents = enrolledEvents;
 
-            return View(events);
+            ViewBag.AllEvents = _context.Events.Where(e => !enrolledEvents.Contains(e)).ToList();
+
+
+            return View();
         }
 
         // GET: Events/Details/5
@@ -354,25 +357,85 @@ namespace backend.Controllers
         }
 
 
+
         [HttpGet]
         public JsonResult JsonList()
         {
-            //get logged in user id
-            var user = _context.Users.First(x => x.Id == GetUser().Result.User.Id);
+
+            var allEvents = GetAllEnrolledEvents(GetUser().Result.User.Id);
+            //Distincts all events, so no duplicates and return a CalendarEvent instance
+            List<CalendarEvent> ce = allEvents.GroupBy(x => x.Id)
+                .Select(g => g.First())
+                .Select(ev => new CalendarEvent(ev))
+                .ToList();
+
+            return Json(ce);
+        }
+
+        public IActionResult Enroll(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            _context.EventAttendees.Add(new EventAttendee
+            {
+                EventId = id,
+                PeopleId = GetUser().Result.User.Id
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Leave(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            var userId = GetUser().Result.User.Id;
+
+            //check if user has a link to the event
+            var userIsOwner = _context.EventOwners.Any(x => x.PeopleId == userId && x.EventId == id);
+            var userIsAttendee = _context.EventAttendees.Any(x => x.PeopleId == userId && x.EventId == id);
+
+            if (userIsOwner)
+            {
+                _context.EventOwners.Remove(_context.EventOwners.First(x => x.PeopleId == userId && x.EventId == id));
+                _context.SaveChanges();
+            }
+
+            if (userIsAttendee)
+            {
+                _context.EventAttendees.Remove(_context.EventAttendees.First(x => x.PeopleId == userId && x.EventId == id));
+                _context.SaveChanges();
+            }
+
+            if (!userIsAttendee && !userIsOwner)
+            {
+                //TODO LET USER KNOW HE CANNOT LEAVE THIS EVENT UNLESS HE LEAVES THE GROUP
+                Console.WriteLine("This event belongs to a group. You need to leave the group in order to leave the event.");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public List<Event> GetAllEnrolledEvents(int userId)
+        {
 
             List <Event> allEvents = new List<Event>();
 
             //get all attended events of user
             var attendeeEvents = _context.EventAttendees.Where(
-                x => x.PeopleId == user.Id)
+                x => x.PeopleId == userId)
                 .Select(x => x.EventId);
 
             allEvents.AddRange(_context.Events.Where(
                 x => attendeeEvents.Contains(x.Id)));
 
-            //get all events where the user is the owner
+            //get all events where the userId is the owner
             var ownerEvents = _context.EventOwners.Where(
-                x => x.PeopleId == user.Id)
+                x => x.PeopleId == userId)
                 .Select(x => x.EventId);
 
             allEvents.AddRange(_context.Events.Where(
@@ -380,7 +443,7 @@ namespace backend.Controllers
 
             // Get all linked groups
             var linkedGroups = _context.PeopleGroups.Where(
-                x => x.PeopleId == user.Id)
+                x => x.PeopleId == userId)
                 .Select(x => x.GroupId);
 
             var groups = _context.Groups.Where(
@@ -419,14 +482,7 @@ namespace backend.Controllers
                         x => deepAttendeeIds.Contains(x.Id)));
                 }
             }
-
-            List<CalendarEvent> ce = new List<CalendarEvent>();
-            foreach (var ev in allEvents)
-            {
-                ce.Add(new CalendarEvent(ev));
-            }
-
-            return Json(ce);
+            return allEvents;
         }
     }
 }
