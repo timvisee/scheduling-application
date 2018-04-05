@@ -77,7 +77,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(UserView newUser)
+        public async Task<IActionResult> Create(UserView newUser)
         {
             if (GetRole() != Role.Admin)
             {
@@ -112,6 +112,13 @@ namespace backend.Controllers
 
                 // Wait for the actual result
                 result.Wait();
+
+                // Beun: first remove all roles
+                await _userManager.RemoveFromRolesAsync(appUser, _context.Roles.Select(e => e.Name));
+
+                // Add user to role
+                await _userManager.AddToRoleAsync(appUser, appUser.User.Role.ToString());
+
 
                 return RedirectToAction("Index", nameof(People));
             }
@@ -155,7 +162,7 @@ namespace backend.Controllers
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, UserView updatedUser)
+        public async Task<IActionResult> Edit(int id, UserView updatedUser)
         {
             if (GetRole() != Role.Admin)
             {
@@ -171,6 +178,8 @@ namespace backend.Controllers
             {
                 try
                 {
+                    var userRole = updatedUser.User.Role.ToString();
+
                     _context.Update(updatedUser.User);
                     _context.SaveChanges();
 
@@ -180,6 +189,12 @@ namespace backend.Controllers
                         appUser.Email = updatedUser.Email;
                         appUser.NormalizedEmail = updatedUser.Email;
                         appUser.PhoneNumber = updatedUser.Phone;
+
+                        // Beun: first remove all roles
+                        await _userManager.RemoveFromRolesAsync(appUser, _context.Roles.Select(e => e.Name));
+
+                        // Add user to role
+                        await _userManager.AddToRoleAsync(appUser, userRole);
 
                         _context.ApplicationUsers.Update(appUser);
                         _context.SaveChanges();
