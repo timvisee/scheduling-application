@@ -24,7 +24,6 @@ echo "Remove artifact image..."
 echo "Update service to use new image..."
 CMD_UPDATE="docker service update app_app --image $IMAGE_NAME"
 echo "Run command: $CMD_UPDATE"
-ssh -o StrictHostKeyChecking=no $SERVER_LOGIN_USER@schedulingapp.visee.me "echo Test worked!"
 ssh -o StrictHostKeyChecking=no $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
 
 echo "Done"
