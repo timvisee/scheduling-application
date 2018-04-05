@@ -9,9 +9,9 @@ echo "Remove old artifacts..."
 echo "Build appsettings.local.json..."
 echo "= ENCODED =========="
 echo $APPSETTINGS_SECRET
-echo $APPSETTINGS_SECRET | base64 -d > ../backend/appsettings.secret.json
+echo $APPSETTINGS_SECRET | base64 -d > ../backend/appsettings.local.json
 echo "= DECODED =========="
-cat ../backend/appsettings.secret.json
+cat ../backend/appsettings.local.json
 echo "===================="
 
 echo "Start image build process..."
