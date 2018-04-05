@@ -31,6 +31,9 @@ namespace backend.Controllers
         // GET: Locations
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
             var locations = from e in _context.Locations select e;
             locations = locations.OrderBy(e => e.Name);
 

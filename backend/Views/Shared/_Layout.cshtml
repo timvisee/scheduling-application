@@ -42,21 +42,25 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Events" asp-action="Index">Events</a></li>
-                    <li class="nav-item"><a class="nav-item nav-link" asp-controller="Locations" asp-action="Index">Locations</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            People
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" asp-controller="People" asp-action="Index">Overview</a>
-                            <a class="dropdown-item" asp-controller="People" asp-action="Deleted">Deleted</a>
-                        </div>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Events" asp-action="Index">Events</a></li>
+                        <li class="nav-item"><a class="nav-item nav-link" asp-controller="Locations" asp-action="Index">Locations</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                People
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="People" asp-action="Index">Overview</a>
+                                <a class="dropdown-item" asp-controller="People" asp-action="Deleted">Deleted</a>
+                            </div>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Manage" asp-action="Index">My Account</a>
                     </li>
-                    @if (User.Identity.IsAuthenticated) {
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <a class="nav-item nav-link" asp-controller="Account" asp-action="LogOut">Log off</a>
                     }
                 </ul>
