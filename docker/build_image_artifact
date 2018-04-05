@@ -3,6 +3,9 @@
 # Immediately stop the script if an error occurred
 set -e
 
+echo "Remove old artifacts..."
+! rm -rf ../artifact
+
 echo "Start image build process..."
 ./build
 
