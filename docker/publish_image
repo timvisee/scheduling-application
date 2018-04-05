@@ -4,19 +4,19 @@
 set -e
 
 # Load the image artifact
-echo "Load image artifact..."
+echo "Unpack release image snapshot artifact..."
 docker load ../artifact/image-artifact.tar.gz
 
 # Retag the image
-echo "Retagging production image..."
+echo "Retag production image..."
 docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
 
 # Log in to docker
-echo "Logging in to docker with user '$DOCKER_LOGIN_USER'..."
+echo "Login to Docker with user '$DOCKER_LOGIN_USER'..."
 echo $DOCKER_LOGIN_PASSWORD | docker login -u $DOCKER_LOGIN_USER
 
 # Push the image
-echo "Pushing production image"
+echo "Push production image to Docker hub..."
 docker push timvisee/hhs-p11-schedulingapp:production
 
 echo "Done"

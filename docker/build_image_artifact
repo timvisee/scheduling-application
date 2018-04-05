@@ -4,10 +4,11 @@
 set -e
 
 # Build the docker image
-echo "Starting image build process..."
+echo "Start image build process..."
 ./build
 
 # Create an image artifact
+echo "Create artifact for release image snapshot..."
 mkdir -p ../artifact
 docker save schedule-app:snapshot -o ../artifact/image-artifact.tar.gz
 
