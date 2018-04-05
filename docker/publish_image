@@ -5,7 +5,7 @@ set -e
 
 # Load the image artifact
 echo "Load image artifact..."
-docker load image-artifact.tar.gz
+docker load ../artifact/image-artifact.tar.gz
 
 # Retag the image
 echo "Retagging production image..."

@@ -8,6 +8,7 @@ echo "Starting image build process..."
 ./build
 
 # Create an image artifact
-docker save scheduling-app:snapshot -o image-artifact.tar.gz
+mkdir -p ../artifact
+docker save scheduling-app:snapshot -o ../artifact/image-artifact.tar.gz
 
 echo "Done"
