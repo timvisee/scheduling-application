@@ -4,7 +4,7 @@
 set -e
 
 echo "Unpack release image snapshot artifact..."
-docker load ../artifact/image-artifact.tar.gz
+docker load image-artifact.tar.gz
 
 echo "Retag production image..."
 docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
@@ -16,6 +16,6 @@ echo "Push production image to Docker hub..."
 docker push timvisee/hhs-p11-schedulingapp:production
 
 echo "Remove artifact image..."
-docker rmi schedule-app:snapshot || true
+! docker rmi schedule-app:snapshot
 
 echo "Done"
