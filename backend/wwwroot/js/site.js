@@ -10,23 +10,40 @@
             .then(function (response) {
                 $("#detail-title").text(response.data.eventTitle);
 
-                console.log(response);
-
-                if (response.data.eventDescription !== '') {
-                    $("#detail-description").text(response.data.eventDescription);
+                if (response.data.eventDescription === null || response.data.eventDescription === '') {
+                    $("#detail-description").html("No description available");
                 } else {
-                    $("#detail-description").text("No description available");
+                    $("#detail-description").html(response.data.eventDescription);
+                }
+
+                if (response.data.locationList.length !== 0) {
+                    $('#detail-locations').html(response.data.locationList.join(', '));
+                } else {
+                    $("#detail-locations").html("No location(s) available");
+                }
+
+                if (response.data.ownerList.length !== 0) {
+                    $('#detail-owners').html(response.data.ownerList.join(', '));
+                } else {
+                    $("#detail-owners").html("No owner(s) available");
+                }
+
+                if (response.data.attendeeList.length !== 0) {
+                    $('#detail-attendees').html(response.data.attendeeList.join(', '));
+                } else {
+                    $("#detail-attendees").html("No attendee(s) available");
                 }
 
                 $("#detail-time-duration").text(response.data.timeDuration);
                 $("#detail-start-date").text(response.data.startDate);
                 $("#detail-end-date").text(response.data.endDate);
+
+                $('#event_details').modal();
             })
             .catch(function (error) {
                 console.log(error);
             });
 
-        $('#event_details').modal();
     }
 
     /**
@@ -91,19 +108,19 @@
 
     if ($('#leafmap').length) {
         //init map
-        var mymap = L.map('leafmap').setView([51.505, -0.09], 2);
+        var mymap = L.map('leafmap').setView([51.505, -0.09], 5);
 
         // Set up the tile layers
         L.tileLayer('https://api.mapbox.com/styles/v1/timvisee/cirawmn8f001ch4m27llnb45d/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGltdmlzZWUiLCJhIjoiY2lyZXY5cDhzMDAxM2lsbTNicGViaTZkYyJ9.RqbUkoWLWeh_WZoyoxxt-Q', {
-            attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">timvisee.com</a>'
+            attribution: 'Hosted by <a href="https://timvisee.com/" target="_blank">vimtisee.com</a>'
         }).addTo(mymap);
 
         // use one marker instance
         var marker;
 
         // get lat and long from fields IF filled in
-        var lat = $("#Latitude").val();
-        var long = $("#Longitude").val();
+        var lat = $("#Latitude").val() ? $("#Latitude").val() : $("#Latitude").text();
+        var long = $("#Longitude").val() ? $("#Longitude").val() : $("#Longitude").text();
 
         //construct a marker and add to the map
         if (lat && long) {
@@ -113,11 +130,12 @@
 
         //create new marker and set fields
         mymap.on('click', function (e) {
+            if ($('#leafmap').attr('data-readable') !== 'leafmap-readonly') {
+                resetMarker(e.latlng);
 
-            resetMarker(e.latlng);
-
-            $("#Latitude").val(e.latlng.lat);
-            $("#Longitude").val(e.latlng.lng);
+                $("#Latitude").val(e.latlng.lat);
+                $("#Longitude").val(e.latlng.lng);
+            }
         });
 
         $('#Latitude').bind('keyup change', function (e) {
@@ -133,6 +151,7 @@
             if (lat)
                 resetMarker([lat, long])
         });
+
 
         function resetMarker(latlng) {
             if (marker == null)

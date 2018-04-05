@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Immediately stop the script if an error occurred
+set -e
+
+# Build the docker image
+echo "Starting image build process..."
+./build
+
+# Retag the image
+echo "Retagging production image..."
+docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
+
+# Log in to docker
+echo "Logging in to docker with user '$DOCKER_LOGIN_USER'..."
+echo $DOCKER_LOGIN_PASSWORD | docker login -u $DOCKER_LOGIN_USER
+
+# Push the image
+echo "Pushing production image"
+docker push timvisee/hhs-p11-schedulingapp:production
+
+echo "Done"

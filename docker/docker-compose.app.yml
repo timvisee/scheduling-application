@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   app:
-    image: 'schedule-app:latest'
+    image: 'timvisee/hhs-p11-schedulingapp:production'
     ports:
       - "80:80"
       - "5000:5000"
@@ -14,17 +14,6 @@ services:
       WEB_HOSTS: "http://*:80,http://*:5000"
     depends_on:
       - "db"
-    networks:
-      - scheduleapp
-    deploy:
-        replicas: 1
-  db:
-    image: 'microsoft/mssql-server-linux'
-    ports:
-      - '1433:1433'
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Secret1234!
     networks:
       - scheduleapp
     deploy:
