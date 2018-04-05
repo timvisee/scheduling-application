@@ -30,7 +30,8 @@ namespace backend.Data
             // Enable lazy loading by default
             optionsBuilder
                 .UseLazyLoadingProxies()
-                .UseSqlServer(appConfig.GenerateDbConnectionString());
+                .UseSqlServer(appConfig.GenerateDbConnectionString())
+                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
