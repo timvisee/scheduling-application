@@ -39,24 +39,6 @@ namespace backend.Controllers
             return View(people);
         }
 
-        // GET: People/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var people = await _context.People
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (people == null)
-            {
-                return NotFound();
-            }
-
-            return View(people);
-        }
-
         // GET: People/Create
         public IActionResult Create()
         {

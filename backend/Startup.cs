@@ -11,6 +11,7 @@ using backend.Models;
 using backend.Data;
 using backend.Services;
 using backend.Types;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace backend
 {
@@ -63,6 +64,12 @@ namespace backend
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ElevatedRights", policy =>
+                policy.RequireRole("ADMIN", "ELEVATED", "BASIC", "READONLY"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,7 +133,7 @@ namespace backend
             /* // TODO: reenable this once the DbBuilder is complete */
             /* // Seed database if not running in production */
             if (Program.AppConfig.DatabaseReset)
-                 DbBuilder.Rebuild(context);
+                DbBuilder.Rebuild(context);
         }
     }
 }
