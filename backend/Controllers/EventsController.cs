@@ -33,6 +33,11 @@ namespace backend.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
             var events = from e in _context.Events select e;
             events = events.OrderBy(e => e.Start);
 
@@ -53,6 +58,9 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            //send user role to details (to check for editing rights)
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
 
             //get all linked attendees
             var attendeeIds = _context.EventAttendees.Where(x => x.EventId == id).Select(x => x.PeopleId);

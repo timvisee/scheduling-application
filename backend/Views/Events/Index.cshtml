@@ -8,7 +8,10 @@
     <div class="col-12">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i> Events</h2>
-            <a asp-action="Create" class="btn btn-outline-primary">New Event</a>
+            @if (ViewBag.UserCanEdit)
+            {
+                <a asp-action="Create" class="btn btn-outline-primary">New Event</a>
+            }
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -18,7 +21,10 @@
                         <th>@Html.DisplayNameFor(model => model.Description)</th>
                         <th>@Html.DisplayNameFor(model => model.Start) Date</th>
                         <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                        <th>Actions</th>
+                        @if (ViewBag.UserCanEdit)
+                        {
+                            <th>Actions</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -28,11 +34,14 @@
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
+                        @if (ViewBag.UserCanEdit)
+                        {
                         <td>
                             <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
                             <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
+                        }
                     </tr>
                 }
                 </tbody>
