@@ -1,4 +1,4 @@
-FROM schedule-dotnet:latest
+FROM schedule-dotnet:snapshot
 
 LABEL maintainer="Tim Visee <timvisee@gmail.com>"
 
