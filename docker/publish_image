@@ -4,7 +4,7 @@
 set -e
 
 echo "Unpack release image snapshot artifact..."
-docker load image-artifact.tar.gz
+docker load -i image-artifact.tar.gz
 
 echo "Retag production image..."
 docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
