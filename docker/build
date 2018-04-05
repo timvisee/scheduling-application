@@ -8,7 +8,7 @@ cd ../
 
 # Build the dotnet image
 echo "Building dotnet image..."
-docker build -t schedule-dotnet:snapshot -f ./docker/containers/Dockerfile.dotnet --no-cache .
+docker build -t schedule-dotnet:snapshot -f ./docker/containers/Dockerfile.dotnet .
 
 # Build the application image
 echo "Building application image..."
