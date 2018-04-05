@@ -20,7 +20,9 @@ namespace backend.Controllers
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<ApplicationUser> _userManager;
+
         private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+
         // Does not work with a variable, need to be a method
         private Role GetRole() => GetUser().Result.User.Role;
 
@@ -33,6 +35,11 @@ namespace backend.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
             var events = from e in _context.Events select e;
             events = events.OrderBy(e => e.Start);
 
@@ -53,6 +60,9 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
+
+            //send user role to details (to check for editing rights)
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
 
             //get all linked attendees
             var attendeeIds = _context.EventAttendees.Where(x => x.EventId == id).Select(x => x.PeopleId);
@@ -159,41 +169,33 @@ namespace backend.Controllers
                 return NotFound();
             }
 
+            var ev = new EventView();
+            ev.Event = @event;
+            ev.SelectedAttendees = _context.EventAttendees
+                .Where(e => e.EventId == id)
+                .Select(e => e.PeopleId)
+                .ToList();
+
             // Get the owner and attendee IDs
-            var ownerIds = _context.EventOwners
+            ev.SelectedOwners = _context.EventOwners
                 .Where(e => e.EventId == id)
                 .Select(e => e.PeopleId)
                 .ToList();
-            var attendeeIds = _context.EventAttendees
-                .Where(e => e.EventId == id)
-                .Select(e => e.PeopleId)
-                .ToList();
-            var locationIds = _context.EventLocations
+
+            ev.SelectedLocations = _context.EventLocations
                 .Where(e => e.EventId == id)
                 .Select(e => e.LocationId)
                 .ToList();
 
-            // Build the multi select lists
-            ViewBag.Owners = new MultiSelectList(
-                _context.People,
-                "Id",
-                "TypedDisplayName",
-                ownerIds
-            );
-            ViewBag.Attendees = new MultiSelectList(
-                _context.People,
-                "Id",
-                "TypedDisplayName",
-                attendeeIds
-            );
-            ViewBag.Locations = new MultiSelectList(
-                _context.Locations,
-                "Id",
-                "Name",
-                locationIds
-            );
+            ev.Attendees = _context.People.ToList();
+            ev.Owners = _context.People.ToList();
+            ev.Locations = _context.Locations.ToList();
 
-            return View(@event);
+            ev.AttendeeList = new SelectList(_context.People, "Id", "TypedDisplayName");
+            ev.OwnerList = new SelectList(_context.People, "Id", "TypedDisplayName");
+            ev.LocationList = new SelectList(_context.Locations, "Id", "Name");
+
+            return View(ev);
         }
 
         // POST: Events/Edit/5
@@ -201,90 +203,70 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            int id,
-            List<int> owners,
-            List<int> attendees,
-            List<int> locations,
-            [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")]
-            Event @event
-        )
+        public IActionResult Edit(int id, EventView updatedEvent)
         {
-            if (id != @event.Id)
+            if (id != updatedEvent.Event.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                // First remove all the current couplings between this event and locations, attendees and owners
+                var rml = _context.EventLocations.Where(el => el.EventId == id);
+                var rma = _context.EventAttendees.Where(ea => ea.EventId == id);
+                var rmo = _context.EventOwners.Where(eo => eo.EventId == id);
+                _context.RemoveRange(rml);
+                _context.RemoveRange(rma);
+                _context.RemoveRange(rmo);
+
+                _context.SaveChanges();
+
+
+                // Add locations, attendees and owners
+                if (updatedEvent.SelectedLocations != null)
                 {
-                    _context.Update(@event);
-
-                    // Remove all previous couplings
-                    _context.RemoveRange(
-                        _context.EventOwners.Where(e => e.EventId == id)
-                    );
-                    _context.RemoveRange(
-                        _context.EventAttendees.Where(e => e.EventId == id)
-                    );
-                    _context.RemoveRange(
-                        _context.EventLocations.Where(e => e.EventId == id)
-                    );
-                    _context.SaveChanges();
-
-                    // Add the new couplings
-                    foreach (var peopleId in owners)
+                    foreach (var locationId in updatedEvent.SelectedLocations)
                     {
-                        @event.Owners.Add(
-                            new EventOwner
-                            {
-                                EventId = @event.Id,
-                                PeopleId = peopleId
-                            }
-                        );
-                    }
-
-                    foreach (var peopleId in attendees)
-                    {
-                        @event.Attendees.Add(
-                            new EventAttendee
-                            {
-                                EventId = @event.Id,
-                                PeopleId = peopleId
-                            }
-                        );
-                    }
-
-                    foreach (var locationId in locations)
-                    {
-                        @event.Locations.Add(
-                            new EventLocation
-                            {
-                                EventId = @event.Id,
-                                LocationId = locationId
-                            }
-                        );
-                    }
-
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EventExists(@event.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        _context.EventLocations.Add(new EventLocation
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            LocationId = locationId
+                        });
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                if (updatedEvent.SelectedAttendees != null)
+                {
+                    foreach (var attendeeId in updatedEvent.SelectedAttendees)
+                    {
+                        _context.EventAttendees.Add(new EventAttendee
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            PeopleId = attendeeId
+                        });
+                    }
+                }
+
+                if (updatedEvent.SelectedOwners != null)
+                {
+                    foreach (var ownerId in updatedEvent.SelectedOwners)
+                    {
+                        _context.EventOwners.Add(new EventOwner
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            PeopleId = ownerId
+                        });
+                    }
+                }
+
+                _context.Events.Update(updatedEvent.Event);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(updatedEvent);
         }
 
         // GET: Events/Delete/5
@@ -375,15 +357,71 @@ namespace backend.Controllers
         [HttpGet]
         public JsonResult JsonList()
         {
-            var events = from e in _context.Events select e;
-            events = events.OrderBy(e => e.Start);
+            //get logged in user id
+            var user = _context.Users.First(x => x.Id == GetUser().Result.User.Id);
 
-            // Return events with the following keys
-            // https://fullcalendar.io/docs/event-object
-            //
-            // Parse the events to CalendarEvents
+            List <Event> allEvents = new List<Event>();
+
+            //get all attended events of user
+            var attendeeEvents = _context.EventAttendees.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.EventId);
+
+            allEvents.AddRange(_context.Events.Where(
+                x => attendeeEvents.Contains(x.Id)));
+
+            //get all events where the user is the owner
+            var ownerEvents = _context.EventOwners.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.EventId);
+
+            allEvents.AddRange(_context.Events.Where(
+                x => ownerEvents.Contains(x.Id)));
+
+            // Get all linked groups
+            var linkedGroups = _context.PeopleGroups.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.GroupId);
+
+            var groups = _context.Groups.Where(
+                x => linkedGroups.Contains(x.Id));
+
+            //get group events (no deep group events)
+            foreach (var @group in groups)
+            {
+                var ownerIds = _context.EventOwners.Where(
+                    x => x.PeopleId == group.Id)
+                    .Select(x => x.EventId);
+                allEvents.AddRange(_context.Events.Where(
+                    x => ownerIds.Contains(x.Id)));
+
+                var attendeeIds = _context.EventAttendees.Where(
+                        x => x.PeopleId == group.Id)
+                    .Select(x => x.EventId);
+                allEvents.AddRange(_context.Events.Where(
+                    x => attendeeIds.Contains(x.Id)));
+
+                var deepGroups = group.AllGroups();
+
+                //get all deep groups
+                foreach (var deepGroup in deepGroups)
+                {
+                    var deepOwnerIds = _context.EventOwners.Where(
+                            x => x.PeopleId == deepGroup.Id)
+                        .Select(x => x.EventId);
+                    allEvents.AddRange(_context.Events.Where(
+                        x => deepOwnerIds.Contains(x.Id)));
+
+                    var deepAttendeeIds = _context.EventAttendees.Where(
+                            x => x.PeopleId == deepGroup.Id)
+                        .Select(x => x.EventId);
+                    allEvents.AddRange(_context.Events.Where(
+                        x => deepAttendeeIds.Contains(x.Id)));
+                }
+            }
+
             List<CalendarEvent> ce = new List<CalendarEvent>();
-            foreach (var ev in events)
+            foreach (var ev in allEvents)
             {
                 ce.Add(new CalendarEvent(ev));
             }
