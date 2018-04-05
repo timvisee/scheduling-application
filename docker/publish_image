@@ -20,4 +20,7 @@ docker push "$IMAGE_NAME"
 echo "Remove artifact image..."
 ! docker rmi schedule-app:snapshot
 
+echo "Update service to use new image..."
+ssh $SERVER_LOGIN_USER:$SERVER_LOGIN_PASSWORD@schedulingapp.visee.me -- docker service update app_app --image "$IMAGE_NAME"
+
 echo "Done"
