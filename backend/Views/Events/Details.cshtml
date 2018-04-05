@@ -22,7 +22,14 @@
 <b>Owners</b>
 @if (ViewBag.Owners != null) {
     foreach (People owner in ViewBag.Owners) {
-        <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+        if (owner.IsUser())
+        {
+            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+        }
+        else
+        {
+            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+        }
     }
 } else {
     <p>No owners found</p>
@@ -31,7 +38,14 @@
 <b>Attendees</b>
 @if (ViewBag.Attendees != null) {
     foreach (People attendee in ViewBag.Attendees) {
-        <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+        if (attendee.IsUser())
+        {
+            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+        }
+        else
+        {
+            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+        }
     }
 } else {
     <p>No attendees found</p>
@@ -46,5 +60,8 @@
     <p>No locations found</p>
 }
 
-<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+@if (ViewBag.UserCanEdit)
+{
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+}
 <a class="btn btn-light" asp-action="Index">Back to List</a>

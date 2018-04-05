@@ -4,32 +4,87 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<h2>Group Overview</h2>
+<hr>
+<div class="row">
+    <div class="col-6">
+        <div class="table-header">
+            <h2><i class="fas fa-users"></i> Groups available</h2>
+            @if(ViewBag.UserCanEdit)
+            {
+                <a asp-action="Create" class="btn btn-outline-primary">New Location</a>
+            }
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>Actions</th>
+                    @if (ViewBag.UserCanEdit)
+                    {
+                        <th>Extra</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (Group item in ViewBag.LeftOvers) {
+                    <tr>
+                        <td><a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                        <td>
+                            <a class="badge badge-success"asp-action="Enroll" asp-controller="Groups" asp-route-id="@item.Id">Enroll</a>
+                        </td>
+                        @if(ViewBag.UserCanEdit){
+                            <td>
+                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="table-header">
+            <h2><i class="fas fa-check text-success"></i>&nbsp;Enrolled groups</h2>
+            @if(ViewBag.UserCanEdit)
+            {
+                <a asp-action="Create" class="btn btn-outline-primary">New Location</a>
+            }
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>Actions</th>
+                    @if (ViewBag.UserCanEdit)
+                    {
+                        <th>Extra</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (Group item in ViewBag.EnrolledGroups) {
+                    <tr>
+                        <td><a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                        <td>
+                            <a class="badge badge-danger"asp-action="Leave" asp-controller="Groups" asp-route-id="@item.Id">Leave</a>
+                        </td>
+                        @if(ViewBag.UserCanEdit){
+                            <td>
+                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

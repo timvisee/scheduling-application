@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Immediately stop the script if an error occurred
+set -e
+
+echo "Remove old artifacts..."
+! rm -rf ../artifact
+
+echo "Start image build process..."
+./build
+
+echo "Create artifact for release image snapshot..."
+mkdir -p ../artifact
+docker save schedule-app:snapshot -o ../artifact/image-artifact.tar.gz
+
+echo "Artifact publishing script..."
+cp ./publish_image ../artifact
+
+echo "Remove built snapshot images..."
+! docker rmi schedule-dotnet:snapshot schedule-app:snapshot
+
+echo "Remove dangling images..."
+! docker rmi $(docker image ls -f dangling=true -q)
+
+echo "Done"

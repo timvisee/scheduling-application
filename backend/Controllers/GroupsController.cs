@@ -18,7 +18,9 @@ namespace backend.Controllers
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<ApplicationUser> _userManager;
+
         private async Task<ApplicationUser> GetUser() => await _userManager.FindByNameAsync(User.Identity.Name);
+
         // Does not work with a variable, need to be a method
         private Role GetRole() => GetUser().Result.User.Role;
 
@@ -31,7 +33,24 @@ namespace backend.Controllers
         // GET: Groups
         public IActionResult Index()
         {
-            return Redirect("/People");
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
+            if (GetRole() == Role.ReadOnly)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //get all enrolled groups for user
+            var enrolledIds = _context.PeopleGroups.Where(x => x.PeopleId == GetUser().Result.User.Id).Select(x => x.GroupId);
+            ViewBag.EnrolledGroups = _context.Groups.Where(x => enrolledIds.Contains(x.Id)).ToList();
+
+            //get all leftover groups
+            ViewBag.LeftOvers = _context.Groups.Where(x => !enrolledIds.Contains(x.Id)).ToList();
+
+            return View(_context.Groups.ToList());
         }
 
         // GET: Groups/Details/5
@@ -58,6 +77,11 @@ namespace backend.Controllers
         // GET: Groups/Create
         public IActionResult Create()
         {
+            if (GetRole() == Role.ReadOnly || GetRole() == Role.Elevated)
+            {
+                return NotFound();
+            }
+
             ViewBag.People = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             return View();
         }
@@ -81,17 +105,20 @@ namespace backend.Controllers
 
                 _context.SaveChanges();
 
-                foreach (var PeopleId in People)
+                foreach (var peopleId in People)
                 {
                     @group.People.Add(
-                        new PeopleGroup {
-                        GroupId = @group.Id,
-                        PeopleId = PeopleId
-                    });
+                        new PeopleGroup
+                        {
+                            GroupId = @group.Id,
+                            PeopleId = peopleId
+                        });
                 }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", nameof(People));
             }
+
             return View(@group);
         }
 
@@ -109,18 +136,16 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            //get all UserGroup connections linked to this group
-            var connections = _context.PeopleGroups.Where(x => x.GroupId == id).Select(x => x.PeopleId);
+            var gv = new GroupView();
+            gv.group = @group;
+            gv.SelectedPeople = _context.PeopleGroups
+                .Where(g => g.GroupId == id)
+                .Select(g => g.PeopleId)
+                .ToList();
+            gv.People = _context.People.ToList();
+            gv.PeopleList = new SelectList(_context.People.Where(g => g.Id != id), "Id", "TypedDisplayName");
 
-            //get all groups + linked ones to this group
-            ViewBag.ConnectedPeople = new MultiSelectList(
-                _context.People.Where(x => x.Id != id).ToList(),
-                "Id", "TypedDisplayName",
-                _context.People.Where(x => connections.Contains(x.Id)).ToList().Select(x => x.Id)
-            );
-
-
-            return View(@group);
+            return View(gv);
         }
 
         // POST: Groups/Edit/5
@@ -128,46 +153,39 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, List <int> People, [Bind("Id,Name,People")] Group @group)
+        public async Task<IActionResult> Edit(int id, GroupView updatedGroup)
         {
-            if (id != @group.Id)
+            if (id != updatedGroup.group.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.RemoveRange(_context.PeopleGroups.Where(e => e.GroupId == id));
-                    _context.Update(group);
-                    _context.SaveChanges();
+                var rmp = _context.PeopleGroups.Where(eo => eo.GroupId == id);
+                _context.RemoveRange(rmp);
+                _context.SaveChanges();
 
-                    foreach (var PeopleId in People)
-                    {
-                        @group.People.Add(
-                            new PeopleGroup {
-                                GroupId = @group.Id,
-                                PeopleId = PeopleId
-                            });
-                    }
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", nameof(People));
-                }
-                catch (DbUpdateConcurrencyException)
+                // Add locations, attendees and owners
+                if (updatedGroup.SelectedPeople != null)
                 {
-                    if (!GroupExists(@group.Id))
+                    foreach (var peopleId in updatedGroup.SelectedPeople)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        _context.PeopleGroups.Add(new PeopleGroup
+                        {
+                            GroupId = updatedGroup.group.Id,
+                            PeopleId = peopleId
+                        });
                     }
                 }
+
+                _context.Groups.Update(updatedGroup.group);
+                _context.SaveChanges();
+
                 return RedirectToAction("Index", nameof(People));
             }
-            return View(@group);
+
+            return View(updatedGroup);
         }
 
         // GET: Groups/Delete/5
@@ -202,6 +220,41 @@ namespace backend.Controllers
         private bool GroupExists(int id)
         {
             return _context.Groups.Any(e => e.Id == id);
+        }
+
+        /**
+         * Leave a group which a user is enrolled for
+         */
+        public IActionResult Leave(int? id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            _context.PeopleGroups.RemoveRange(
+                _context.PeopleGroups.Where(
+                    x => x.GroupId == id &&
+                         x.PeopleId == GetUser().Result.User.Id
+                         ));
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Enroll(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
+            _context.PeopleGroups.Add(new PeopleGroup
+            {
+                GroupId = id,
+                PeopleId = GetUser().Result.User.Id
+            });
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

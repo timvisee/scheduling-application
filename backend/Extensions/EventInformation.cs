@@ -37,8 +37,8 @@ namespace backend.Extensions
 
         public string parseTimeDuration(DateTime Start, DateTime End)
         {
-            var startTime = Start.ToShortTimeString();
-            var endTime = End.ToShortTimeString();
+            var startTime = Start.ToString("HH:mm");
+            var endTime = End.ToString("HH:mm");
 
             return startTime + " - " + endTime;
         }

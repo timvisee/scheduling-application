@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
@@ -34,6 +35,9 @@ namespace backend.Controllers
          */
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
             // Get the start and end dates for the current date range
             DateTime start = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
             DateTime end = start.AddDays(6).AddHours(23).AddMinutes(59);
