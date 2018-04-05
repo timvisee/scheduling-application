@@ -4,10 +4,6 @@
     ViewData["Title"] = "Deleted People";
 }
 
-@section Stylesheets {
-    <link rel="stylesheet" href="~/css/crud.css"/>
-}
-
 <div class="row">
     <div class="col-12">
         <div class="table-header">
@@ -31,7 +27,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@user.Id">Edit</a>
+                                <a asp-action="Edit" asp-controller="Users" asp-route-id="@user.Id" class="btn btn-sm btn-info">Edit</a>
                             </td>
                         </tr>
                     }

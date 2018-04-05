@@ -7,7 +7,7 @@
 <h2>Location Details</h2>
 <hr/>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4 mb-3">
         <b>@Html.DisplayNameFor(model => model.Name)</b>
         <p>@Html.DisplayFor(model => model.Name)</p>
 
@@ -20,10 +20,10 @@
         <b>@Html.DisplayNameFor(model => model.Longitude)</b>
         <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
 
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         <a class="btn btn-light" asp-action="Index">Back to List</a>
     </div>
-    <div class="col-md-8" id="leafmap" data-readable="leafmap-readonly">
-
+    <div class="col-xs-12 col-md-8 mb-3">
+        <div id="leafmap" data-readable="leafmap-readonly"></div>
     </div>
 </div>
