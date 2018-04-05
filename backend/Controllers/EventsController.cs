@@ -33,6 +33,9 @@ namespace backend.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+
             var events = from e in _context.Events select e;
             events = events.OrderBy(e => e.Start);
 
