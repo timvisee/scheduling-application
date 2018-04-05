@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo "Remove built snapshot images..."
-docker rmi schedule-dotnet:snapshot schedule-app:snapshot
-
-echo "Remove dangling images..."
-docker rmi $(docker image ls -f dangling=true -q)

@@ -3,20 +3,19 @@
 # Immediately stop the script if an error occurred
 set -e
 
-# Load the image artifact
 echo "Unpack release image snapshot artifact..."
 docker load ../artifact/image-artifact.tar.gz
 
-# Retag the image
 echo "Retag production image..."
 docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
 
-# Log in to docker
 echo "Login to Docker with user '$DOCKER_LOGIN_USER'..."
 echo $DOCKER_LOGIN_PASSWORD | docker login -u $DOCKER_LOGIN_USER
 
-# Push the image
 echo "Push production image to Docker hub..."
 docker push timvisee/hhs-p11-schedulingapp:production
+
+echo "Remove artifact image..."
+docker rmi schedule-app:snapshot
 
 echo "Done"
