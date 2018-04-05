@@ -14,9 +14,9 @@ echo "Artifact publishing script..."
 cp ./publish_image ../artifact
 
 echo "Remove built snapshot images..."
-docker rmi schedule-dotnet:snapshot schedule-app:snapshot
+docker rmi schedule-dotnet:snapshot schedule-app:snapshot || true
 
 echo "Remove dangling images..."
-docker rmi $(docker image ls -f dangling=true -q)
+docker rmi $(docker image ls -f dangling=true -q) || true
 
 echo "Done"

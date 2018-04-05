@@ -16,6 +16,6 @@ echo "Push production image to Docker hub..."
 docker push timvisee/hhs-p11-schedulingapp:production
 
 echo "Remove artifact image..."
-docker rmi schedule-app:snapshot
+docker rmi schedule-app:snapshot || true
 
 echo "Done"
