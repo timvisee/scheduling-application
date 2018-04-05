@@ -119,11 +119,8 @@
         var marker;
 
         // get lat and long from fields IF filled in
-        var lat = $("#Latitude").val() ? $("#Latitude").val() : $("#Latitude").text() ;
-        var long = $("#Longitude").val() ? $("#Longitude").val() : $("#Longitude").text() ;
-
-        console.log(lat);
-        console.log(long);
+        var lat = $("#Latitude").val() ? $("#Latitude").val() : $("#Latitude").text();
+        var long = $("#Longitude").val() ? $("#Longitude").val() : $("#Longitude").text();
 
         //construct a marker and add to the map
         if (lat && long) {
@@ -133,11 +130,12 @@
 
         //create new marker and set fields
         mymap.on('click', function (e) {
+            if ($('#leafmap').attr('data-readable') !== 'leafmap-readonly') {
+                resetMarker(e.latlng);
 
-            resetMarker(e.latlng);
-
-            $("#Latitude").val(e.latlng.lat);
-            $("#Longitude").val(e.latlng.lng);
+                $("#Latitude").val(e.latlng.lat);
+                $("#Longitude").val(e.latlng.lng);
+            }
         });
 
         $('#Latitude').bind('keyup change', function (e) {
@@ -153,6 +151,7 @@
             if (lat)
                 resetMarker([lat, long])
         });
+
 
         function resetMarker(latlng) {
             if (marker == null)
