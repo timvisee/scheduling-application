@@ -58,6 +58,11 @@ namespace backend.Controllers
         // GET: Groups/Create
         public IActionResult Create()
         {
+            if (GetRole() == Role.ReadOnly || GetRole() == Role.Elevated)
+            {
+                return NotFound();
+            }
+
             ViewBag.People = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             return View();
         }
