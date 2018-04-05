@@ -420,11 +420,11 @@ namespace backend.Controllers
                 }
             }
 
-            List<CalendarEvent> ce = new List<CalendarEvent>();
-            foreach (var ev in allEvents)
-            {
-                ce.Add(new CalendarEvent(ev));
-            }
+            //Distincts all events, so no duplicates and return a CalendarEvent instance
+            List<CalendarEvent> ce = allEvents.GroupBy(x => x.Id)
+                .Select(g => g.First())
+                .Select(ev => new CalendarEvent(ev))
+                .ToList();
 
             return Json(ce);
         }
