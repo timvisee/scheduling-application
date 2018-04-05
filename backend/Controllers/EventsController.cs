@@ -11,6 +11,7 @@ using backend.Data;
 using backend.Extensions;
 using backend.Models;
 using backend.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
@@ -33,6 +34,7 @@ namespace backend.Controllers
         }
 
         // GET: Events
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC,READONLY")]
         public IActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -47,6 +49,7 @@ namespace backend.Controllers
         }
 
         // GET: Events/Details/5
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC,READONLY")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -86,6 +89,7 @@ namespace backend.Controllers
         }
 
         // GET: Events/Create
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Create()
         {
             ViewBag.Owners = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
@@ -100,6 +104,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> Create(
             List<int> owners,
             List<int> attendees,
@@ -156,6 +161,7 @@ namespace backend.Controllers
         }
 
         // GET: Events/Edit/5
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -203,6 +209,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Edit(int id, EventView updatedEvent)
         {
             if (id != updatedEvent.Event.Id)
@@ -270,6 +277,7 @@ namespace backend.Controllers
         }
 
         // GET: Events/Delete/5
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -290,6 +298,7 @@ namespace backend.Controllers
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @event = await _context.Events.SingleOrDefaultAsync(m => m.Id == id);
