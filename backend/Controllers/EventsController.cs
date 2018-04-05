@@ -383,15 +383,71 @@ namespace backend.Controllers
         [HttpGet]
         public JsonResult JsonList()
         {
-            var events = from e in _context.Events select e;
-            events = events.OrderBy(e => e.Start);
+            //get logged in user id
+            var user = _context.Users.First(x => x.Id == GetUser().Result.User.Id);
 
-            // Return events with the following keys
-            // https://fullcalendar.io/docs/event-object
-            //
-            // Parse the events to CalendarEvents
+            List <Event> allEvents = new List<Event>();
+
+            //get all attended events of user
+            var attendeeEvents = _context.EventAttendees.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.EventId);
+
+            allEvents.AddRange(_context.Events.Where(
+                x => attendeeEvents.Contains(x.Id)));
+
+            //get all events where the user is the owner
+            var ownerEvents = _context.EventOwners.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.EventId);
+
+            allEvents.AddRange(_context.Events.Where(
+                x => ownerEvents.Contains(x.Id)));
+
+            // Get all linked groups
+            var linkedGroups = _context.PeopleGroups.Where(
+                x => x.PeopleId == user.Id)
+                .Select(x => x.GroupId);
+
+            var groups = _context.Groups.Where(
+                x => linkedGroups.Contains(x.Id));
+
+            //get group events (no deep group events)
+            foreach (var @group in groups)
+            {
+                var ownerIds = _context.EventOwners.Where(
+                    x => x.PeopleId == group.Id)
+                    .Select(x => x.EventId);
+                allEvents.AddRange(_context.Events.Where(
+                    x => ownerIds.Contains(x.Id)));
+
+                var attendeeIds = _context.EventAttendees.Where(
+                        x => x.PeopleId == group.Id)
+                    .Select(x => x.EventId);
+                allEvents.AddRange(_context.Events.Where(
+                    x => attendeeIds.Contains(x.Id)));
+
+                var deepGroups = group.AllGroups();
+
+                //get all deep groups
+                foreach (var deepGroup in deepGroups)
+                {
+                    var deepOwnerIds = _context.EventOwners.Where(
+                            x => x.PeopleId == deepGroup.Id)
+                        .Select(x => x.EventId);
+                    allEvents.AddRange(_context.Events.Where(
+                        x => deepOwnerIds.Contains(x.Id)));
+
+                    var deepAttendeeIds = _context.EventAttendees.Where(
+                            x => x.PeopleId == deepGroup.Id)
+                        .Select(x => x.EventId);
+                    allEvents.AddRange(_context.Events.Where(
+                        x => deepAttendeeIds.Contains(x.Id)));
+                }
+            }
+
             List<CalendarEvent> ce = new List<CalendarEvent>();
-            foreach (var ev in events)
+            foreach (var ev in allEvents)
             {
                 ce.Add(new CalendarEvent(ev));
             }
