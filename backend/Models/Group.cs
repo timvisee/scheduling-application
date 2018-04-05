@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace backend.Models
 {
@@ -51,5 +53,17 @@ namespace backend.Models
                 p.BuildUserAndGroupSets(ref users, ref groups);
             }
         }
+    }
+
+    public class GroupView
+    {
+        public Group group { get; set; }
+
+        public List<People> People { get; set; }
+
+        [Display(Name = "People")]
+        public IEnumerable<SelectListItem> PeopleList { get; set; }
+
+        public IEnumerable<int> SelectedPeople { get; set; }
     }
 }
