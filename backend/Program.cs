@@ -27,7 +27,7 @@ namespace backend
 
                 // Set up a new webhost
                 var host = new WebHostBuilder()
-                    .UseUrls("http://*:80", "https://*:5000")
+                    .UseUrls("http://*:5000")
                     .UseKestrel()
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
