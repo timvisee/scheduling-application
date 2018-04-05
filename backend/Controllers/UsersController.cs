@@ -29,7 +29,7 @@ namespace backend.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if (GetRole() == Role.Elevated || GetRole() == Role.Admin)
             {
