@@ -195,90 +195,70 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            int id,
-            List<int> owners,
-            List<int> attendees,
-            List<int> locations,
-            [Bind("Id,Title,Description,Start,End,Owners,Attendees,Locations")]
-            Event @event
-        )
+        public IActionResult Edit(int id, EventView updatedEvent)
         {
-            if (id != @event.Id)
+            if (id != updatedEvent.Event.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                // First remove all the current couplings between this event and locations, attendees and owners
+                var rml = _context.EventLocations.Where(el => el.EventId == id);
+                var rma = _context.EventAttendees.Where(ea => ea.EventId == id);
+                var rmo = _context.EventOwners.Where(eo => eo.EventId == id);
+                _context.RemoveRange(rml);
+                _context.RemoveRange(rma);
+                _context.RemoveRange(rmo);
+
+                _context.SaveChanges();
+
+
+                // Add locations, attendees and owners
+                if (updatedEvent.SelectedLocations != null)
                 {
-                    _context.Update(@event);
-
-                    // Remove all previous couplings
-                    _context.RemoveRange(
-                        _context.EventOwners.Where(e => e.EventId == id)
-                    );
-                    _context.RemoveRange(
-                        _context.EventAttendees.Where(e => e.EventId == id)
-                    );
-                    _context.RemoveRange(
-                        _context.EventLocations.Where(e => e.EventId == id)
-                    );
-                    _context.SaveChanges();
-
-                    // Add the new couplings
-                    foreach (var peopleId in owners)
+                    foreach (var locationId in updatedEvent.SelectedLocations)
                     {
-                        @event.Owners.Add(
-                            new EventOwner
-                            {
-                                EventId = @event.Id,
-                                PeopleId = peopleId
-                            }
-                        );
-                    }
-
-                    foreach (var peopleId in attendees)
-                    {
-                        @event.Attendees.Add(
-                            new EventAttendee
-                            {
-                                EventId = @event.Id,
-                                PeopleId = peopleId
-                            }
-                        );
-                    }
-
-                    foreach (var locationId in locations)
-                    {
-                        @event.Locations.Add(
-                            new EventLocation
-                            {
-                                EventId = @event.Id,
-                                LocationId = locationId
-                            }
-                        );
-                    }
-
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EventExists(@event.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        _context.EventLocations.Add(new EventLocation
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            LocationId = locationId
+                        });
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                if (updatedEvent.SelectedAttendees != null)
+                {
+                    foreach (var attendeeId in updatedEvent.SelectedAttendees)
+                    {
+                        _context.EventAttendees.Add(new EventAttendee
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            PeopleId = attendeeId
+                        });
+                    }
+                }
+
+                if (updatedEvent.SelectedOwners != null)
+                {
+                    foreach (var ownerId in updatedEvent.SelectedOwners)
+                    {
+                        _context.EventOwners.Add(new EventOwner
+                        {
+                            EventId = updatedEvent.Event.Id,
+                            PeopleId = ownerId
+                        });
+                    }
+                }
+
+                _context.Events.Update(updatedEvent.Event);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(updatedEvent);
         }
 
         // GET: Events/Delete/5

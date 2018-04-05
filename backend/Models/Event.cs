@@ -37,8 +37,6 @@ namespace backend.Models
         public virtual ICollection<EventLocation> Locations { get; set; }
     }
 
-
-
     public class EventView
     {
         public Event Event { get; set; }
