@@ -23,12 +23,8 @@ echo "Remove artifact image..."
 
 echo "Update service to use new image..."
 CMD_UPDATE="docker service update app_app --image $IMAGE_NAME"
-sudo apt-get install sshpass -y
 echo "Run command: $CMD_UPDATE"
-SSHPASS=$SERVER_LOGIN_PASSWORD
-export SSHPASS
-sshpass -e ssh -o PreferredAuthentications=keyboard-interactive -o PubkeyAuthentication=no $SERVER_LOGIN_USER@schedulingapp.visee.me "echo Test worked!"
-sshpass -e ssh -o PreferredAuthentications=keyboard-interactive -o PubkeyAuthentication=no $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
-unset SSHPASS
+ssh $SERVER_LOGIN_USER@schedulingapp.visee.me "echo Test worked!"
+ssh $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
 
 echo "Done"
