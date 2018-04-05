@@ -107,6 +107,9 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+    @if (ViewBag.UserCanEdit)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+    }
     <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
 </div>

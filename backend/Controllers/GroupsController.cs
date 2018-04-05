@@ -65,6 +65,7 @@ namespace backend.Controllers
             if (@group == null)
                 return NotFound();
 
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
 
             //get all related events
             var relatedEvents = _context.EventAttendees.Where(x => x.PeopleId == id).Select(x => x.EventId);

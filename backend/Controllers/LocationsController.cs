@@ -34,6 +34,8 @@ namespace backend.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
             var locations = from e in _context.Locations select e;
             locations = locations.OrderBy(e => e.Name);
 
