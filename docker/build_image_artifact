@@ -7,8 +7,11 @@ echo "Remove old artifacts..."
 ! rm -rf ../artifact
 
 echo "Build appsettings.local.json..."
+echo "= ENCODED =========="
+echo $APPSETTINGS_SECRET
+echo "===================="
 echo $APPSETTINGS_SECRET | base64 -d > ../backend/appsettings.secret.json
-echo "= CONTENTS ========="
+echo "= DECODED =========="
 cat ../backend/appsettings.secret.json
 echo "===================="
 
