@@ -35,6 +35,34 @@ namespace backend.Data
 
             LogUtils.Log("Generating seed data", ConsoleColor.Green);
 
+
+            var roleAdmin = new IdentityRole {
+                Name = "ADMIN",
+                NormalizedName= "ADMIN"
+            };
+
+            var roleBasic = new IdentityRole {
+                Name = "BASIC",
+                NormalizedName= "BASIC"
+            };
+
+            var roleElevated = new IdentityRole {
+                Name = "ELEVATED",
+                NormalizedName= "ELEVATED"
+            };
+
+            var roleReadOnly = new IdentityRole {
+                Name = "READONLY",
+                NormalizedName= "READONLY"
+            };
+
+            context.Roles.Add(roleAdmin);
+            context.Roles.Add(roleBasic);
+            context.Roles.Add(roleElevated);
+            context.Roles.Add(roleReadOnly);
+
+            context.SaveChanges();
+
             /**
              * USERS
              */
