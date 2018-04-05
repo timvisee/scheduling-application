@@ -31,7 +31,6 @@ namespace backend.Controllers
         // GET: Groups
         public IActionResult Index()
         {
-
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 

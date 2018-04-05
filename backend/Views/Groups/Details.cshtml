@@ -93,7 +93,7 @@
                 foreach (Event item in ViewBag.CoupledEvents)
                  {
                      <tr>
-                         <td>@item.Title</td>
+                         <td><a asp-action="Details" asp-controller="Events" asp-route-id="@item.Id">@item.Title</a></td>
                          <td>@item.Description</td>
                      </tr>
                  }
