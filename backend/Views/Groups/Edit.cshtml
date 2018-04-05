@@ -1,4 +1,4 @@
-﻿@model backend.Models.Group
+﻿@model GroupView
 
 @{
     ViewData["Title"] = "Edit Group";
@@ -8,16 +8,19 @@
 <hr/>
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="group.Id" />
     <div class="form-row">
         <div class="form-group col-12">
-            <input asp-for="Name" class="form-control" placeholder="Name" required />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <input asp-for="group.Name" class="form-control" placeholder="Name" required />
+            <span asp-validation-for="group.Name" class="text-danger"></span>
         </div>
         <div class="form-group col-12">
-            <label asp-for="People" class="control-label"></label>
-            <select asp-for="People" asp-items="@ViewBag.ConnectedPeople" class="form-control">
+            <label asp-for="@Model.People" class="control-label"></label>
+            <select asp-for="@Model.SelectedPeople"
+                    class="form-control"
+                    asp-items="@Model.PeopleList">
             </select>
+            <span asp-validation-for="@Model.SelectedPeople" class="text-danger"/>
         </div>
         <div class="form-group col-12">
             <input type="submit" value="Save" class="btn btn-primary" />
