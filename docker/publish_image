@@ -6,16 +6,24 @@ set -e
 echo "Unpack release image snapshot artifact..."
 docker load -i image-artifact.tar.gz
 
-echo "Retag production image..."
-docker tag schedule-app:snapshot timvisee/hhs-p11-schedulingapp:production
+IMAGE_NAME=timvisee/hhs-p11-schedulingapp:release-$RELEASE_RELEASEID
+
+echo "Retag production image to '$IMAGE_NAME'..."
+docker tag schedule-app:snapshot "$IMAGE_NAME"
 
 echo "Login to Docker with user '$DOCKER_LOGIN_USER' with '$DOCKER_LOGIN_PASSWORD'..."
 docker login -u $DOCKER_LOGIN_USER -p $DOCKER_LOGIN_PASSWORD
 
 echo "Push production image to Docker hub..."
-docker push timvisee/hhs-p11-schedulingapp:production
+docker push "$IMAGE_NAME"
+echo "Done pushing images..."
 
 echo "Remove artifact image..."
 ! docker rmi schedule-app:snapshot
+
+echo "Update service to use new image..."
+CMD_UPDATE="docker service update app_app --image $IMAGE_NAME"
+echo "Run command: $CMD_UPDATE"
+ssh -o StrictHostKeyChecking=no $SERVER_LOGIN_USER@schedulingapp.visee.me $CMD_UPDATE
 
 echo "Done"
