@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
@@ -28,10 +29,10 @@ namespace backend.Controllers
         }
 
         // GET: People
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Login", "Account");
+            ViewBag.LoggedInUserId = GetUser().Result.User.Id;
 
             var people = from e in _context.People select e;
             people = people.OrderBy(e => e.DisplayName);
@@ -40,6 +41,7 @@ namespace backend.Controllers
         }
 
         // GET: People/Create
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
             return View();
@@ -62,6 +64,8 @@ namespace backend.Controllers
         }
 
         // GET: People/Edit/5
+
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

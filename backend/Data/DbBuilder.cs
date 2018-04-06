@@ -447,6 +447,46 @@ namespace backend.Data
             // Save the changes to the database context
             context.SaveChanges();
 
+            Console.WriteLine("Creating User Role...");
+            var userRole = new IdentityUserRole<string>
+            {
+                RoleId = roleAdmin.Id,
+                UserId = newuser.Id
+            };
+            context.Add(userRole);
+
+            var userRole2 = new IdentityUserRole<string>
+            {
+                RoleId = roleAdmin.Id,
+                UserId = newuser2.Id
+            };
+            context.Add(userRole2);
+
+            var userRole3 = new IdentityUserRole<string>
+            {
+                RoleId = roleAdmin.Id,
+                UserId = newuser3.Id
+            };
+            context.Add(userRole3);
+
+            var userRole4 = new IdentityUserRole<string>
+            {
+                RoleId = roleAdmin.Id,
+                UserId = newuser4.Id
+            };
+
+            context.Add(userRole4);
+
+            var userRole5 = new IdentityUserRole<string>
+            {
+                RoleId = roleAdmin.Id,
+                UserId = newuser5.Id
+            };
+
+            context.Add(userRole5);
+
+            context.SaveChanges();
+
             // Exit the application if configured, when the built process is complete
             if (Program.AppConfig != null && Program.AppConfig.DatabaseExitAfterReset)
             {
