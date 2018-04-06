@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
@@ -33,17 +34,14 @@ namespace backend.Controllers
         }
 
         // GET: Users
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Index()
         {
-            if (GetRole() == Role.Elevated || GetRole() == Role.Admin)
-            {
-                return RedirectToAction("Index", "People");
-            }
-
             return RedirectToAction("Index", "Home");
         }
 
         // GET: Users/Details/5
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -62,13 +60,9 @@ namespace backend.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
-            if (GetRole() != Role.Admin)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View(new UserView());
         }
 
@@ -127,13 +121,9 @@ namespace backend.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (GetRole() != Role.Admin)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (id == null)
             {
                 return NotFound();
@@ -162,13 +152,9 @@ namespace backend.Controllers
          */
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int id, UserView updatedUser)
         {
-            if (GetRole() != Role.Admin)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (id != updatedUser.User.Id)
             {
                 return NotFound();
@@ -227,12 +213,9 @@ namespace backend.Controllers
         /**
          * Remove functionality
          */
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (GetRole() != Role.Admin)
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
             if (id == null)
             {
@@ -250,13 +233,10 @@ namespace backend.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (GetRole() != Role.Admin)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var @user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
             _context.Users.Remove(@user);
             await _context.SaveChangesAsync();
