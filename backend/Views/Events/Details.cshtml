@@ -24,7 +24,8 @@
     foreach (People owner in ViewBag.Owners) {
         if (owner.IsUser())
         {
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            var user = (User) owner;
+            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
         }
         else
         {
@@ -40,7 +41,8 @@
     foreach (People attendee in ViewBag.Attendees) {
         if (attendee.IsUser())
         {
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            var user = (User) attendee;
+            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
         }
         else
         {

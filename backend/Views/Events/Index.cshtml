@@ -8,7 +8,6 @@
     <div class="col-12">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i>&nbsp;Enrolled Events</h2>
-            <a asp-action="Create" class="btn btn-outline-primary">New Event</a>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -97,4 +96,9 @@
     </div>
 </div>
 
-
+@if(null != TempData["alertMessage"])
+{
+<script type="text/javascript">
+    alert("@TempData["alertMessage"]");
+</script>
+}

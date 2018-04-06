@@ -20,6 +20,7 @@
                 <tr>
                     <th>Firstname</th>
                     <th>Lastname</th>
+                    <th>Type</th>
                     <th>language</th>
                 </tr>
                 </thead>
@@ -36,6 +37,9 @@
                             <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
                                 @item.LastName
                             </a>
+                        </td>
+                        <td>
+                            @item.Type
                         </td>
                         <td>
                             @item.Locale
