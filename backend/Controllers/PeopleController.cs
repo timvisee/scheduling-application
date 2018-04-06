@@ -33,6 +33,8 @@ namespace backend.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 
+            ViewBag.LoggedInUserId = GetUser().Result.User.Id;
+
             var people = from e in _context.People select e;
             people = people.OrderBy(e => e.DisplayName);
 
