@@ -10,14 +10,20 @@ body {
     font-family: 'Ubuntu', Serif, Arial;
 }
 
+.sa-container,
 .calendar-responsive, .table-responsive {
     background-color: #FFFFFF;
     border-radius: 5px;
     margin-top: 15px;
 }
 
+.sa-container,
 .calendar-responsive {
     padding: 15px;
+}
+
+.icon-margin-right {
+    margin-right: 10px;
 }
 
 .fc-toolbar h2 {
@@ -89,7 +95,6 @@ body {
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
 
 .modal .modal-body h5 {
     color: #6C757D;

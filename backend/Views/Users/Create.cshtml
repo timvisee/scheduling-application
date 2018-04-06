@@ -6,73 +6,75 @@
     ViewData["Title"] = "New User";
 }
 
-<h2>Create User</h2>
-<hr/>
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-row">
-        <div class="form-group col-sm-12 col-md-4">
-            <label asp-for="User.FirstName" class="control-label"></label>
-            <input asp-for="User.FirstName" class="form-control" placeholder="First Name" required/>
-            <span asp-validation-for="User.FirstName" class="text-danger"></span>
+<div class="sa-container">
+    <h2>Create User</h2>
+    <hr/>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="form-group col-sm-12 col-md-4">
+                <label asp-for="User.FirstName" class="control-label"></label>
+                <input asp-for="User.FirstName" class="form-control" placeholder="First Name" required/>
+                <span asp-validation-for="User.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-12 col-md-3">
+                <label asp-for="User.Infix" class="control-label"></label>
+                <input asp-for="User.Infix" class="form-control" placeholder="Infix"/>
+                <span asp-validation-for="User.Infix" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-12 col-md-5">
+                <label asp-for="User.LastName" class="control-label"></label>
+                <input asp-for="User.LastName" class="form-control" placeholder="Last Name" required/>
+                <span asp-validation-for="User.LastName" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group col-sm-12 col-md-3">
-            <label asp-for="User.Infix" class="control-label"></label>
-            <input asp-for="User.Infix" class="form-control" placeholder="Infix"/>
-            <span asp-validation-for="User.Infix" class="text-danger"></span>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label asp-for="User.Locale" class="control-label"></label>
+                <input asp-for="User.Locale" class="form-control" placeholder="Locale"/>
+                <span asp-validation-for="User.Locale" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control"/>
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group col-sm-12 col-md-5">
-            <label asp-for="User.LastName" class="control-label"></label>
-            <input asp-for="User.LastName" class="form-control" placeholder="Last Name" required/>
-            <span asp-validation-for="User.LastName" class="text-danger"></span>
+        <div class="form-row">
+            <div class="form-group col-sm-12 col-md-6">
+                <label asp-for="User.Type" class="control-label"></label>
+                <select asp-for="User.Type" asp-items="Html.GetEnumSelectList<Type>()" class="form-control"></select>
+                <span asp-validation-for="User.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-12 col-md-6">
+                <label asp-for="User.Role" class="control-label"></label>
+                <select asp-for="User.Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>
+                <span asp-validation-for="User.Role" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="form-row">
         <div class="form-group col-12">
-            <label asp-for="User.Locale" class="control-label"></label>
-            <input asp-for="User.Locale" class="form-control" placeholder="Locale"/>
-            <span asp-validation-for="User.Locale" class="text-danger"></span>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="User.Deleted"/> @Html.DisplayNameFor(model => model.User.Deleted)
+                </label>
+            </div>
         </div>
         <div class="form-group col-12">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control"/>
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <input type="submit" value="Create" class="btn btn-primary"/>
+            <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
         </div>
-        <div class="form-group col-12">
-            <label asp-for="Password" class="control-label"></label>
-            <input asp-for="Password" class="form-control" type="password"/>
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group col-12">
-            <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control"/>
-            <span asp-validation-for="Phone" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-12 col-md-6">
-            <label asp-for="User.Type" class="control-label"></label>
-            <select asp-for="User.Type" asp-items="Html.GetEnumSelectList<Type>()" class="form-control"></select>
-            <span asp-validation-for="User.Type" class="text-danger"></span>
-        </div>
-        <div class="form-group col-sm-12 col-md-6">
-            <label asp-for="User.Role" class="control-label"></label>
-            <select asp-for="User.Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>
-            <span asp-validation-for="User.Role" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group col-12">
-        <div class="checkbox">
-            <label>
-                <input asp-for="User.Deleted"/> @Html.DisplayNameFor(model => model.User.Deleted)
-            </label>
-        </div>
-    </div>
-    <div class="form-group col-12">
-        <input type="submit" value="Create" class="btn btn-success"/>
-        <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
-    </div>
-</form>
+    </form>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

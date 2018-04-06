@@ -4,23 +4,25 @@
     ViewData["Title"] = "Delete Location";
 }
 
-<h2>Delete Location</h2>
-<hr/>
+<div class="sa-container">
+    <h2>Delete Location</h2>
+    <hr/>
 
-<b>@Html.DisplayNameFor(model => model.Name)</b>
-<p>@Html.DisplayFor(model => model.Name)</p>
+    <b>@Html.DisplayNameFor(model => model.Name)</b>
+    <p>@Html.DisplayFor(model => model.Name)</p>
 
-<b>@Html.DisplayNameFor(model => model.Description)</b>
-<p>@Html.DisplayFor(model => model.Description)</p>
+    <b>@Html.DisplayNameFor(model => model.Description)</b>
+    <p>@Html.DisplayFor(model => model.Description)</p>
 
-<b>@Html.DisplayNameFor(model => model.Latitude)</b>
-<p>@Html.DisplayFor(model => model.Latitude)</p>
+    <b>@Html.DisplayNameFor(model => model.Latitude)</b>
+    <p>@Html.DisplayFor(model => model.Latitude)</p>
 
-<b>@Html.DisplayNameFor(model => model.Longitude)</b>
-<p>@Html.DisplayFor(model => model.Longitude)</p>
-    
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Delete" class="btn btn-danger" />
-    <a asp-action="Index" class="btn btn-light">Cancel</a>
-</form>
+    <b>@Html.DisplayNameFor(model => model.Longitude)</b>
+    <p>@Html.DisplayFor(model => model.Longitude)</p>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id"/>
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</div>

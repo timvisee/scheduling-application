@@ -4,37 +4,38 @@
 @{
     ViewData["Title"] = "Location Details";
 }
+<div class="sa-container">
+    <h2>Location Details</h2>
+    <hr/>
+    <div class="row">
+        <div class="col-xs-12 col-md-4 mb-3">
+            <b>@Html.DisplayNameFor(model => model.Name)</b>
+            <p>@Html.DisplayFor(model => model.Name)</p>
 
-<h2>Location Details</h2>
-<hr/>
-<div class="row">
-    <div class="col-xs-12 col-md-4 mb-3">
-        <b>@Html.DisplayNameFor(model => model.Name)</b>
-        <p>@Html.DisplayFor(model => model.Name)</p>
+            <b>@Html.DisplayNameFor(model => model.Description)</b>
+            <p>@Html.DisplayFor(model => model.Description)</p>
 
-        <b>@Html.DisplayNameFor(model => model.Description)</b>
-        <p>@Html.DisplayFor(model => model.Description)</p>
+            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <b>@Html.DisplayNameFor(model => model.Latitude)</b>
+                <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
 
-        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
-        {
-            <b>@Html.DisplayNameFor(model => model.Latitude)</b>
-            <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
+                <b>@Html.DisplayNameFor(model => model.Longitude)</b>
+                <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
+            }
 
-            <b>@Html.DisplayNameFor(model => model.Longitude)</b>
-            <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
-        }
+            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            }
 
-        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
-        {
-            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-        }
-
-        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
-        {
-            <a class="btn btn-light" asp-action="Index">Back to List</a>
-        }
-    </div>
-    <div class="col-xs-12 col-md-8 mb-3">
-        <div id="leafmap" data-readable="leafmap-readonly"></div>
+            @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
+            {
+                <a class="btn btn-light" asp-action="Index">Back to List</a>
+            }
+        </div>
+        <div class="col-xs-12 col-md-8 mb-3">
+            <div id="leafmap" data-readable="leafmap-readonly"></div>
+        </div>
     </div>
 </div>
