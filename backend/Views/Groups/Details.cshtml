@@ -1,4 +1,5 @@
-﻿@model backend.Models.Group
+﻿@using backend.Extensions
+@model backend.Models.Group
 
 @{
     ViewData["Title"] = "Group Details";
@@ -29,14 +30,27 @@
                 {
                     <tr>
                         <td>
+                            @if(User.IsInAnyRoles("ADMIN", "ELEVATED")){
                             <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
                                 @item.FirstName
                             </a>
+                            }
+                            else
+                            {
+                                @item.FirstName
+                            }
                         </td>
                         <td>
-                            <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                            {
+                                <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                                    @item.LastName
+                                </a>
+                            }
+                            else
+                            {
                                 @item.LastName
-                            </a>
+                            }
                         </td>
                         <td>
                             @item.Type
@@ -115,5 +129,5 @@
     {
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
     }
-    <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
+    <a asp-controller="Groups" asp-action="Index" class="btn btn-light">Back to List</a>
 </div>

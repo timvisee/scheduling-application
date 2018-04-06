@@ -1,4 +1,5 @@
-﻿@model IEnumerable<backend.Models.Group>
+﻿@using backend.Extensions
+@model IEnumerable<backend.Models.Group>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,7 +11,7 @@
     <div class="col-6">
         <div class="table-header">
             <h2><i class="fas fa-users"></i> Groups available</h2>
-            @if(!User.IsInRole("READONLY"))
+            @if(User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
                 <a asp-action="Create" class="btn btn-outline-primary">New group</a>
             }

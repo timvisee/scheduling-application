@@ -1,5 +1,6 @@
 ﻿@using System.Diagnostics
 @using System.Runtime.InteropServices.ComTypes
+@using backend.Extensions
 @model IEnumerable<backend.Models.Event>
 
 @{
@@ -13,7 +14,7 @@
                 <h6 class="card-title">
                     Register for a group
                 </h6>
-                @if (User.IsInRole("ADMIN, ELEVATED, BASIC")){
+                @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC")){
                 <a asp-controller="Groups" asp-action="Index" class="btn btn-primary">Enroll</a>
                 }
                 else{
@@ -40,7 +41,7 @@
                 <h6 class="card-title">
                     Register a custom location
                 </h6>
-                @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+                @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
                 {
                     <a asp-controller="Locations" asp-action="Index" class="btn btn-primary">Add</a>
                 }

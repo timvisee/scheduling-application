@@ -1,4 +1,5 @@
-﻿@model backend.Models.Location
+﻿@using backend.Extensions
+@model backend.Models.Location
 
 @{
     ViewData["Title"] = "Location Details";
@@ -14,15 +15,22 @@
         <b>@Html.DisplayNameFor(model => model.Description)</b>
         <p>@Html.DisplayFor(model => model.Description)</p>
 
-        <b>@Html.DisplayNameFor(model => model.Latitude)</b>
-        <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
+        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+        {
+            <b>@Html.DisplayNameFor(model => model.Latitude)</b>
+            <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
 
-        <b>@Html.DisplayNameFor(model => model.Longitude)</b>
-        <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
+            <b>@Html.DisplayNameFor(model => model.Longitude)</b>
+            <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
+        }
 
-        @if (User.IsInRole("ADMIN, ELEVATED"))
+        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
         {
             <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        }
+
+        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
+        {
             <a class="btn btn-light" asp-action="Index">Back to List</a>
         }
     </div>

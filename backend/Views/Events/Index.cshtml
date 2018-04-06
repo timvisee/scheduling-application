@@ -1,4 +1,5 @@
-﻿@model IEnumerable<backend.Models.Event>
+﻿@using backend.Extensions
+@model IEnumerable<backend.Models.Event>
 
 @{
     ViewData["Title"] = "Event Overview";
@@ -17,7 +18,7 @@
                     <th>@Html.DisplayNameFor(model => model.Description)</th>
                     <th>@Html.DisplayNameFor(model => model.Start) Date</th>
                     <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                    @if (User.IsInRole("ADMIN, BASIC, ELEVATED"))
+                    @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
                     {
                         <th>Actions</th>
                     }
@@ -34,8 +35,9 @@
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
-                        @if(User.IsInRole("ADMIN, ELEVATED, BASIC")){
-                        <td>
+                        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
+                        {
+                            <td>
                             <a class="badge badge-danger" asp-action="Leave" asp-route-id="@item.Id">Leave
                             </a>
                         </td>
@@ -56,7 +58,7 @@
     <div class="col-12 pt-5">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i>&nbsp;Open events</h2>
-            @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
             {
                 <a asp-action="Create" class="btn btn-outline-primary">New Event</a>
             }
@@ -69,7 +71,7 @@
                         <th>@Html.DisplayNameFor(model => model.Description)</th>
                         <th>@Html.DisplayNameFor(model => model.Start) Date</th>
                         <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                        @if (User.IsInRole("BASIC, ELEVATED, ADMIN"))
+                        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
                         {
                             <th>Actions</th>
                         }
@@ -86,7 +88,7 @@
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
-                        @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+                        @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
                         {
                             <td>
                                 <a class="badge badge-success" asp-action="Enroll" asp-route-id="@item.Id">Enroll

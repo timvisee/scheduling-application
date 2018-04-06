@@ -1,4 +1,5 @@
-﻿@model backend.Models.Event
+﻿@using backend.Extensions
+@model backend.Models.Event
 
 @{
     ViewData["Title"] = "Events Details";
@@ -25,7 +26,7 @@
         if (owner.IsUser())
         {
             var user = (User) owner;
-            if (User.IsInRole("ADMIN, ELEVATED"))
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
                 <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
             }
@@ -37,7 +38,7 @@
         }
         else
         {
-            if (User.IsInRole("ADMIN, ELEVATED"))
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
                 <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
             }
@@ -57,7 +58,7 @@
         if (attendee.IsUser())
         {
             var user = (User) attendee;
-            if (User.IsInRole("ADMIN, ELEVATED"))
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
                 <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
             }
@@ -68,7 +69,7 @@
         }
         else
         {
-            if (User.IsInRole("ADMIN, ELEVATED"))
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
                 <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
             }
