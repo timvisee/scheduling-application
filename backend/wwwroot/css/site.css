@@ -1,6 +1,13 @@
-﻿body {
+﻿@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    src: url("/fonts/Ubuntu-L.ttf") format("truetype");
+}
+
+body {
     background-color: gainsboro;
-    font-family: Ubuntu, Serif, Arial;
+    font-family: 'Ubuntu', Serif, Arial;
 }
 
 .calendar-responsive, .table-responsive {
@@ -11,6 +18,44 @@
 
 .calendar-responsive {
     padding: 15px;
+}
+
+.fc-toolbar h2 {
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .fc-toolbar h2 {
+        display: block;
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .fc-toolbar h2 {
+        font-size: 1.5rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .fc-toolbar h2 {
+        font-size: 1.5rem;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 992px) {
+    .fc-toolbar h2 {
+        font-size: 2rem;
+        margin-top: 0;
+    }
+}
+
+.fc-day-header {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .table-header {
@@ -44,6 +89,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
 
 .modal .modal-body h5 {
     color: #6C757D;

@@ -1,5 +1,4 @@
-﻿@using backend.Extensions
-@model IEnumerable<backend.Models.Location>
+﻿@model IEnumerable<backend.Models.Location>
 
 @{
     ViewData["Title"] = "Location Overview";
@@ -33,7 +32,7 @@
                 {
                     <tr>
                         <td><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
                         {
                             <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
