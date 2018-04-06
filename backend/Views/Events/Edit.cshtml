@@ -2,67 +2,62 @@
 
 @{
     ViewData["Title"] = "Edit Event";
-
-    //    foreach (var location in ViewBag.Locations)
-    //    {
-    //        Console.WriteLine(location.Text);
-    //        Console.WriteLine(location.Selected);
-    //        Console.WriteLine("--");
-    //    }
 }
 
-<h2>Edit Event</h2>
-<hr/>
-<form asp-action="Edit">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Event.Id"/>
-    <div class="form-row">
-        <div class="form-group col-12">
-            <input asp-for="Event.Title" class="form-control" placeholder="Title" required/>
-            <span asp-validation-for="Event.Title" class="text-danger"></span>
+<div class="sa-container">
+    <h2>Edit Event</h2>
+    <hr/>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Event.Id"/>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <input asp-for="Event.Title" class="form-control" placeholder="Title" required/>
+                <span asp-validation-for="Event.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <input asp-for="Event.Description" class="form-control" placeholder="Description"/>
+                <span asp-validation-for="Event.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group col-xs-12 col-sm-6">
+                <input asp-for="Event.Start" class="form-control datetimepicker" placeholder="Start date" type="text" placeholder="2018/04/22 10:00:00" required/>
+                <span asp-validation-for="Event.Start" class="text-danger"></span>
+            </div>
+            <div class="form-group col-xs-12 col-sm-6">
+                <input asp-for="Event.End" class="form-control datetimepicker" placeholder="End date" type="text" placeholder="2018/04/22 11:00:00" required/>
+                <span asp-validation-for="Event.End" class="text-danger"></span>
+            </div>
+            <div class="form-group col-xs-12 col-md-4">
+                <label asp-for="@Model.Owners" class="control-label"></label>
+                <select asp-for="@Model.SelectedOwners"
+                        class="form-control"
+                        asp-items="@Model.OwnerList">
+                </select>
+                <span asp-validation-for="@Model.SelectedOwners" class="text-danger"/>
+            </div>
+            <div class="form-group col-xs-12 col-md-4">
+                <label asp-for="@Model.Attendees" class="control-label"></label>
+                <select asp-for="@Model.SelectedAttendees"
+                        class="form-control"
+                        asp-items="@Model.AttendeeList">
+                </select>
+                <span asp-validation-for="@Model.SelectedAttendees" class="text-danger"/>
+            </div>
+            <div class="form-group col-xs-12 col-md-4">
+                <label asp-for="@Model.Locations" class="control-label"></label>
+                <select asp-for="@Model.SelectedLocations"
+                        class="form-control"
+                        asp-items="@Model.LocationList">
+                </select>
+                <span asp-validation-for="@Model.SelectedLocations" class="text-danger"/>
+            </div>
+            <div class="form-group col-xs-12">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </div>
         </div>
-        <div class="form-group col-12">
-            <input asp-for="Event.Description" class="form-control" placeholder="Description"/>
-            <span asp-validation-for="Event.Description" class="text-danger"></span>
-        </div>
-        <div class="form-group col-xs-12 col-sm-6">
-            <input asp-for="Event.Start" class="form-control datetimepicker" placeholder="Start date" type="text" placeholder="2018/04/22 10:00:00" required/>
-            <span asp-validation-for="Event.Start" class="text-danger"></span>
-        </div>
-        <div class="form-group col-xs-12 col-sm-6">
-            <input asp-for="Event.End" class="form-control datetimepicker" placeholder="End date" type="text" placeholder="2018/04/22 11:00:00" required/>
-            <span asp-validation-for="Event.End" class="text-danger"></span>
-        </div>
-        <div class="form-group col-xs-12 col-md-4">
-            <label asp-for="@Model.Owners" class="control-label"></label>
-            <select asp-for="@Model.SelectedOwners"
-                    class="form-control"
-                    asp-items="@Model.OwnerList">
-            </select>
-            <span asp-validation-for="@Model.SelectedOwners" class="text-danger"/>
-        </div>
-        <div class="form-group col-xs-12 col-md-4">
-            <label asp-for="@Model.Attendees" class="control-label"></label>
-            <select asp-for="@Model.SelectedAttendees"
-                    class="form-control"
-                    asp-items="@Model.AttendeeList">
-            </select>
-            <span asp-validation-for="@Model.SelectedAttendees" class="text-danger"/>
-        </div>
-        <div class="form-group col-xs-12 col-md-4">
-            <label asp-for="@Model.Locations" class="control-label"></label>
-            <select asp-for="@Model.SelectedLocations"
-                    class="form-control"
-                    asp-items="@Model.LocationList">
-            </select>
-            <span asp-validation-for="@Model.SelectedLocations" class="text-danger"/>
-        </div>
-        <div class="form-group col-xs-12">
-            <input type="submit" value="Save" class="btn btn-success"/>
-            <a asp-action="Index" class="btn btn-light">Cancel</a>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 @section Scripts {
     <script src="~/js/datetimepicker.js"></script>
