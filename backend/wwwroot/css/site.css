@@ -1,6 +1,13 @@
-﻿body {
+﻿@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    src: url("/fonts/Ubuntu-L.ttf") format("truetype");
+}
+
+body {
     background-color: gainsboro;
-    font-family: Ubuntu, Serif, Arial;
+    font-family: 'Ubuntu', Serif, Arial;
 }
 
 .calendar-responsive, .table-responsive {
