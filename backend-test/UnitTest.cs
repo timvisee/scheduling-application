@@ -1,6 +1,7 @@
 ﻿using backend.Models;
 using backend.Types;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace backend_test
@@ -14,14 +15,14 @@ namespace backend_test
             {
                 Title = "Rust Programming",
                 Description = "Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.",
-                Start = new DateTime(2018, 04, 06, 9, 0, 0, 0),
-                End = new DateTime(2018, 04, 06, 16, 0, 0, 0),
+                Start = new DateTime(2018, 04, 06, 9, 0, 0),
+                End = new DateTime(2018, 04, 06, 16, 0, 0),
             };
 
             Assert.Equal("Rust Programming", e.Title);
             Assert.Equal("Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.", e.Description);
-            Assert.Equal(new DateTime(2018, 04, 06, 9, 0, 0, 0), e.Start);
-            Assert.Equal(new DateTime(2018, 04, 06, 16, 0, 0, 0), e.End);
+            Assert.Equal(new DateTime(2018, 04, 06, 9, 0, 0), e.Start);
+            Assert.Equal(new DateTime(2018, 04, 06, 16, 0, 0), e.End);
         }
 
         [Fact]
@@ -50,7 +51,7 @@ namespace backend_test
                 LastName = "Doe",
                 Locale = "en_US",
                 Type = backend.Types.Type.Student,
-                Role = backend.Types.Role.Basic,
+                Role = Role.Basic,
                 Deleted = false,
             };
 
@@ -58,44 +59,78 @@ namespace backend_test
             Assert.Equal("Doe", u.LastName);
             Assert.Equal("en_US", u.Locale);
             Assert.Equal(backend.Types.Type.Student, u.Type);
-            Assert.Equal(backend.Types.Role.Basic, u.Role);
+            Assert.Equal(Role.Basic, u.Role);
             Assert.False(u.Deleted);
         }
 
         [Fact]
         public void assertGroup()
         {
-            User a = new User()
+            Event e = new Event()
+            {
+                Title = "Test title",
+                Description = "Test description",
+                Start = new DateTime(2018, 4, 6, 9, 0, 0),
+                End = new DateTime(2018, 4, 6, 9, 0, 0),
+            };
+            
+            User u1 = new User()
             {
                 FirstName = "Elliot",
                 LastName = "Alderson",
                 Type = backend.Types.Type.Student,
-                Role = backend.Types.Role.Basic,
+                Role = Role.Basic,
             };
 
-            User b = new User()
+            User u2 = new User()
             {
                 FirstName = "Darlene",
                 LastName = "Alderson",
                 Type = backend.Types.Type.Student,
-                Role = backend.Types.Role.Basic,
+                Role = Role.Basic,
+            };
+            
+            EventOwner eo1  = new EventOwner()
+            {
+                Event = e,
+                People = u1,
+            };
+            
+            EventAttendee ea1 = new EventAttendee()
+            {
+                Event = e,
+                People = u1,
+            };
+            
+            EventAttendee ea2 = new EventAttendee()
+            {
+                Event = e,
+                People = u2,
             };
 
             Group g = new Group()
             {
                 Name = "Linux Hackers",
-                // TODO: Add user a and b to this group
+                EventsOwn = new List<EventOwner> {eo1},
+                EventsAttend = new List<EventAttendee> {ea1, ea2},
             };
 
             Assert.Equal("Linux Hackers", g.Name);
+            Assert.Equal(1, g.EventsOwn.Count);
+            Assert.Equal(2, g.EventsAttend.Count);
         }
 
         [Fact]
         public void assertPeople()
         {
-            // User u = new User() {};
-            // Group g = new Group() {};
-            // People p = new People() {};
+            User tim    = new User() { FirstName = "Tim",    LastName = "Visée"      };
+            User fleur  = new User() { FirstName = "Fleur",  LastName = "Arkesteijn" };
+            User simon  = new User() { FirstName = "Simon",  LastName = "Haasnoot"   };
+            User dennis = new User() { FirstName = "Dennis", LastName = "Volkering"  };
+            User nathan = new User() { FirstName = "Nathan", LastName = "Bakhuijzen" };
+            
+            Group beunit = new Group();
+            beunit.Name = "BeunIT";
         }
     }
 }
