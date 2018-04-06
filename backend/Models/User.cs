@@ -12,19 +12,24 @@ namespace backend.Models
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Infix")] public string Infix { get; set; }
+        [Display(Name = "Infix")]
+        public string Infix { get; set; }
 
         [Required]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Locale")] public string Locale { get; set; }
+        [Display(Name = "Locale")]
+        public string Locale { get; set; }
 
-        [Display(Name = "Type")] public Type Type { get; set; }
+        [Display(Name = "Type")]
+        public Type Type { get; set; }
 
-        [Display(Name = "Role")] public Role Role { get; set; }
+        [Display(Name = "Role")]
+        public Role Role { get; set; }
 
-        [Display(Name = "Deleted")] public bool Deleted { get; set; }
+        [Display(Name = "Archived")]
+        public bool Deleted { get; set; }
 
         public override bool IsUser()
         {
@@ -51,9 +56,11 @@ namespace backend.Models
             }
         }
 
-        [NotMapped] public override string DisplayName => FullName;
+        [NotMapped]
+        public override string DisplayName => FullName;
 
-        [NotMapped] public override string TypedDisplayName => "User: " + FullName;
+        [NotMapped]
+        public override string TypedDisplayName => "User: " + FullName;
 
         protected internal override void BuildUserAndGroupSets(ref HashSet<User> users, ref HashSet<Group> groups)
         {

@@ -101,6 +101,13 @@ namespace backend.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            var appUser = _context.ApplicationUsers.FirstOrDefault(u => u.UserID == model.User.Id);
+
+            // Beun: first remove all roles
+            await _userManager.RemoveFromRolesAsync(appUser, _context.Roles.Select(e => e.Name));
+
+            // Add user to role
+            await _userManager.AddToRoleAsync(user, model.User.Role.ToString());
 
             var email = user.Email;
             if (model.Email != email)
