@@ -5,95 +5,126 @@
     ViewData["Title"] = "Events Details";
 }
 
-<h2>Event Details</h2>
-<hr/>
+<div class="sa-container row">
+    <div class="col-md-12 col-sm-12">
+        <h2>Event Details</h2>
+        <hr/>
+    </div>
 
-<b>@Html.DisplayNameFor(model => model.Title)</b>
-<p>@Html.DisplayFor(model => model.Title)</p>
+    <div class="col-md-6 col-sm-12">
+        <b>@Html.DisplayNameFor(model => model.Title)</b>
+        <p>@Html.DisplayFor(model => model.Title)</p>
 
-<b>@Html.DisplayNameFor(model => model.Description)</b>
-<p>@Html.DisplayFor(model => model.Description)</p>
+        <b>@Html.DisplayNameFor(model => model.Description)</b>
+        <p>@Html.DisplayFor(model => model.Description)</p>
 
-<b>@Html.DisplayNameFor(model => model.Start)</b>
-<p>@Html.DisplayFor(model => model.Start)</p>
+        <b>
+            <i class="fas fa-calendar-alt icon-margin-right"></i>@Html.DisplayNameFor(model => model.Start)</b>
+        <p>@Html.DisplayFor(model => model.Start)</p>
 
-<b>@Html.DisplayNameFor(model => model.End)</b>
-<p>@Html.DisplayFor(model => model.End)</p>
-
-<b>Owners</b>
-@if (ViewBag.Owners != null) {
-    foreach (People owner in ViewBag.Owners) {
-        if (owner.IsUser())
+        <b>
+            <i class="fas fa-calendar-alt icon-margin-right"></i>@Html.DisplayNameFor(model => model.End)</b>
+        <p>@Html.DisplayFor(model => model.End)</p>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <b><i class="fas fa-users icon-margin-right"></i>Owners</b>
+        @if (ViewBag.Owners != null)
         {
-            var user = (User) owner;
-            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            foreach (People owner in ViewBag.Owners)
             {
-                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
-            }
-            else
-            {
-                <p>@user.DisplayName (@user.Type)</p>
-            }
-
-        }
-        else
-        {
-            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
-            {
-                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
-            }
-            else
-            {
-                <p>@owner.DisplayName</p>
-            }
-        }
-    }
-} else {
-    <p>No owners found</p>
-}
-
-<b>Attendees</b>
-@if (ViewBag.Attendees != null) {
-    foreach (People attendee in ViewBag.Attendees) {
-        if (attendee.IsUser())
-        {
-            var user = (User) attendee;
-            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
-            {
-                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
-            }
-            else
-            {
-                <p>@user.DisplayName (@user.Type)</p>
+                if (owner.IsUser())
+                {
+                    var user = (User) owner;
+                    if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                    {
+                        <p>
+                            <a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>@user.DisplayName (@user.Type)</p>
+                    }
+                }
+                else
+                {
+                    if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                    {
+                        <p>
+                            <a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>@owner.DisplayName</p>
+                    }
+                }
             }
         }
         else
         {
-            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            <p>No owners found</p>
+        }
+
+        <b><i class="fas fa-users icon-margin-right"></i>Attendees</b>
+        @if (ViewBag.Attendees != null)
+        {
+            foreach (People attendee in ViewBag.Attendees)
             {
-                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
-            }
-            else
-            {
-                <p>@attendee.DisplayName</p>
+                if (attendee.IsUser())
+                {
+                    var user = (User) attendee;
+                    if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                    {
+                        <p>
+                            <a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>@user.DisplayName (@user.Type)</p>
+                    }
+                }
+                else
+                {
+                    if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                    {
+                        <p>
+                            <a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>@attendee.DisplayName</p>
+                    }
+                }
             }
         }
-    }
-} else {
-    <p>No attendees found</p>
-}
+        else
+        {
+            <p>No attendees found</p>
+        }
 
-<b>Locations</b>
-@if (ViewBag.Locations != null) {
-    foreach (Location location in ViewBag.Locations) {
-        <p><a asp-controller="Locations" asp-action="Details" asp-route-id="@(location.Id)">@location.Name</a></p>
-    }
-} else {
-    <p>No locations found</p>
-}
+        <b><i class="fas fa-map-marker icon-margin-right"></i>Locations</b>
+        @if (ViewBag.Locations != null)
+        {
+            <p>
+                @foreach (Location location in ViewBag.Locations)
+                {
+                    <a asp-controller="Locations" asp-action="Details" asp-route-id="@(location.Id)">@location.Name</a><br />
+                }
+            </p>
+        }
+        else
+        {
+            <p>No locations found</p>
+        }
+    </div>
 
-@if (ViewBag.UserCanEdit)
-{
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-}
-<a class="btn btn-light" asp-action="Index">Back to List</a>
+
+    @if (ViewBag.UserCanEdit)
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+    <a class="btn btn-light" asp-action="Index">Back to List</a>
+</div>
