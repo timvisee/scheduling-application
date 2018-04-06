@@ -1,18 +1,19 @@
-﻿@model IEnumerable<backend.Models.Group>
+﻿@using backend.Extensions
+@model IEnumerable<backend.Models.Group>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Group Overview</h2>
-<hr/>
+<hr>
 <div class="row">
-    <div class="col-xs-12 col-md-6 mb-3">
+    <div class="col-6">
         <div class="table-header">
-            <h2><i class="fas fa-users"></i> Available Groups</h2>
-            @if(ViewBag.UserCanEdit)
+            <h2><i class="fas fa-users"></i> Groups available</h2>
+            @if(User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
-                <a asp-action="Create" class="btn btn-outline-primary">New</a>
+                <a asp-action="Create" class="btn btn-outline-primary">New group</a>
             }
         </div>
         <div class="table-responsive">
@@ -21,7 +22,7 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Name)</th>
                     <th>Actions</th>
-                    @if (ViewBag.UserCanEdit)
+                    @if (User.IsInRole("ADMIN"))
                     {
                         <th>Extra</th>
                     }
@@ -34,10 +35,9 @@
                         <td>
                             <a class="badge badge-success"asp-action="Enroll" asp-controller="Groups" asp-route-id="@item.Id">Enroll</a>
                         </td>
-                        @if(ViewBag.UserCanEdit){
+                        @if(User.IsInRole("ADMIN")){
                             <td>
-                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
-                                <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         }
@@ -47,9 +47,13 @@
             </table>
         </div>
     </div>
-    <div class="col-xs-12 col-md-6 mb-3">
+    <div class="col-6">
         <div class="table-header">
-            <h2><i class="fas fa-check text-success"></i> Enrolled Groups</h2>
+            <h2><i class="fas fa-check text-success"></i>&nbsp;Enrolled groups</h2>
+            @if(User.IsInRole("ADMIN"))
+            {
+                <a asp-action="Create" class="btn btn-outline-primary">New group</a>
+            }
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -57,7 +61,7 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Name)</th>
                     <th>Actions</th>
-                    @if (ViewBag.UserCanEdit)
+                    @if (User.IsInRole("ADMIN"))
                     {
                         <th>Extra</th>
                     }
@@ -70,10 +74,9 @@
                         <td>
                             <a class="badge badge-danger"asp-action="Leave" asp-controller="Groups" asp-route-id="@item.Id">Leave</a>
                         </td>
-                        @if(ViewBag.UserCanEdit){
+                        @if(User.IsInRole("ADMIN")){
                             <td>
-                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
-                                <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         }

@@ -1,4 +1,5 @@
-﻿@model backend.Models.Event
+﻿@using backend.Extensions
+@model backend.Models.Event
 
 @{
     ViewData["Title"] = "Events Details";
@@ -24,11 +25,27 @@
     foreach (People owner in ViewBag.Owners) {
         if (owner.IsUser())
         {
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            var user = (User) owner;
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
+            }
+            else
+            {
+                <p>@user.DisplayName (@user.Type)</p>
+            }
+
         }
         else
         {
-            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            }
+            else
+            {
+                <p>@owner.DisplayName</p>
+            }
         }
     }
 } else {
@@ -40,11 +57,26 @@
     foreach (People attendee in ViewBag.Attendees) {
         if (attendee.IsUser())
         {
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            var user = (User) attendee;
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
+            }
+            else
+            {
+                <p>@user.DisplayName (@user.Type)</p>
+            }
         }
         else
         {
-            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+            {
+                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            }
+            else
+            {
+                <p>@attendee.DisplayName</p>
+            }
         }
     }
 } else {
