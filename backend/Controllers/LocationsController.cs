@@ -9,6 +9,7 @@ using backend.Data;
 using backend.Extensions;
 using backend.Models;
 using backend.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
@@ -29,6 +30,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -43,6 +45,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Details/5
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,6 +64,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Create
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public IActionResult Create()
         {
             return View();
@@ -71,6 +75,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Latitude,Longitude")] Location location)
         {
             if (ModelState.IsValid)
@@ -83,6 +88,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Edit/5
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -103,6 +109,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Latitude,Longitude")] Location location)
         {
             if (id != location.Id)
@@ -134,6 +141,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Delete/5
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,6 +162,7 @@ namespace backend.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var location = await _context.Locations.SingleOrDefaultAsync(m => m.Id == id);

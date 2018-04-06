@@ -4,8 +4,6 @@
     ViewData["Title"] = "People Overview";
 }
 
-<h2>People Overview</h2>
-<hr/>
 <div class="row">
     <div class="col-md-6">
         <div class="table-responsive">
@@ -82,6 +80,11 @@
                             </tr>
                         }
                     }
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <a asp-action="Deleted" asp-controller="People" class="text-secondary">Show removed users</a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

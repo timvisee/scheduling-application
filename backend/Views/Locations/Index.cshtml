@@ -8,7 +8,10 @@
     <div class="col-12">
         <div class="table-header">
             <h2><i class="fas fa-map-marker"></i> Locations</h2>
-            <a asp-action="Create" class="btn btn-outline-primary">New Location</a>
+            @if (User.IsInRole("ADMIN"))
+            {
+                <a asp-action="Create" class="btn btn-outline-primary">New Location</a>
+            }
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -16,7 +19,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.Name)</th>
                         <th>@Html.DisplayNameFor(model => model.Description)</th>
-                        @if (ViewBag.UserCanEdit)
+                        @if (User.IsInRole("ADMIN"))
                         {
                             <th>@Html.DisplayNameFor(model => model.Latitude)</th>
                             <th>@Html.DisplayNameFor(model => model.Longitude)</th>
@@ -25,20 +28,21 @@
                         </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model) {
+                @foreach (var item in Model)
+                {
                     <tr>
                         <td><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        @if (ViewBag.UserCanEdit)
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                        <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                            @if (User.IsInRole("ADMIN"))
+                            {
                                 <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>
-                        }
+                            }
+                        </td>
                     </tr>
                 }
                 </tbody>

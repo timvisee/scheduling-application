@@ -17,7 +17,7 @@ services:
     networks:
       - scheduleapp
     deploy:
-        replicas: 1
+        replicas: 3
 
 networks:
   scheduleapp:

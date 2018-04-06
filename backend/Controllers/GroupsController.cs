@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using backend.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers
@@ -31,6 +32,7 @@ namespace backend.Controllers
         }
 
         // GET: Groups
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -44,7 +46,8 @@ namespace backend.Controllers
             }
 
             //get all enrolled groups for user
-            var enrolledIds = _context.PeopleGroups.Where(x => x.PeopleId == GetUser().Result.User.Id).Select(x => x.GroupId);
+            var enrolledIds = _context.PeopleGroups.Where(x => x.PeopleId == GetUser().Result.User.Id)
+                .Select(x => x.GroupId);
             ViewBag.EnrolledGroups = _context.Groups.Where(x => enrolledIds.Contains(x.Id)).ToList();
 
             //get all leftover groups
@@ -54,6 +57,7 @@ namespace backend.Controllers
         }
 
         // GET: Groups/Details/5
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,6 +80,7 @@ namespace backend.Controllers
         }
 
         // GET: Groups/Create
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public IActionResult Create()
         {
             if (GetRole() == Role.ReadOnly || GetRole() == Role.Elevated)
@@ -92,6 +97,7 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Create(List<int> People, [Bind("Id,Name,People")] Group @group)
         {
             if (ModelState.IsValid)
@@ -124,6 +130,7 @@ namespace backend.Controllers
         }
 
         // GET: Groups/Edit/5
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -154,7 +161,8 @@ namespace backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, GroupView updatedGroup)
+        [Authorize(Roles = "ADMIN,ELEVATED")]
+        public IActionResult Edit(int id, GroupView updatedGroup)
         {
             if (id != updatedGroup.group.Id)
             {
@@ -190,6 +198,7 @@ namespace backend.Controllers
         }
 
         // GET: Groups/Delete/5
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -210,6 +219,7 @@ namespace backend.Controllers
         // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ELEVATED")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
@@ -226,6 +236,7 @@ namespace backend.Controllers
         /**
          * Leave a group which a user is enrolled for
          */
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Leave(int? id)
         {
             if (!User.Identity.IsAuthenticated)
@@ -235,13 +246,14 @@ namespace backend.Controllers
                 _context.PeopleGroups.Where(
                     x => x.GroupId == id &&
                          x.PeopleId == GetUser().Result.User.Id
-                         ));
+                ));
 
             _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
         public IActionResult Enroll(int id)
         {
             if (!User.Identity.IsAuthenticated)

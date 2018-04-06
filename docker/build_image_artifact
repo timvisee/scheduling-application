@@ -1,10 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
 # Immediately stop the script if an error occurred
 set -e
 
 echo "Remove old artifacts..."
 ! rm -rf ../artifact
+
+echo "Build appsettings.local.json..."
+echo "= ENCODED =========="
+echo $APPSETTINGS_SECRET
+echo $APPSETTINGS_SECRET | base64 -d > ../backend/appsettings.local.json
+echo "= DECODED =========="
+cat ../backend/appsettings.local.json
+echo "===================="
 
 echo "Start image build process..."
 ./build
@@ -16,8 +24,8 @@ docker save schedule-app:snapshot -o ../artifact/image-artifact.tar.gz
 echo "Artifact publishing script..."
 cp ./publish_image ../artifact
 
-echo "Remove built snapshot images..."
-! docker rmi schedule-dotnet:snapshot schedule-app:snapshot
+echo "Remove built snapshot image..."
+! docker rmi schedule-app:snapshot
 
 echo "Remove dangling images..."
 ! docker rmi $(docker image ls -f dangling=true -q)
