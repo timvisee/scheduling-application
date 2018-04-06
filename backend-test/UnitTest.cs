@@ -58,6 +58,7 @@ namespace backend_test
             Assert.Equal("John", u.FirstName);
             Assert.Equal("Doe", u.LastName);
             Assert.Equal("en_US", u.Locale);
+            Assert.Equal("John Doe", u.FullName);
             Assert.Equal(backend.Types.Type.Student, u.Type);
             Assert.Equal(Role.Basic, u.Role);
             Assert.False(u.Deleted);
@@ -73,7 +74,7 @@ namespace backend_test
                 Start = new DateTime(2018, 4, 6, 9, 0, 0),
                 End = new DateTime(2018, 4, 6, 9, 0, 0),
             };
-            
+
             User u1 = new User()
             {
                 FirstName = "Elliot",
@@ -89,19 +90,19 @@ namespace backend_test
                 Type = backend.Types.Type.Student,
                 Role = Role.Basic,
             };
-            
+
             EventOwner eo1  = new EventOwner()
             {
                 Event = e,
                 People = u1,
             };
-            
+
             EventAttendee ea1 = new EventAttendee()
             {
                 Event = e,
                 People = u1,
             };
-            
+
             EventAttendee ea2 = new EventAttendee()
             {
                 Event = e,
@@ -128,7 +129,7 @@ namespace backend_test
             User simon  = new User() { FirstName = "Simon",  LastName = "Haasnoot"   };
             User dennis = new User() { FirstName = "Dennis", LastName = "Volkering"  };
             User nathan = new User() { FirstName = "Nathan", LastName = "Bakhuijzen" };
-            
+
             Group beunit = new Group();
             beunit.Name = "BeunIT";
         }

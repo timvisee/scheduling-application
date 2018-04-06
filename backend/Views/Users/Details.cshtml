@@ -4,31 +4,39 @@
     ViewData["Title"] = "User Details";
 }
 
-<h2>User Details</h2>
-<hr/>
+<div class="sa-container">
+    <h2>User Details</h2>
+    <hr/>
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+            <b>@Html.DisplayNameFor(model => model.FirstName)</b>
+            <p>@Html.DisplayFor(model => model.FirstName)</p>
+        </div>
+        <div class="col-md-2 col-sm-12">
+            <b>@Html.DisplayNameFor(model => model.Infix)</b>
+            <p>@Html.DisplayFor(model => model.Infix)</p>
+        </div>
+        <div class="col-md-7 col-sm-12">
+            <b>@Html.DisplayNameFor(model => model.LastName)</b>
+            <p>@Html.DisplayFor(model => model.LastName)</p>
+        </div>
+    </div>
 
-<b>@Html.DisplayNameFor(model => model.FirstName)</b>
-<p>@Html.DisplayFor(model => model.FirstName)</p>
 
-<b>@Html.DisplayNameFor(model => model.Infix)</b>
-<p>@Html.DisplayFor(model => model.Infix)</p>
+    <b>@Html.DisplayNameFor(model => model.Locale)</b>
+    <p>@Html.DisplayFor(model => model.Locale)</p>
 
-<b>@Html.DisplayNameFor(model => model.LastName)</b>
-<p>@Html.DisplayFor(model => model.LastName)</p>
+    <b>@Html.DisplayNameFor(model => model.Type)</b>
+    <p>@Html.DisplayFor(model => model.Type)</p>
 
-<b>@Html.DisplayNameFor(model => model.Locale)</b>
-<p>@Html.DisplayFor(model => model.Locale)</p>
+    <b>@Html.DisplayNameFor(model => model.Role)</b>
+    <p>@Html.DisplayFor(model => model.Role)</p>
 
-<b>@Html.DisplayNameFor(model => model.Type)</b>
-<p>@Html.DisplayFor(model => model.Type)</p>
+    <b>@Html.DisplayNameFor(model => model.Deleted)</b>
+    <p>@Html.DisplayFor(model => model.Deleted)</p>
 
-<b>@Html.DisplayNameFor(model => model.Role)</b>
-<p>@Html.DisplayFor(model => model.Role)</p>
-
-<b>@Html.DisplayNameFor(model => model.Deleted)</b>
-<p>@Html.DisplayFor(model => model.Deleted)</p>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
-    <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+        <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
+    </div>
 </div>
