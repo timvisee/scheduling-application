@@ -61,5 +61,41 @@ namespace backend_test
             Assert.Equal(backend.Types.Role.Basic, u.Role);
             Assert.False(u.Deleted);
         }
+
+        [Fact]
+        public void assertGroup()
+        {
+            User a = new User()
+            {
+                FirstName = "Elliot",
+                LastName = "Alderson",
+                Type = backend.Types.Type.Student,
+                Role = backend.Types.Role.Basic,
+            };
+
+            User b = new User()
+            {
+                FirstName = "Darlene",
+                LastName = "Alderson",
+                Type = backend.Types.Type.Student,
+                Role = backend.Types.Role.Basic,
+            };
+
+            Group g = new Group()
+            {
+                Name = "Linux Hackers",
+                // TODO: Add user a and b to this group
+            };
+
+            Assert.Equal("Linux Hackers", g.Name);
+        }
+
+        [Fact]
+        public void assertPeople()
+        {
+            // User u = new User() {};
+            // Group g = new Group() {};
+            // People p = new People() {};
+        }
     }
 }
