@@ -54,6 +54,7 @@
                 <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.DisplayName)</th>
+                    <th>Type</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -68,6 +69,9 @@
                                     <a asp-action="Details" asp-controller="Users" asp-route-id="@item.Id">
                                         @Html.DisplayFor(modelItem => item.DisplayName)
                                     </a>
+                                </td>
+                                <td>
+                                    @user.Type
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id" class="btn btn-sm btn-info">Edit</a>

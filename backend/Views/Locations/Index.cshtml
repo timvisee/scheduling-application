@@ -16,30 +16,32 @@
         <div class="table-responsive">
             <table class="table">
                 <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Description)</th>
-                    <th>@Html.DisplayNameFor(model => model.Latitude)</th>
-                    <th>@Html.DisplayNameFor(model => model.Longitude)</th>
-                    <th>Actions</th>
-                </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                        {
+                            <th>@Html.DisplayNameFor(model => model.Latitude)</th>
+                            <th>@Html.DisplayNameFor(model => model.Longitude)</th>
+                        <th>Actions</th>
+                        }
+                        </tr>
                 </thead>
                 <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
-                        <td>
-                            <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
-                            @if (User.IsInRole("ADMIN"))
-                            {
+                        @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+                            <td>
                                 <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            }
-                        </td>
+                            </td>
+                        }
                     </tr>
                 }
                 </tbody>

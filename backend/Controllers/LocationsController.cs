@@ -36,6 +36,8 @@ namespace backend.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 
+            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
+
             var locations = from e in _context.Locations select e;
             locations = locations.OrderBy(e => e.Name);
 
@@ -43,7 +45,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Details/5
-        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC, READONLY")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

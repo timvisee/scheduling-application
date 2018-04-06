@@ -422,8 +422,8 @@ namespace backend.Controllers
 
             if (!userIsAttendee && !userIsOwner)
             {
-                //TODO LET USER KNOW HE CANNOT LEAVE THIS EVENT UNLESS HE LEAVES THE GROUP
-                Console.WriteLine("This event belongs to a group. You need to leave the group in order to leave the event.");
+                TempData["alertMessage"] =
+                    "You are enrolled to a group which is connected to this event. If you want to leave this event you have to leave the group.";
             }
 
             return RedirectToAction("Index");
