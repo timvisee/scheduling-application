@@ -17,8 +17,11 @@
                     <th>@Html.DisplayNameFor(model => model.Description)</th>
                     <th>@Html.DisplayNameFor(model => model.Start) Date</th>
                     <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                    <th>Actions</th>
-                    @if (ViewBag.UserCanEdit)
+                    @if (User.IsInRole("ADMIN, BASIC, ELEVATED"))
+                    {
+                        <th>Actions</th>
+                    }
+                    @if (User.IsInRole("ADMIN"))
                     {
                         <th>Extra</th>
                     }
@@ -31,14 +34,15 @@
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
+                        @if(User.IsInRole("ADMIN, ELEVATED, BASIC")){
                         <td>
                             <a class="badge badge-danger" asp-action="Leave" asp-route-id="@item.Id">Leave
                             </a>
                         </td>
-                        @if (ViewBag.UserCanEdit)
+                        }
+                        @if (User.IsInRole("ADMIN"))
                         {
                             <td>
-                                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
                                 <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                 <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
@@ -52,7 +56,10 @@
     <div class="col-12 pt-5">
         <div class="table-header">
             <h2><i class="far fa-calendar-alt"></i>&nbsp;Open events</h2>
+            @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+            {
                 <a asp-action="Create" class="btn btn-outline-primary">New Event</a>
+            }
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -62,8 +69,11 @@
                         <th>@Html.DisplayNameFor(model => model.Description)</th>
                         <th>@Html.DisplayNameFor(model => model.Start) Date</th>
                         <th>@Html.DisplayNameFor(model => model.End) Date</th>
-                        <th>Actions</th>
-                        @if (ViewBag.UserCanEdit)
+                        @if (User.IsInRole("BASIC, ELEVATED, ADMIN"))
+                        {
+                            <th>Actions</th>
+                        }
+                        @if (User.IsInRole("ADMIN"))
                         {
                             <th>Extra</th>
                         }
@@ -76,14 +86,16 @@
                         <td class="wrap">@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Start)</td>
                         <td>@Html.DisplayFor(modelItem => item.End)</td>
-                        <td>
-                            <a class="badge badge-success" asp-action="Enroll" asp-route-id="@item.Id">Enroll
-                            </a>
-                        </td>
-                        @if (ViewBag.UserCanEdit)
+                        @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+                        {
+                            <td>
+                                <a class="badge badge-success" asp-action="Enroll" asp-route-id="@item.Id">Enroll
+                                </a>
+                            </td>
+                        }
+                        @if (User.IsInRole("ADMIN"))
                         {
                         <td>
-                            <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">View</a>
                             <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="btn btn-sm btn-danger"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>

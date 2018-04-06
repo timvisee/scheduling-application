@@ -13,7 +13,12 @@
                 <h6 class="card-title">
                     Register for a group
                 </h6>
+                @if (User.IsInRole("ADMIN, ELEVATED, BASIC")){
                 <a asp-controller="Groups" asp-action="Index" class="btn btn-primary">Enroll</a>
+                }
+                else{
+                <a class="btn btn-primary disabled text-white">Enroll</a>
+                }
             </div>
         </div>
     </div>
@@ -35,8 +40,15 @@
                 <h6 class="card-title">
                     Register a custom location
                 </h6>
-                <a asp-controller="Locations" asp-action="Index" class="btn btn-primary">Add</a>
-            </div>
+                @if (User.IsInRole("ADMIN, ELEVATED, BASIC"))
+                {
+                    <a asp-controller="Locations" asp-action="Index" class="btn btn-primary">Add</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary disabled text-white">Add</a>
+                }
+                </div>
         </div>
     </div>
 </div>

@@ -25,11 +25,26 @@
         if (owner.IsUser())
         {
             var user = (User) owner;
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
+            if (User.IsInRole("ADMIN, ELEVATED"))
+            {
+                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(owner.Id)">@user.DisplayName (@user.Type)</a></p>
+            }
+            else
+            {
+                <p>@user.DisplayName (@user.Type)</p>
+            }
+
         }
         else
         {
-            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            if (User.IsInRole("ADMIN, ELEVATED"))
+            {
+                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(owner.Id)">@owner.DisplayName</a></p>
+            }
+            else
+            {
+                <p>@owner.DisplayName</p>
+            }
         }
     }
 } else {
@@ -42,11 +57,25 @@
         if (attendee.IsUser())
         {
             var user = (User) attendee;
-            <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
+            if (User.IsInRole("ADMIN, ELEVATED"))
+            {
+                <p><a asp-controller="Users" asp-action="Details" asp-route-id="@(attendee.Id)">@user.DisplayName (@user.Type)</a></p>
+            }
+            else
+            {
+                <p>@user.DisplayName (@user.Type)</p>
+            }
         }
         else
         {
-            <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            if (User.IsInRole("ADMIN, ELEVATED"))
+            {
+                <p><a asp-controller="Groups" asp-action="Details" asp-route-id="@(attendee.Id)">@attendee.DisplayName</a></p>
+            }
+            else
+            {
+                <p>@attendee.DisplayName</p>
+            }
         }
     }
 } else {

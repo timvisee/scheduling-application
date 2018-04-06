@@ -45,7 +45,7 @@ namespace backend.Controllers
         }
 
         // GET: Locations/Details/5
-        [Authorize(Roles = "ADMIN,ELEVATED,BASIC")]
+        [Authorize(Roles = "ADMIN,ELEVATED,BASIC, READONLY")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

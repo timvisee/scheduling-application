@@ -38,13 +38,6 @@ namespace backend.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 
-            ViewBag.UserCanEdit = GetRole() == Role.Admin || GetRole() == Role.Elevated;
-
-            if (GetRole() == Role.ReadOnly)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             //get all enrolled groups for user
             var enrolledIds = _context.PeopleGroups.Where(x => x.PeopleId == GetUser().Result.User.Id)
                 .Select(x => x.GroupId);
@@ -83,11 +76,6 @@ namespace backend.Controllers
         [Authorize(Roles = "ADMIN,ELEVATED")]
         public IActionResult Create()
         {
-            if (GetRole() == Role.ReadOnly || GetRole() == Role.Elevated)
-            {
-                return NotFound();
-            }
-
             ViewBag.People = new MultiSelectList(_context.People, "Id", "TypedDisplayName");
             return View();
         }
