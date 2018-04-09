@@ -7,26 +7,6 @@ steps:
   #   displayName: "backend: migrate database"
   - script: dotnet build
     displayName: "backend: build"
-
-    # # Docker container builds
-    # - script: './clean'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: clean environment"
-    # - script: './build'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: build containers"
-    # - script: './startd'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: start stack"
-    # - script: './startd && sleep 1m'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: start stack (wait 1m)"
-    # - script: 'curl -f http://localhost:80/'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: test HTTP request to stack"
-    # - script: './stop'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: stop stack"
-    # - script: './clean'
-    #   workingDirectory: "docker"
-    #   displayName: "docker: clean environment"
+  - script: dotnet test
+    displayName: "backend: test"
+    workingDirectory: backend-test
