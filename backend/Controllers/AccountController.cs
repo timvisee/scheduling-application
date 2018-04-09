@@ -531,7 +531,7 @@ namespace backend.Controllers
                 FirstName = "",
                 LastName = "",
                 Infix = "",
-                Role = Role.ReadOnly,
+                Role = Role.Basic,
                 Type = Types.Type.Other,
                 Deleted = false,
                 Locale = "nl_NL"

@@ -1,41 +1,62 @@
-﻿@model backend.Models.Group
+﻿@using backend.Extensions
+@model backend.Models.Group
 
 @{
     ViewData["Title"] = "Group Details";
 }
+<div class="sa-container">
+    <h2>Group Details</h2>
+    <hr/>
 
-<h2>Group Details</h2>
-<hr/>
+    <b>@Html.DisplayNameFor(model => model.Name)</b>
+    <p>@Html.DisplayFor(model => model.Name)</p>
 
-<b>@Html.DisplayNameFor(model => model.Name)</b>
-<p>@Html.DisplayFor(model => model.Name)</p>
-
-<div class="row">
-    <hr />
+    <div class="row">
+        <hr/>
         <div class="col-md-6">
-            <h4><span class="badge badge-primary">Users enrolled</span></h4>
-            @{var AllUsers = Model.AllUsers();}
+            <h4>
+                <span class="badge badge-primary">Users enrolled</span>
+            </h4>
+            @{ var AllUsers = Model.AllUsers(); }
             <table class="table table-striped table-bordered">
                 <thead class="thead-light">
                 <tr>
                     <th>Firstname</th>
                     <th>Lastname</th>
+                    <th>Type</th>
                     <th>language</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach (User item in AllUsers)
+                @foreach (User item in AllUsers)
                 {
                     <tr>
                         <td>
-                            <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                            {
+                                <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                                    @item.FirstName
+                                </a>
+                            }
+                            else
+                            {
                                 @item.FirstName
-                            </a>
+                            }
                         </td>
                         <td>
-                            <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
+                            {
+                                <a asp-controller="Users" asp-action="Details" asp-route-id="@(item.Id)">
+                                    @item.LastName
+                                </a>
+                            }
+                            else
+                            {
                                 @item.LastName
-                            </a>
+                            }
+                        </td>
+                        <td>
+                            @item.Type
                         </td>
                         <td>
                             @item.Locale
@@ -44,69 +65,81 @@
                 }
                 </tbody>
             </table>
-            @if(AllUsers.Count == 0) {
+            @if (AllUsers.Count == 0)
+            {
                 <h6>There is nothing here.</h6>
             }
         </div>
 
 
-    <div class="col-md-6">
-        <h4><span class="badge badge-primary">Groups enrolled</span></h4>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-light">
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            @{var AllGroups = Model.AllGroups();}
-            @foreach(Group item in AllGroups)
-            {
+        <div class="col-md-6">
+            <h4>
+                <span class="badge badge-primary">Groups enrolled</span>
+            </h4>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-light">
                 <tr>
-                    <td>
-                        <a asp-controller="Groups" asp-action="Details" asp-route-id="@(item.Id)">
-                            <h6>
-                                @item.DisplayName
-                            </h6>
-                        </a>
-                    </td>
+                    <th>Name</th>
                 </tr>
-            }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @{ var AllGroups = Model.AllGroups(); }
+                @foreach (Group item in AllGroups)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Groups" asp-action="Details" asp-route-id="@(item.Id)">
+                                <h6>
+                                    @item.DisplayName
+                                </h6>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
 
-        @if(AllGroups.Count == 0) {
-            <h6>There is nothing here.</h6>
-        }
-    </div>
-
-    <div class="col-md-6">
-        <h4><span class="badge badge-primary">Enrolled for following events</span></h4>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-light">
-            <th>Name</th>
-            <th>Description</th>
-            </thead>
-            <tbody>
-            @if (ViewBag.CoupledEvents != null)
+            @if (AllGroups.Count == 0)
             {
-                foreach (Event item in ViewBag.CoupledEvents)
-                 {
-                     <tr>
-                         <td><a asp-action="Details" asp-controller="Events" asp-route-id="@item.Id">@item.Title</a></td>
-                         <td>@item.Description</td>
-                     </tr>
-                 }
+                <h6>There is nothing here.</h6>
             }
-            </tbody>
-        </table>
-        @if (ViewBag.CoupledEvents == null)
-        {
-            <h6>There is nothing here.</h6>
-        }
+        </div>
+
+        <div class="col-md-6">
+            <h4>
+                <span class="badge badge-primary">Enrolled for following events</span>
+            </h4>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-light">
+                <th>Name</th>
+                <th>Description</th>
+                </thead>
+                <tbody>
+                @if (ViewBag.CoupledEvents != null)
+                {
+                    foreach (Event item in ViewBag.CoupledEvents)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Events" asp-route-id="@item.Id">@item.Title</a>
+                            </td>
+                            <td>@item.Description</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+            @if (ViewBag.CoupledEvents == null)
+            {
+                <h6>There is nothing here.</h6>
+            }
+        </div>
     </div>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
-    <a asp-controller="People" asp-action="Index" class="btn btn-light">Back to List</a>
+    <div>
+        @if (ViewBag.UserCanEdit)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+        }
+        <a asp-controller="Groups" asp-action="Index" class="btn btn-light">Back to List</a>
+    </div>
 </div>

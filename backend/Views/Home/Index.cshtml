@@ -1,42 +1,56 @@
 ﻿@using System.Diagnostics
 @using System.Runtime.InteropServices.ComTypes
+@using backend.Extensions
 @model IEnumerable<backend.Models.Event>
 
 @{
     ViewData["Title"] = "Home";
 }
-<div class="row pb-3">
-    <div class="col-md-4">
+
+<div class="row">
+    <div class="col-xs-12 col-md-4 mb-3">
         <div class="card text-center">
             <h5 class="card-header"><i class="fas fa-users"></i>&nbsp;Groups</h5>
             <div class="card-body">
                 <h6 class="card-title">
                     Register for a group
                 </h6>
+                @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC")){
                 <a asp-controller="Groups" asp-action="Index" class="btn btn-primary">Enroll</a>
+                }
+                else{
+                <a class="btn btn-primary disabled text-white">Enroll</a>
+                }
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4 mb-3">
         <div class="card text-center">
             <h5 class="card-header"><i class="far fa-calendar-alt"></i>&nbsp;Events</h5>
             <div class="card-body">
                 <h6 class="card-title">
-                    Register a custom event
+                    Register for a event
                 </h6>
-                <a asp-controller="Events" asp-action="Create" class="btn btn-primary">Add</a>
+                <a asp-controller="Events" asp-action="Index" class="btn btn-primary">Register</a>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4">
         <div class="card text-center">
             <h5 class="card-header"><i class="fas fa-map-marker"></i>&nbsp;Locations</h5>
             <div class="card-body">
                 <h6 class="card-title">
                     Register a custom location
                 </h6>
-                <a asp-controller="Locations" asp-action="Create" class="btn btn-primary">Add</a>
-            </div>
+                @if (User.IsInAnyRoles("ADMIN", "ELEVATED", "BASIC"))
+                {
+                    <a asp-controller="Locations" asp-action="Index" class="btn btn-primary">Add</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary disabled text-white">Add</a>
+                }
+                </div>
         </div>
     </div>
 </div>

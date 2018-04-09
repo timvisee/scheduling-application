@@ -4,39 +4,41 @@
     ViewData["Title"] = "New Location";
 }
 
-<h2>Create Location</h2>
-<hr/>
+<div class="sa-container">
+    <h2>Create Location</h2>
+    <hr/>
 
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-row">
-        <div class="form-group col-12">
-            <input asp-for="Name" required class="form-control" placeholder="Name" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <input asp-for="Name" required class="form-control" placeholder="Name"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <input asp-for="Description" class="form-control" placeholder="Description"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="Latitude" class="form-control" placeholder="Latitude"/>
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="Longitude" class="form-control" placeholder="Longitude"/>
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <div id="leafmap"></div>
+            </div>
+            <div class="form-group col-12">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </div>
         </div>
-        <div class="form-group col-12">
-            <input asp-for="Description" class="form-control" placeholder="Description" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class="form-group col-6">
-            <input asp-for="Latitude" class="form-control" placeholder="Latitude" />
-            <span asp-validation-for="Latitude" class="text-danger"></span>
-        </div>
-        <div class="form-group col-6">
-            <input asp-for="Longitude" class="form-control" placeholder="Longitude" />
-            <span asp-validation-for="Longitude" class="text-danger"></span>
-        </div>
-        <div class="form-group col-12">
-            <div id="leafmap"></div>
-        </div>
-        <div class="form-group col-12">
-            <input type="submit" value="Create" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-light">Cancel</a>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
