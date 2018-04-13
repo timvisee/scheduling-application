@@ -176,11 +176,21 @@ namespace backend.Controllers
                         appUser.NormalizedEmail = updatedUser.Email;
                         appUser.PhoneNumber = updatedUser.Phone;
 
-                        // Beun: first remove all roles
-                        await _userManager.RemoveFromRolesAsync(appUser, _context.Roles.Select(e => e.Name));
+                        // Workaround
+                        var urroles = _context.UserRoles.Where(ur => ur.UserId == appUser.Id);
+                        _context.UserRoles.RemoveRange(urroles);
 
                         // Add user to role
-                        await _userManager.AddToRoleAsync(appUser, userRole);
+                        var role = _context.Roles.FirstOrDefault(x => x.Name == userRole);
+
+                        if (role != null)
+                        {
+                            _context.UserRoles.Add(new IdentityUserRole<string>
+                            {
+                                RoleId = role.Id,
+                                UserId = appUser.Id
+                            });
+                        }
 
                         _context.ApplicationUsers.Update(appUser);
                         _context.SaveChanges();
@@ -216,7 +226,6 @@ namespace backend.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
-
             if (id == null)
             {
                 return NotFound();
@@ -234,7 +243,6 @@ namespace backend.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADMIN")]
-
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
