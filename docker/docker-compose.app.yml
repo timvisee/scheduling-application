@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   app:
-    image: 'timvisee/hhs-p11-schedulingapp:production'
+    image: 'timvisee/hhs-p11-schedulingapp:release-55'
     ports:
       - "80:5000"
       - "5000:5000"
@@ -17,7 +17,18 @@ services:
     networks:
       - scheduleapp
     deploy:
-        replicas: 3
+        replicas: 5
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - scheduleapp
 
 networks:
   scheduleapp:
