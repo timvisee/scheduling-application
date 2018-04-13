@@ -15,14 +15,11 @@
             <b>@Html.DisplayNameFor(model => model.Description)</b>
             <p>@Html.DisplayFor(model => model.Description)</p>
 
-            @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
-            {
-                <b>@Html.DisplayNameFor(model => model.Latitude)</b>
-                <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
+            <b>@Html.DisplayNameFor(model => model.Latitude)</b>
+            <p id="Latitude">@Html.DisplayFor(model => model.Latitude)</p>
 
-                <b>@Html.DisplayNameFor(model => model.Longitude)</b>
-                <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
-            }
+            <b>@Html.DisplayNameFor(model => model.Longitude)</b>
+            <p id="Longitude">@Html.DisplayFor(model => model.Longitude)</p>
 
             @if (User.IsInAnyRoles("ADMIN", "ELEVATED"))
             {
